@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  db:
+    profiles: ['prod', 'dev']
+    image: postgres
+    restart: always
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+      - './schema.sql:/docker-entrypoint-initdb.d/schema.sql'
+    ports:
+      - '127.0.0.1:5430:5432'
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: zephy
+      POSTGRES_PASSWORD: 'maux de passe'
+      POSTGRES_DB: zephy_back_office
+
+  api-production:
+    profiles: ['prod']
+    build:
+      context: ${PWD}/api
+      dockerfile: prod.Dockerfile
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    networks:
+      - backend
+
+  api-development:
+    profiles: ['dev']
+    build:
+      context: ${PWD}/api
+      dockerfile: dev.Dockerfile
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    networks:
+      - backend
+    volumes:
+      - ./api:/app
+
+networks:
+  backend:
+
+volumes:
+  db-data:
