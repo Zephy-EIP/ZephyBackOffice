@@ -1,10 +1,10 @@
 
 create table if not exists roles
-  (
-    id serial primary key,
-    display_name varchar(50),
-    importance integer
-  );
+(
+  id serial primary key,
+  display_name varchar(50),
+  importance integer
+);
 
 create table if not exists users
 (
