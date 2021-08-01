@@ -7,7 +7,7 @@ import 'express-async-errors';
 
 import apiRouter from '@/routes';
 import logger from '@/shared/logger';
-import { HTTP_ERROR_500 } from './shared/constants';
+import { HTTP_ERROR_500 } from '@/shared/constants';
 
 const app = express();
 
