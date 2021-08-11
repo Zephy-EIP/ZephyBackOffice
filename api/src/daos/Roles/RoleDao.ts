@@ -5,9 +5,17 @@ export interface IRoleDao {
     get: (id: number) => Promise<Role|null>;
     create: (role: Role) => Promise<number|null>;
     update: (role: Role) => Promise<boolean>;
+    count: () => Promise<number>;
 }
 
 class RoleDaoClass implements IRoleDao {
+
+    async count(): Promise<number> {
+        const q = await pool.query(
+            'select count(id) from roles'
+        );
+        return parseInt(q.rows[0].count);
+    }
 
     async update (role: Role): Promise<boolean> {
         const q = await pool.query(
@@ -43,11 +51,6 @@ class RoleDaoClass implements IRoleDao {
             return null;
         return id;
     };
-
-    async roleCount() {
-        const q = await pool.query('select count(*) from roles');
-        return q.rowCount;
-    }
 
 }
 

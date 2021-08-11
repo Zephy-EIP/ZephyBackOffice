@@ -9,6 +9,8 @@ import apiRouter from '@/routes';
 import logger from '@/shared/logger';
 import { HTTP_ERROR_500 } from '@/shared/constants';
 
+import '@/startup';
+
 const app = express();
 
 /************************************************************************************
@@ -37,25 +39,12 @@ app.use((_req, res) => {
 });
 
 // Print API errors
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     logger.err(err, true);
     return res.status(500).json({
         error: HTTP_ERROR_500,
     });
 });
-
-/************************************************************************************
- *                              Serve front-end content
- ***********************************************************************************/
-
-// const viewsDir = path.join(__dirname, 'views');
-// app.set('views', viewsDir);
-// const staticDir = path.join(__dirname, 'public');
-// app.use(express.static(staticDir));
-// app.get('*', (req: Request, res: Response) => {
-//     res.sendFile('index.html', {root: viewsDir});
-// });
 
 // Export express instance
 export default app;
