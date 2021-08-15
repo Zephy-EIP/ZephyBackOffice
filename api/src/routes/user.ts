@@ -1,7 +1,7 @@
 import { authenticate } from '@/shared/authentication/authentication';
-import { HTTP_ERROR_400, HTTP_ERROR_404, HTTP_ERROR_409 } from '@/shared/constants';
 import { Router } from 'express';
 import UserService from '@/services/userService';
+import createBasicResponse from '@/shared/basicResponse';
 
 const router = Router();
 
@@ -14,11 +14,11 @@ router.post('/auth', (req, res) => {
     let password = req.body.password;
 
     if (typeof email !== 'string' || typeof password !== 'string')
-        return res.status(400).json({error: HTTP_ERROR_400});
+        return res.status(400).json(createBasicResponse(400));
 
     UserService.authenticate(email, password).then(token => {
         if (token === undefined)
-            return res.status(404).json({error: HTTP_ERROR_404});
+            return res.status(404).json(createBasicResponse(404));
         res.json({token: token});
     });
 });
@@ -27,8 +27,10 @@ router.put('/password', authenticate((req, res, info) => {
     const newPassword = req.body.new_password;
     const oldPassword = req.body.old_password;
 
-    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string')
-        res.status(400).json({error: HTTP_ERROR_400});
+    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string') {
+        res.status(400).json(createBasicResponse(400));
+        return;
+    }
 
     UserService.changePassword(oldPassword, newPassword, info.user).then(success => {
         res.json({success: success});
@@ -53,14 +55,36 @@ router.post('/register', async (req, res) => {
     if (typeof email !== 'string' || !UserService.emailIsValid(email) ||
         typeof password !== 'string' || !UserService.passwordIsValid(password) ||
         typeof username !== 'string' || !UserService.usernameIsValid(username))
-        return res.status(400).json({error: HTTP_ERROR_400});
+        return res.status(400).json(createBasicResponse(400));
 
-    if (await UserService.userExists(email))
-        return res.status(409).json({error: HTTP_ERROR_409});
+    if (await UserService.userExists(email)) {
+        res.status(409).json(createBasicResponse(409));
+        return;
+    }
 
     UserService.createAccount(email, password, username).then(success => {
         res.json({success: success});
     });
+});
+
+router.put('/set-role', authenticate(async (req, res, info) => {
+    let userIdOrMail = req.body.email;
+    if (userIdOrMail === undefined)
+        userIdOrMail = req.body.user_id;
+    const desiredRole = req.body.role_id;
+
+    if ((typeof userIdOrMail !== 'string' && typeof userIdOrMail !== 'number') || typeof desiredRole !== 'number') {
+        res.status(400).json(createBasicResponse(400));
+        return;
+    }
+
+    UserService.setRole(info.user, userIdOrMail, desiredRole).then(code => {
+        res.status(code).json(createBasicResponse(code));
+    });
+}));
+
+router.get('/list', (req, res) => {
+    
 });
 
 export default router;

@@ -7,9 +7,9 @@ import 'express-async-errors';
 
 import apiRouter from '@/routes';
 import logger from '@/shared/logger';
-import { HTTP_ERROR_500 } from '@/shared/constants';
 
 import '@/startup';
+import createBasicResponse from '@/shared/basicResponse';
 
 const app = express();
 
@@ -41,9 +41,7 @@ app.use((_req, res) => {
 // Print API errors
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     logger.err(err, true);
-    return res.status(500).json({
-        error: HTTP_ERROR_500,
-    });
+    return res.status(500).json(createBasicResponse(500));
 });
 
 // Export express instance

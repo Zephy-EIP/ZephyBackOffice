@@ -11,9 +11,9 @@ class Role {
      * @property {number} obj.importance
      */
     constructor(obj?: any) {
-        this.id = typeof obj?.id === 'number' ? obj.id : undefined || 0;
-        this.display_name = typeof obj?.display_name === 'string' ? obj.display_name : undefined || '';
-        this.importance = typeof obj?.importance === 'number' ? obj.importance : undefined || 0;
+        this.id = typeof obj?.id === 'number' ? obj.id : 0;
+        this.display_name = typeof obj?.display_name === 'string' ? obj.display_name : '';
+        this.importance = typeof obj?.importance === 'number' ? obj.importance : 0;
     }
 
 };

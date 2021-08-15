@@ -1,12 +1,14 @@
 import User from '@/entities/User';
-import logger from '@/shared/logger';
 import pool from '@/shared/pool';
+import RoleDao from '@/daos/Roles/RoleDao';
 
 export interface IUserDao {
+    getById: (id: number) => Promise<User | null>;
     get: (email: string) => Promise<User|null>;
     create: (user: User) => Promise<number|null>;
     update: (user: User) => Promise<boolean>;
     count: () => Promise<number>;
+    fillRole: (user: User) => Promise<boolean>;
 }
 
 class UserDaoClass implements IUserDao {
@@ -25,12 +27,30 @@ class UserDaoClass implements IUserDao {
         return q.rowCount == 1;
     }
 
+    async getById(id: number): Promise<User|null> {
+        const q = await pool.query('select * from users where id=$1', [id]);
+        if (q.rowCount == 0)
+            return null;
+        return new User(q.rows[0]);
+    }
+
     async get(email: string): Promise<User|null> {
         const q = await pool.query('select * from users where email=$1', [email]);
         if (q.rowCount == 0)
             return null;
         return new User(q.rows[0]);
     };
+
+    async fillRole(user: User): Promise<boolean> {
+        if (user.role_id === null)
+            return false;
+        const role = await RoleDao.get(user.role_id);
+
+        if (role === null)
+            return false;
+        user.role = role;
+        return true;
+    }
 
     /**
      * Returns the id if the user is created, and null otherwise

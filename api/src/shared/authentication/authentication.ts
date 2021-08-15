@@ -3,7 +3,8 @@ import Session from '@/entities/Session';
 import { verify, sign } from 'jsonwebtoken';
 import express from 'express';
 import SessionDao from '@/daos/Session/SessionDao';
-import { HTTP_ERROR_400, HTTP_ERROR_401 } from '@/shared/constants';
+import createBasicResponse from '@/shared/basicResponse';
+import logger from '@/shared/logger';
 
 export function checkPayload(payload: any): boolean {
     return typeof payload === 'object' &&
@@ -16,19 +17,19 @@ export function authenticate(func: (req: express.Request, res: express.Response,
     return async (req: express.Request, res: express.Response) => {
         let token = req.headers.authorization;
         if (typeof token !== 'string' || token == null) {
-            res.status(401).json({error: HTTP_ERROR_401});
+            res.status(401).json(createBasicResponse(401));
             return;
         }
         try {
             let info = await getAuthInfo(token);
             if (info == null) {
-                res.status(401).json({error: HTTP_ERROR_401});
+                res.status(401).json(createBasicResponse(401));
                 return;
             }
             func(req, res, info);
         } catch(err) {
-            console.error(err);
-            res.status(400).json({error: HTTP_ERROR_400});
+            logger.err(err);
+            res.status(400).json(createBasicResponse(400));
         }
     };
 }

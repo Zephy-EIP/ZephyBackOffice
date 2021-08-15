@@ -55,6 +55,26 @@ namespace UserService {
         return await UserDao.update(user);
     }
 
+    /**
+     * @returns {number} http code
+     */
+    export async function setRole(requestingUser: User, userIdOrMail: string | number, desiredRole: number | null): Promise<number> {
+        if (requestingUser.role_id === null || (desiredRole !== null && desiredRole > requestingUser.role_id))
+            return 403;
+        let affectedUser: User | null = null;
+        if (typeof userIdOrMail === 'string')
+            affectedUser = await UserDao.get(userIdOrMail);
+        else
+            affectedUser = await UserDao.getById(userIdOrMail);
+        if (affectedUser === null)
+            return 400;
+        else if (affectedUser.role_id !== null && affectedUser.role_id > requestingUser.role_id)
+            return 403;
+
+        affectedUser.role_id = desiredRole;
+        UserDao.update(affectedUser);
+        return 200;
+    }
 
 };
 
