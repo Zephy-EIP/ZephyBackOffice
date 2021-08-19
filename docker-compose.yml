@@ -41,6 +41,26 @@ services:
     volumes:
       - ./api:/app
 
+  client-production:
+    profiles: ['prod']
+    build:
+      context: ${PWD}/client
+      dockerfile: prod.Dockerfile
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3001:3000'
+
+  client-development:
+    profiles: ['dev']
+    build:
+      context: ${PWD}/client
+      dockerfile: dev.Dockerfile
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3001:3000'
+    volumes:
+      - ./client:/app
+
 networks:
   backend:
 
