@@ -1,0 +1,54 @@
+@import '../base';
+
+#home-content {
+    & > .content {
+        display: flex;
+        --size-circle: 1100px;
+        overflow: hidden;
+
+        & > .c-1 {
+            width: 70%;
+            min-height: 100vh;
+        }
+
+        & > .c-2 {
+            position: relative;
+            width: 30%;
+        
+            .elipse-logo-wrapper {
+                position: absolute;
+                top: 50%;
+                transform: translate(0%, -50%);
+                width: var(--size-circle);
+                height: var(--size-circle);
+                background-color: $orange;
+                border-radius: var(--size-circle);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .img-wrapper {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                left: 50%;
+                --width-img: 700px;
+                --ratio: 974 / 891;
+
+                > div {
+                    min-width: var(--width-img);
+                    min-height: calc(var(--ratio) * var(--width-img));
+                    position: relative !important;
+                }
+            
+                .image {
+                    object-fit: cover; // Optional
+                }
+            }
+        }
+    }
+}

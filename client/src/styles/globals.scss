@@ -1,0 +1,102 @@
+@import './base';
+
+:root {
+    --margin-left: 5%;
+    --margin-right: 5%;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    @include quicksand-regular;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    @include quicksand-bold;
+}
+
+h3 {
+    @include red-hat-display-bold;
+}
+
+p, a {
+    @include quicksand-regular;
+}
+
+.black {
+    color: $black;
+}
+
+.purple {
+    color: $purple;
+}
+
+.orange {
+    color: $orange;
+}
+
+.white {
+    color: $white;
+}
+
+.quicksand-bold {
+    @include quicksand-bold;
+}
+
+.quicksand-regular {
+    @include quicksand-regular;
+}
+
+.quicksand-medium {
+    @include quicksand-medium;
+}
+
+.quicksand-light {
+    @include quicksand-light;
+}
+
+.quicksand-semibold {
+    @include quicksand-semibold;
+}
+
+.red-hat-display-bold {
+    @include red-hat-display-bold;
+}
+
+.red-hat-display-bold-italic {
+    @include red-hat-display-bold-italic;
+}
+
+.red-hat-display-black {
+    @include red-hat-display-black;
+}
+
+.red-hat-display-black-italic {
+    @include red-hat-display-black-italic;
+}
+
+.red-hat-display-regular {
+    @include red-hat-display-regular;
+}
+
+.red-hat-display-italic {
+    @include red-hat-display-italic;
+}
+
+.red-hat-display-medium {
+    @include red-hat-display-medium;
+}
+
+.red-hat-display-medium-italic {
+    @include red-hat-display-medium-italic;
+}
