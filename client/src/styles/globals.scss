@@ -23,14 +23,21 @@ a {
 
 h1 {
     @include quicksand-bold;
+    font-size: 5vw;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
 h3 {
     @include red-hat-display-bold;
+    font-size: 40px;
 }
 
 p, a {
     @include quicksand-regular;
+    margin-bottom: 0;
+    font-size: 20px;
+    line-height: 35px;
 }
 
 .black {
@@ -99,4 +106,12 @@ p, a {
 
 .red-hat-display-medium-italic {
     @include red-hat-display-medium-italic;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.left {
+    text-align: left;
 }

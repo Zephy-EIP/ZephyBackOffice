@@ -1,0 +1,11 @@
+@import '../base';
+
+.main-button {
+
+    a {
+        background-color: $purple;
+        width: fit-content;
+        padding: 10px 40px;
+        border-radius: 10px;
+    }
+}
