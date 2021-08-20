@@ -1,18 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
+import Image from 'next/image'
+import LogoWhite from '../assets/images/logo-white.png'
 
-interface Props {
-    href: string;
-    text: string;
-}
-
-const ElipseLogo = (props: Props) => {
+const ElipseLogo = () => {
   return (
-    <div className={'main-button'}>
-        <Link href={props.href}>
-          <a className={'white quicksand-medium'}>{props.text}</a>
-        </Link>
-    </div>
+    <>
+      <div className={'elipse-logo-wrapper'}>
+      </div>
+      <div className={'elipse-img-wrapper'}>
+        <Image src={LogoWhite} alt="Elipse logo" layout={'fill'} />
+      </div>
+    </>
   )
 }
 

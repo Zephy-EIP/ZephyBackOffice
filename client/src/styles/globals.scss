@@ -10,6 +10,7 @@ body {
     padding: 0;
     margin: 0;
     @include quicksand-regular;
+    width: 100%;
 }
 
 a {
@@ -26,11 +27,19 @@ h1 {
     font-size: 5vw;
     margin-block-start: 0;
     margin-block-end: 0;
+
+    @include mediaWidth(700px) {
+        font-size: 8vw;
+    }
 }
 
 h3 {
     @include red-hat-display-bold;
     font-size: 40px;
+
+    @include mediaWidth(600px) {
+        font-size: 30px;
+    }
 }
 
 p, a {
@@ -38,6 +47,11 @@ p, a {
     margin-bottom: 0;
     font-size: 20px;
     line-height: 35px;
+
+    @include mediaWidth(700px) {
+        font-size: 17px;
+        line-height: 30px;
+    }
 }
 
 .black {

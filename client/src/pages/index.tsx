@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import LogoWhite from '../assets/images/logo-white.png';
 import Logo from '../assets/images/logo.png';
+import ElipseLogo from '../shared/ElipseLogo';
 import MainButton from '../shared/MainButton';
 
 const Home: NextPage = () => {
@@ -34,11 +35,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className={'c c-2'}>
-            <div className={'elipse-logo-wrapper'}>
-            </div>
-            <div className={'img-wrapper'}>
-              <Image src={LogoWhite} alt="Elipse logo" layout={'fill'} />
-            </div>
+            <ElipseLogo />
           </div>
         </div>
       </main>
