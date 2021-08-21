@@ -6,9 +6,22 @@ export interface IRoleDao {
     create: (role: Role) => Promise<number|null>;
     update: (role: Role) => Promise<boolean>;
     count: () => Promise<number>;
+    list: () => Promise<Role[]>;
+    delete: (id: number) => Promise<boolean>;
 }
 
 class RoleDaoClass implements IRoleDao {
+
+    async list(): Promise<Role[]> {
+        const q = await pool.query(
+            'select * from roles'
+        );
+        const list: Role[] = [];
+        q.rows.forEach(role => {
+            list.push(new Role(role));
+        });
+        return list;
+    }
 
     async count(): Promise<number> {
         const q = await pool.query(
@@ -52,6 +65,10 @@ class RoleDaoClass implements IRoleDao {
         return id;
     };
 
+    async delete(id: number): Promise<boolean> {
+        const q = await pool.query('delete from roles where id = $1 returning *', [id]);
+        return q.rowCount > 0;
+    }
 }
 
 const RoleDao = new RoleDaoClass();

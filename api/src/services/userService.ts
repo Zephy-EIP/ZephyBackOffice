@@ -76,6 +76,10 @@ namespace UserService {
         return 200;
     }
 
+    export function getList(): Promise<User[]> {
+        return UserDao.list();
+    }
+
 };
 
 export default UserService;

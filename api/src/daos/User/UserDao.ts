@@ -9,6 +9,7 @@ export interface IUserDao {
     update: (user: User) => Promise<boolean>;
     count: () => Promise<number>;
     fillRole: (user: User) => Promise<boolean>;
+    list: () => Promise<User[]>;
 }
 
 class UserDaoClass implements IUserDao {
@@ -71,6 +72,17 @@ class UserDaoClass implements IUserDao {
             return null;
         return id;
     };
+
+    async list(): Promise<User[]> {
+        const q = await pool.query(
+            'select * from users'
+        );
+        const list: User[] = [];
+        q.rows.forEach(row => {
+            list.push(new User(row));
+        });
+        return list;
+    }
 
 }
 

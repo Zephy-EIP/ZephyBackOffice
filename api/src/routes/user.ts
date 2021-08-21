@@ -2,6 +2,7 @@ import { authenticate } from '@/shared/authentication/authentication';
 import { Router } from 'express';
 import UserService from '@/services/userService';
 import createBasicResponse from '@/shared/basicResponse';
+import authenticateWithRole from '@/shared/authentication/authenticateWithRole';
 
 const router = Router();
 
@@ -67,7 +68,7 @@ router.post('/register', async (req, res) => {
     });
 });
 
-router.put('/set-role', authenticate(async (req, res, info) => {
+router.put('/set-role', authenticateWithRole(10, async (req, res, info) => {
     let userIdOrMail = req.body.email;
     if (userIdOrMail === undefined)
         userIdOrMail = req.body.user_id;
@@ -83,8 +84,10 @@ router.put('/set-role', authenticate(async (req, res, info) => {
     });
 }));
 
-router.get('/list', (req, res) => {
-    
-});
+router.get('/list', authenticateWithRole(1000, (_req, res, _info) => {
+    UserService.getList().then(list => {
+        res.json({users: list});
+    });
+}));
 
 export default router;
