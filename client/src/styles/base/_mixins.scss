@@ -1,0 +1,66 @@
+@mixin quicksand-bold {
+    font-family: 'Quicksand Bold', sans-serif;
+}
+
+@mixin quicksand-semibold {
+    font-family: 'Quicksand Semi Bold', sans-serif;
+    font-weight: 100;
+}
+
+@mixin quicksand-regular {
+    font-family: 'Quicksand Regular', sans-serif;
+    font-weight: 100;
+}
+
+@mixin quicksand-medium {
+    font-family: "Quicksand Medium", sans-serif;
+}
+
+@mixin quicksand-light {
+    font-family: "Quicksand Light", sans-serif;
+}
+
+@mixin red-hat-display-black {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-black-italic {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-bold {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-bold-italic {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-regular {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-italic {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-medium {
+    font-family: 'Made Mirage Bold', sans-serif;
+}
+
+@mixin red-hat-display-medium-italic {
+    font-family: 'Red Hat Display Medium Italic', sans-serif;
+}
+
+@mixin default-margin {
+    margin-left: var(--margin-left);
+    margin-right: var(--margin-right);
+}
+
+@mixin mediaWidth($nb) {
+    @media all and (max-width: $nb) { @content; }
+}
+
+@mixin mediaHeight($nb) {
+    @media all and (max-height: $nb) { @content; }
+}

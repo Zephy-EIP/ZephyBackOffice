@@ -1,0 +1,131 @@
+@import './base';
+
+:root {
+    --margin-left: 5%;
+    --margin-right: 5%;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    @include quicksand-regular;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    @include quicksand-bold;
+    font-size: 5vw;
+    margin-block-start: 0;
+    margin-block-end: 0;
+
+    @include mediaWidth(700px) {
+        font-size: 8vw;
+    }
+}
+
+h3 {
+    @include red-hat-display-bold;
+    font-size: 40px;
+
+    @include mediaWidth(600px) {
+        font-size: 30px;
+    }
+}
+
+p, a {
+    @include quicksand-regular;
+    margin-bottom: 0;
+    font-size: 20px;
+    line-height: 35px;
+
+    @include mediaWidth(700px) {
+        font-size: 17px;
+        line-height: 30px;
+    }
+}
+
+.black {
+    color: $black;
+}
+
+.purple {
+    color: $purple;
+}
+
+.orange {
+    color: $orange;
+}
+
+.white {
+    color: $white;
+}
+
+.quicksand-bold {
+    @include quicksand-bold;
+}
+
+.quicksand-regular {
+    @include quicksand-regular;
+}
+
+.quicksand-medium {
+    @include quicksand-medium;
+}
+
+.quicksand-light {
+    @include quicksand-light;
+}
+
+.quicksand-semibold {
+    @include quicksand-semibold;
+}
+
+.red-hat-display-bold {
+    @include red-hat-display-bold;
+}
+
+.red-hat-display-bold-italic {
+    @include red-hat-display-bold-italic;
+}
+
+.red-hat-display-black {
+    @include red-hat-display-black;
+}
+
+.red-hat-display-black-italic {
+    @include red-hat-display-black-italic;
+}
+
+.red-hat-display-regular {
+    @include red-hat-display-regular;
+}
+
+.red-hat-display-italic {
+    @include red-hat-display-italic;
+}
+
+.red-hat-display-medium {
+    @include red-hat-display-medium;
+}
+
+.red-hat-display-medium-italic {
+    @include red-hat-display-medium-italic;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.left {
+    text-align: left;
+}
