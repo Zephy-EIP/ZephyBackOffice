@@ -1,0 +1,13 @@
+@import 'base';
+
+.linkButton {
+    background-color: $purple;
+    padding: 10px 40px;
+    border-radius: 10px;
+    width: fit-content;
+    a {
+        width: 100%;
+        text-align: center;
+        display: block;
+    }
+}

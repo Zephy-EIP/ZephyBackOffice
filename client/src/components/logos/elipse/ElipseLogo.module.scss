@@ -1,0 +1,23 @@
+@import 'base';
+
+.elipse {
+    position: fixed;
+    height: 120vh;
+    width: 120vh;
+    padding: 12vh;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -10%);
+    background-color: $orange;
+    border-radius: 50%;
+
+    @media (max-width: 1200px) {
+        display: none;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+}
