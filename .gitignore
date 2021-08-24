@@ -125,3 +125,5 @@ temp/
 
 #emacs
 .dir-locals.el
+
+.DS_Store
