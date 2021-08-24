@@ -1,6 +1,8 @@
-FROM node:lts
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+FROM node:alpine
+
+ENV NODE_ENV development
+
 EXPOSE 3000
-CMD ["yarn", "dev"]
+
+WORKDIR /app
+CMD ["/bin/sh", "/app/start.sh"]
