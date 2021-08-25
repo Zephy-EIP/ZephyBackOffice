@@ -1,31 +1,19 @@
 @import 'base';
 
-.wrapper {
-    margin-right: calc(60vh + 15px);
+.title {
+    font-size: 64pt;
+    font-family: 'Quicksand';
+    margin-bottom: 50px;
+
+    @media (max-width: 768px) {
+        font-size: 40pt;
+    }
+}
+
+.loginButton {
     margin-top: 50px;
-    margin-left: 200px;
 
-    @media (max-width: 1200px) {
-        margin-left: auto;
-        margin-right: auto;
-        width: 80%;
-    }
-
-    h2 {
-        font-size: 64pt;
-        font-family: 'Quicksand';
-        margin-bottom: 50px;
-
-        @media (max-width: 768px) {
-            font-size: 40pt;
-        }
-    }
-
-    .loginButton {
-        margin-top: 50px;
-
-        @media (max-width: 768px) {
-            width: 100%;
-        }
+    @media (max-width: 768px) {
+        width: 100%;
     }
 }
