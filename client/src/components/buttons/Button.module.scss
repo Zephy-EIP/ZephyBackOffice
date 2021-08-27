@@ -5,9 +5,16 @@
     padding: 10px 40px;
     border-radius: 10px;
     width: fit-content;
+    border: none;
+    outline: none;
+    font-size: 16pt;
     a {
         width: 100%;
         text-align: center;
         display: block;
+    }
+
+    &:hover {
+        filter: brightness(0.95);
     }
 }

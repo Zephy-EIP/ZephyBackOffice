@@ -1,0 +1,36 @@
+.box {
+    margin: 100px 0 0 0;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+    @media (max-width: 1200px) {
+        margin: 100px auto auto auto;
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 24pt;
+        width: 100%;
+        text-align: center;
+    }
+
+    .label {
+        margin-top: 15px;
+    }
+
+    .input {
+        width: 400px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    .button {
+        margin-top: 25px;
+        width: 100%;
+    }
+}
