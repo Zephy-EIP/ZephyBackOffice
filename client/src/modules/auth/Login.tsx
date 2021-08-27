@@ -3,7 +3,7 @@ import Box from "@/components/shapes/Box";
 import BasicPage from "@/components/template/BasicPage";
 import { RootState, useThunkDispatch } from "@/utils/store";
 import { connect, ConnectedProps } from "react-redux";
-import { login } from "@/modules/login/authReducer";
+import { login } from "@/modules/auth/authReducer";
 import TextInput from "@/components/inputs/TextInput";
 import styles from './Login.module.scss';
 import { useEffect, useState } from "react";

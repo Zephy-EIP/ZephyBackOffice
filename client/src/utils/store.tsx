@@ -1,4 +1,4 @@
-import authReducer from "@/modules/login/authReducer";
+import authReducer from "@/modules/auth/authReducer";
 import { applyMiddleware, combineReducers, createStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import thunk from 'redux-thunk';
