@@ -1,6 +1,6 @@
 import Role from '@/entities/Role';
 
-type UserSafeInfo = {username: string, id: number, email: string};
+type UserSafeInfo = {username: string, id: number, email: string, role_id: number | null};
 
 class User {
     username: string;
@@ -32,7 +32,7 @@ class User {
     }
 
     getSafeInfo(): UserSafeInfo {
-        return { username: this.username, id: this.id, email: this.email };
+        return { username: this.username, id: this.id, email: this.email, role_id: this.role_id };
     }
 }
 
