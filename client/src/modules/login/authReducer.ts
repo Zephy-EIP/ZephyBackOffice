@@ -29,19 +29,17 @@ const initialState: AuthState = {
     }
 };
 
-interface LoginPayload {
-    email: string,
-    password: string,
-}
-
-export const login = createAsyncThunk('auth/login', async (payload: LoginPayload) => {
-    const res = await client.post('/user/auth', payload).catch(_err => null);
-    if (res === null || typeof res.data.token !== 'string')
-        return null;
-    const token: string = res.data.token;
-    setToken(token);
-    return token;
-});
+export const login = createAsyncThunk(
+    'auth/login',
+    async (payload: {email: string, password: string}, thunkAPI) => {
+        const res = await client.post('/user/auth', payload).catch(_err => null);
+        if (res === null || typeof res.data.token !== 'string')
+            return null;
+        const token: string = res.data.token;
+        setToken(token);
+        return token;
+    }
+);
 
 export const logout = createAsyncThunk('auth/logout', async () => {
     const res = await client.delete('/user/auth').catch(_err => null);
