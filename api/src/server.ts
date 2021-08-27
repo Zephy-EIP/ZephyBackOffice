@@ -10,8 +10,11 @@ import logger from '@/shared/logger';
 
 import '@/startup';
 import createBasicResponse from '@/shared/basicResponse';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 /************************************************************************************
  *                              Set basic express settings
