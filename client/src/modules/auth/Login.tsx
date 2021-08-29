@@ -48,7 +48,6 @@ const Login = (props: ConnectedProps<typeof connector>) => {
         if (err !== inputError)
             setInputError(err);
 
-        console.log(`Email: ${email}, password: ${password}`);
         return err.length === 0;
     }
 

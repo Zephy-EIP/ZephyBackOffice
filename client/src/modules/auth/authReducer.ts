@@ -43,7 +43,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk('auth/logout', async () => {
     const res = await client.delete('/user/auth').catch(_err => null);
-    if (res !== null)
+    if (res === null)
         return {success: false};
     setToken(null);
     return {success: true};
