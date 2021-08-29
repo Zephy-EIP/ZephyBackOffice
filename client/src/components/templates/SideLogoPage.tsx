@@ -1,6 +1,6 @@
 import ElipseLogo from "@/components/logos/elipse/ElipseLogo";
 import TitleLogo from "@/components/logos/title/TitleLogo";
-import styles from "./BasicPage.module.scss";
+import styles from "./SideLogoPage.module.scss";
 
 interface Props {
     children: React.ReactNode

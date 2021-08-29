@@ -1,5 +1,5 @@
 import LinkButton from "@/components/buttons/LinkButton";
-import BasicPage from "@/components/template/BasicPage";
+import BasicPage from "@/components/templates/SideLogoPage";
 import styles from "./DisconnectedHomePage.module.scss";
 
 export default function DisconnectedHomePage() {

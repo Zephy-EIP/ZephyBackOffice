@@ -10,7 +10,7 @@ interface Props {
 const LinkButton = (props: Props) => {
     const className = (props.className !== undefined ? `${props.className} ` : '') + styles.linkButton;
     return (
-        <Link  href={props.href}>
+        <Link href={props.href}>
             <a className={'white quicksand-medium'}>
                 <div className={className}>
                     {props.text}

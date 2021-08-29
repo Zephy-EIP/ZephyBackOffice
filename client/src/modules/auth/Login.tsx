@@ -1,6 +1,6 @@
 import Button from "@/components/buttons/Button";
 import Box from "@/components/shapes/Box";
-import BasicPage from "@/components/template/BasicPage";
+import BasicPage from "@/components/templates/SideLogoPage";
 import { RootState, useThunkDispatch } from "@/utils/store";
 import { connect, ConnectedProps } from "react-redux";
 import { login } from "@/modules/auth/authReducer";
