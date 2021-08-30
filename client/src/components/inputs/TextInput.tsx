@@ -1,4 +1,4 @@
-import { createRef, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from './TextInput.module.scss';
 
 interface Props {
@@ -20,10 +20,10 @@ export default function TextInput(props: Props) {
     useEffect(() => {
         const interval = setInterval(() => {
             if (ref.current) {
+                clearInterval(interval);
                 if (props.onChange) {
                     props.onChange(ref.current.value);
                 }
-                clearInterval(interval);
             }
         }, 100);
     }, []);
@@ -33,7 +33,10 @@ export default function TextInput(props: Props) {
             <input
                 ref={ref}
                 className={className}
-                onChange={e => props.onChange?(e.target.value) : undefined}
+                onChange={e => {
+                    if (props.onChange)
+                        props.onChange(e.target.value)
+                }}
                 type={props.type || 'text'}
                 placeholder={props.placeholder}
             />
