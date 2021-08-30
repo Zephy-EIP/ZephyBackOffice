@@ -14,6 +14,11 @@ export default function Button(props: Props) {
             className += ` ${name}`
         });
     }
+
+    if (props.disabled === true) {
+        className += ` ${styles.buttonDisabled}`;
+    }
+
     return (
         <button className={className} onClick={props.onClick} disabled={props.disabled || false}>
             {props.children}

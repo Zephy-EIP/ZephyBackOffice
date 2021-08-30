@@ -52,7 +52,7 @@ const Login = (props: ConnectedProps<typeof connector>) => {
     }
 
     const checkAndLogin = async () => {
-        if (!checkInput())
+        if (!checkInput() || props.auth.login.loading)
             return;
         dispatch(await props.login({email, password}));
     };

@@ -1,10 +1,12 @@
 import authReducer from "@/modules/auth/authReducer";
+import userReducer from "@/modules/userReducer";
 import { applyMiddleware, combineReducers, createStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    user: userReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

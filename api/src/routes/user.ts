@@ -90,4 +90,8 @@ router.get('/list', authenticateWithRole(1000, (_req, res, _info) => {
     });
 }));
 
+router.get('/', authenticate((_req, res, info) => {
+    res.json({user: info.user.getSafeInfo()});
+}));
+
 export default router;

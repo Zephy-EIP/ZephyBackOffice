@@ -1,12 +1,8 @@
+import { BasicCall } from '@/utils/reducerUtils';
 import client from '@/utils/client';
 import { setToken } from '@/utils/token';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-interface BasicCall {
-    loading: boolean,
-    success: boolean,
-    loaded: boolean
-}
+import { userDataClear } from '@/utils/localStorageUtils';
 
 interface AuthState  {
     login: BasicCall & {
@@ -31,7 +27,7 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk(
     'auth/login',
-    async (payload: {email: string, password: string}, thunkAPI) => {
+    async (payload: {email: string, password: string}) => {
         const res = await client.post('/user/auth', payload).catch(_err => null);
         if (res === null || typeof res.data.token !== 'string')
             return null;
@@ -46,6 +42,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     if (res === null)
         return {success: false};
     setToken(null);
+    userDataClear();
     return {success: true};
 })
 
@@ -72,7 +69,7 @@ const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.logout = {...initialState.logout, loaded: true, success: action.payload.success};
-            })
+            });
     },
 })
 
