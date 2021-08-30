@@ -17,13 +17,11 @@ const Home = () => {
     if (connected === false)
         return (
             <>
-                <BasicHeader />
                 <DisconnectedHomePage />
             </>
         );
     return (
         <>
-            <BasicHeader />
             <HomePage />
         </>
     );

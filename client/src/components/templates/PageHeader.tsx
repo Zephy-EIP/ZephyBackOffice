@@ -26,6 +26,8 @@ const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, { logout, getUser });
 
+/// This header requires the user to be connected.
+/// If disconnected, he will be redirected to /login
 function PageHeader(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
     const router = useRouter();

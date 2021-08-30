@@ -9,6 +9,7 @@ import styles from './Login.module.scss';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getToken } from "@/utils/token";
+import BasicHeader from "@/modules/BasicHeader";
 
 function mapStateToProps(state: RootState) {
     return {
@@ -72,22 +73,25 @@ const Login = (props: ConnectedProps<typeof connector>) => {
     }, [props.auth.login.success, props.auth.login.loaded]);
 
     return (
-        <BasicPage>
-            <form onSubmit={(e) => {e.preventDefault()} }>
-                <Box styleCasses={[styles.box]}>
-                    <h2 className="purple">LOGIN</h2>
-                    <div className={`quicksand-medium ${styles.label}`}>Email</div>
-                    <TextInput styleCasses={[styles.input]} placeholder="example@email.com" onChange={setEmail} />
-                    <div className={`quicksand-medium ${styles.label}`}>Password</div>
-                    <TextInput styleCasses={[styles.input]} placeholder="Password123" type="password" onChange={setPassword} />
-                    <div>
-                        {inputError}
-                        {credentialsErr}
-                    </div>
-                    <Button styleCasses={[styles.button]} onClick={checkAndLogin} disabled={props.auth.login.loading}>Login</Button>
-                </Box>
-            </form>
-        </BasicPage>
+        <>
+            <BasicHeader title="Login | Zephy Back Office" />
+            <BasicPage>
+                <form onSubmit={(e) => {e.preventDefault()} }>
+                    <Box styleCasses={[styles.box]}>
+                        <h2 className="purple">LOGIN</h2>
+                        <div className={`quicksand-medium ${styles.label}`}>Email</div>
+                        <TextInput styleCasses={[styles.input]} placeholder="example@email.com" onChange={setEmail} />
+                        <div className={`quicksand-medium ${styles.label}`}>Password</div>
+                        <TextInput styleCasses={[styles.input]} placeholder="Password123" type="password" onChange={setPassword} />
+                        <div>
+                            {inputError}
+                            {credentialsErr}
+                        </div>
+                        <Button styleCasses={[styles.button]} onClick={checkAndLogin} disabled={props.auth.login.loading}>Login</Button>
+                    </Box>
+                </form>
+            </BasicPage>
+        </>
     );
 }
 

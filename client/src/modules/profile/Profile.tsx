@@ -1,12 +1,10 @@
 import PageHeader from "@/components/templates/PageHeader";
 import BasicHeader from "@/modules/BasicHeader";
-import styles from './HomePage.module.scss';
 
-export default function HomePage() {
-
+export default function Profile() {
     return (
         <>
-            <BasicHeader />
+            <BasicHeader title="Profile | Zephy Back Office" />
             <main>
                 <PageHeader />
             </main>

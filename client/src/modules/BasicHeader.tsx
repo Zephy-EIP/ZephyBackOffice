@@ -1,9 +1,12 @@
 import Head from 'next/head';
 
-export default function BasicHeader() {
+export default function BasicHeader(props: {
+    title?: string
+}) {
+    const title = props.title || 'Zephy Back Office';
     return (
         <Head>
-            <title>Zephy - Back Office</title>
+            <title>{title}</title>
             <meta name="description" content="" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
