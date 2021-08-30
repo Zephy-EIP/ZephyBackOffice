@@ -1,0 +1,28 @@
+@import 'base';
+
+.header {
+    display: flex;
+    padding: 15px 35px;
+    align-items: center;
+    background: white;
+    opacity: 0.95;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .logoImg {
+            filter: drop-shadow(1px 2.5px 2.5px rgba(0,0,0,0.3));
+            width: 50px;
+        }
+
+        .logoText {
+            font-size: 16pt;
+            margin-left: 10px;
+            justify-content: center;
+            height: max-content;
+            @include quicksand-bold;
+        }
+    }
+}

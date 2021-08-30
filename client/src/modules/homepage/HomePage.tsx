@@ -8,6 +8,9 @@ import { useRouter } from "next/router";
 import { getUser } from "@/modules/userReducer";
 import User from "@/entities/User";
 import { userDataGetWithExpiry, userDataSetWithExpiry } from "@/utils/localStorageUtils";
+import PageHeader from "@/components/templates/PageHeader";
+import styles from './HomePage.module.scss';
+import Link from "next/link";
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -54,8 +57,13 @@ function HomePage(props: ConnectedProps<typeof connector>) {
 
     return (
         <main>
-            <Button onClick={async () => {dispatch(await props.logout())}}>Logout</Button>
-            {JSON.stringify(user)}
+            <PageHeader>
+                <div className={styles.spacer} />
+                <Link href="/profile">
+                    <div className={styles.username}>{user?.username || ''}</div>
+                </Link>
+                <Button onClick={async () => {dispatch(await props.logout())} }>Logout</Button>
+            </PageHeader>
         </main>
     );
 }

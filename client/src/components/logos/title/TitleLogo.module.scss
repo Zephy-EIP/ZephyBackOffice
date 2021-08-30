@@ -3,6 +3,8 @@
 .titleLogo {
     display: flex;
     cursor: pointer;
+    user-select: none;
+
     h1 {
         font-size: 36pt;
         margin-top: auto;
