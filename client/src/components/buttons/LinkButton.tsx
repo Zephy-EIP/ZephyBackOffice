@@ -2,22 +2,20 @@ import Link from 'next/link';
 import styles from './Button.module.scss'
 
 interface Props {
-    href: string;
-    text: string;
-    className: string | undefined;
+    href: string,
+    text: string,
+    className?: string,
 }
 
 const LinkButton = (props: Props) => {
-    const className = (props.className !== undefined ? `${props.className} ` : '') + styles.linkButton;
+    let className = (props.className !== undefined ? `${props.className} ` : '') + styles.linkButton;
     return (
         <Link href={props.href}>
-            <a className={'white quicksand-medium'}>
-                <div className={className}>
-                    {props.text}
-                </div>
-            </a>
+            <div className={className + ' white quicksand-medium'}>
+                {props.text}
+            </div>
         </Link>
     )
 }
 
-export default LinkButton
+export default LinkButton;

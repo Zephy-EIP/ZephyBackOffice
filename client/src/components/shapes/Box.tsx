@@ -1,8 +1,10 @@
+import { CSSProperties } from 'react';
 import styles from './Box.module.scss';
 
 interface Props {
     children: React.ReactNode,
     styleCasses?: string[],
+    style?: CSSProperties,
 }
 
 export default function Box(props: Props) {
@@ -13,7 +15,7 @@ export default function Box(props: Props) {
         });
     }
     return (
-        <div className={className}>
+        <div className={className} style={props.style}>
             {props.children}
         </div>
     );

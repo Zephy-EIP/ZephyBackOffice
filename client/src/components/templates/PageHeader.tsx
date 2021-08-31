@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import { getUser } from "@/modules/userReducer";
 import User from "@/entities/User";
 import { userDataGetWithExpiry, userDataSetWithExpiry } from "@/utils/localStorageUtils";
+import Box from '../shapes/Box';
+import SideMenu from './sideMenu/SideMenu';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -26,9 +28,19 @@ const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, { logout, getUser });
 
+const options = [
+    { title: 'Profile', href: '/profile', minImportance: null},
+    { title: 'Create Roles', href: '/', minImportance: 0 },
+    { title: 'Manage Roles', href: '/', minImportance: 0 },
+    { title: 'Create Users', href: '/', minImportance: 0 },
+    { title: 'Manage Users', href: '/', minImportance: 0 },
+]
+
 /// This header requires the user to be connected.
 /// If disconnected, he will be redirected to /login
-function PageHeader(props: ConnectedProps<typeof connector>) {
+function PageHeader(props: {
+    children?: React.ReactNode,
+} & ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
     const router = useRouter();
     const [user, setUser] = useState(null as User | null);
@@ -59,23 +71,26 @@ function PageHeader(props: ConnectedProps<typeof connector>) {
     }, [props.user.user]);
 
     return (
-        <div className={styles.header}>
-            <Link href="/">
-                <div className={styles.logo}>
-                    <div className={styles.logoImg}>
-                        <Image src={logo} />
+        <>
+            <div className={styles.header}>
+                <Link href="/">
+                    <div className={styles.logo}>
+                        <div className={styles.logoImg}>
+                            <Image src={logo} />
+                        </div>
+                        <div className={`${styles.logoText} quicksand-medium`}>
+                            ZEPHY
+                        </div>
                     </div>
-                    <div className={`${styles.logoText} quicksand-medium`}>
-                        ZEPHY
-                    </div>
-                </div>
-            </Link>
-            <div className={styles.spacer} />
-            <Link href="/profile">
-                <div className={styles.username}>{user?.username || ''}</div>
-            </Link>
-            <Button onClick={async () => {dispatch(await props.logout())} }>Logout</Button>
-        </div>
+                </Link>
+                <div className={styles.spacer} />
+                <Link href="/profile">
+                    <div className={styles.username}>{user?.username || ''}</div>
+                </Link>
+                <Button onClick={async () => {dispatch(await props.logout())} }>Logout</Button>
+            </div>
+            <SideMenu options={options} userImportance={0} />
+        </>
     );
 }
 

@@ -2,10 +2,15 @@
 
 .header {
     display: flex;
-    padding: 15px 35px;
+    padding: 0 35px;
     align-items: center;
     background: white;
     opacity: 0.95;
+    height: 60px;
+    width: 100%;
+    filter: drop-shadow(1px 2.5px 2.5px rgba(0,0,0,0.3));
+    z-index: 100;
+    position: relative;
 
     .logo {
         display: flex;
@@ -14,7 +19,7 @@
 
         .logoImg {
             filter: drop-shadow(1px 2.5px 2.5px rgba(0,0,0,0.3));
-            width: 50px;
+            width: 30px;
         }
 
         .logoText {

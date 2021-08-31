@@ -1,0 +1,30 @@
+@import 'base';
+
+.sideMenu {
+    height: calc(100vh - 60px);
+    width: 300px;
+    background: $purple;
+    filter: drop-shadow(1px 2.5px 2.5px rgba(0,0,0,0.3));
+    position: relative;
+    padding: 5px;
+
+    .sideMenuButton {
+        background: rgba(255, 255, 255, 0.3);
+        color: #222;
+        margin-bottom: 5px;
+        width: 100%;
+        text-align: center;
+        &:hover {
+            background: rgba(255, 255, 255, 0.7);
+            filter: none;
+        }
+    }
+
+    .sideMenuButtonActive {
+        background: white;
+        &:hover {
+            background: white;
+        }
+    }
+
+}
