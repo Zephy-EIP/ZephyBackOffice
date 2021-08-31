@@ -44,10 +44,11 @@ router.delete('/auth', authenticate((_req, res, info) => {
     });
 }));
 
-router.post('/register', async (req, res) => {
-    let email = req.body.email;
-    let password = req.body.password;
+router.post('/register', authenticateWithRole(0, async (req, res, info) => {
+    const email = req.body.email;
+    const password = req.body.password;
     let username = req.body.username;
+    const roleId = req.body.role_id;
 
     if (typeof username === 'string')
         username = username.trim();
@@ -55,7 +56,8 @@ router.post('/register', async (req, res) => {
     // check args
     if (typeof email !== 'string' || !UserService.emailIsValid(email) ||
         typeof password !== 'string' || !UserService.passwordIsValid(password) ||
-        typeof username !== 'string' || !UserService.usernameIsValid(username))
+        typeof username !== 'string' || !UserService.usernameIsValid(username) ||
+        (typeof roleId !== 'number' && roleId !== null))
         return res.status(400).json(createBasicResponse(400));
 
     if (await UserService.userExists(email)) {
@@ -63,10 +65,10 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    UserService.createAccount(email, password, username).then(success => {
-        res.json({success: success});
+    UserService.createAccount(email, password, username, roleId, info.user).then(result => {
+        res.status(result).json(createBasicResponse(result));
     });
-});
+}));
 
 router.put('/set-role', authenticateWithRole(10, async (req, res, info) => {
     let userIdOrMail = req.body.email;

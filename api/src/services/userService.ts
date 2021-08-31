@@ -1,3 +1,4 @@
+import RoleDao from '@/daos/Roles/RoleDao';
 import SessionDao from '@/daos/Session/SessionDao';
 import UserDao from '@/daos/User/UserDao';
 import Session from '@/entities/Session';
@@ -36,11 +37,21 @@ namespace UserService {
         return /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,128}/.test(password);
     }
 
-    export async function createAccount(email: string, password: string, username: string): Promise<boolean> {
-        let user = new User({email: email, username: username});
+    export async function createAccount(email: string, password: string, username: string, roleId: number | null, creator: User): Promise<number> {
+        if (roleId !== null) {
+            const role = await RoleDao.get(roleId);
+            if (role === null)
+                return 404;
+            if (creator.role_id === null || creator.role!.importance > role.importance)
+                return 403;
+        }
+
+        let user = new User({email: email, username: username, role_id: roleId});
         user.salt = generateSalt();
         user.pass = hashPassword(password, user.salt);
-        return await UserDao.create(user) !== null;
+        if (await UserDao.create(user) !== null)
+            return 200;
+        return 500;
     };
 
     export async function userExists(email: string): Promise<boolean> {

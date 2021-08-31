@@ -3,6 +3,7 @@ import express from 'express';
 import { authenticate } from '@/shared/authentication/authentication';
 import createBasicResponse from '@/shared/basicResponse';
 import UserDao from '@/daos/User/UserDao';
+import logger from '../logger';
 
 
 export default function authenticateWithRole(minRoleImportance: number, func: (req: express.Request, res: express.Response, info: AuthInfo)=>void): express.RequestHandler {
@@ -12,6 +13,7 @@ export default function authenticateWithRole(minRoleImportance: number, func: (r
             return;
         }
         if (await UserDao.fillRole(info.user) === false) {
+            logger.err(`Error: Role with id ${info.user.role_id} was not found for user ${info.user.id}`);
             res.status(404).json(createBasicResponse(404, 'Role not found'));
             return;
         }

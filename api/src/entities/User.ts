@@ -20,7 +20,7 @@ class User {
      * @property {string} obj.pass
      * @property {string} obj.salt
      * @property {number | undefined} obj.id
-     * @property {number | undefined} obj.role_id
+     * @property {number | null | undefined} obj.role_id
      */
     constructor(obj?: any) {
         this.id = typeof obj?.id === 'number' ? obj.id : 0;
