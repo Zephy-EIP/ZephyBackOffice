@@ -1,4 +1,4 @@
-import styles from './PageHeader.module.scss';
+import styles from './Page.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
@@ -13,6 +13,7 @@ import { getUser } from '@/modules/userReducer';
 import User from '@/entities/User';
 import { userDataGetWithExpiry, userDataSetWithExpiry } from '@/utils/localStorageUtils';
 import SideMenu from '@/components/templates/sideMenu/SideMenu';
+import getSideMenuConfig from '@/utils/getSideMenuConfig';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -20,6 +21,7 @@ const mapStateToProps = (state: RootState) => {
             logout: {
                 ...state.auth.logout
             },
+            unauthed: state.auth.unauthed,
         },
         user: { ...state.user },
     }
@@ -27,27 +29,20 @@ const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, { logout, getUser });
 
-const options = [
-    { title: 'Profile', href: '/profile', minImportance: null},
-    { title: 'Create Roles', href: '/', minImportance: 0 },
-    { title: 'Manage Roles', href: '/', minImportance: 0 },
-    { title: 'Create Users', href: '/', minImportance: 0 },
-    { title: 'Manage Users', href: '/', minImportance: 0 },
-]
-
 /// This header requires the user to be connected.
 /// If disconnected, he will be redirected to /login
-function PageHeader(props: {
+function Page(props: {
     children?: React.ReactNode,
 } & ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
     const router = useRouter();
     const [user, setUser] = useState(null as User | null);
+    const sideMenuConfig = getSideMenuConfig();
 
     useEffect(() => {
         if (getToken() === null)
             router.push('/login');
-    }, [props.auth.logout.success, props.auth.logout.loaded, getToken()]);
+    }, [props.auth.unauthed, props.auth.logout.loaded]);
 
     useEffect(() => {
         const user = userDataGetWithExpiry<User>('user');
@@ -69,6 +64,9 @@ function PageHeader(props: {
         }
     }, [props.user.user]);
 
+    if (user === null)
+        return <></>; // TODO loading
+
     return (
         <>
             <div className={styles.header}>
@@ -88,9 +86,14 @@ function PageHeader(props: {
                 </Link>
                 <Button onClick={async () => {dispatch(await props.logout())} }>Logout</Button>
             </div>
-            <SideMenu options={options} userImportance={0} />
+            <div className={styles.content}>
+                <SideMenu options={sideMenuConfig} userImportance={0} />
+                <div className={styles.pageContent}>
+                    {props.children}
+                </div>
+            </div>
         </>
     );
 }
 
-export default connector(PageHeader);
+export default connector(Page);

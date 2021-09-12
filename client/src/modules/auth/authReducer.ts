@@ -9,6 +9,7 @@ interface AuthState  {
         token: string | undefined
     },
     logout: BasicCall,
+    unauthed: boolean,
 }
 
 const initialState: AuthState = {
@@ -23,6 +24,7 @@ const initialState: AuthState = {
         success: false,
         loaded: false,
     },
+    unauthed: false,
 };
 
 export const login = createAsyncThunk(
@@ -48,6 +50,9 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        unauthUser: (state) => {
+            state.unauthed = true;
+        }
     },
     extraReducers: builder => {
         builder
@@ -70,5 +75,7 @@ const authSlice = createSlice({
             });
     },
 });
+
+export const { unauthUser } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,15 +1,15 @@
 import Page from "@/components/templates/Page";
 import BasicHeader from "@/modules/BasicHeader";
 
-export default function Profile() {
+export default function Administration() {
     return (
         <>
-            <BasicHeader title="Profile | Zephy Back Office" />
+            <BasicHeader title="Administration | Zephy Back Office" />
             <main>
                 <Page>
-                    Profile
+                    hehe
                 </Page>
             </main>
         </>
-    );
+    )
 }

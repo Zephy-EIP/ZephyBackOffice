@@ -3,8 +3,18 @@ import { useRouter } from 'next/router';
 import styles from './SideMenu.module.scss';
 
 interface Props {
-    options: { title: string, href: string, minImportance: number | null }[],
+    options: SideMenuConfig[],
     userImportance: number,
+}
+
+export interface SideMenuConfig {
+    title: string,
+    href: string,
+    minImportance: number | null,
+    subMenus?: {
+        title: string,
+        id: string,
+    }[]
 }
 
 export default function SideMenu(props: Props) {

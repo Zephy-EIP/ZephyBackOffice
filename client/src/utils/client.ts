@@ -1,6 +1,8 @@
 import axios from "axios";
 import { API_URL } from "@/utils/constants";
 import { getToken, setToken } from "@/utils/token";
+import store from "./store";
+import { unauthUser } from "@/modules/auth/authReducer";
 
 const client = axios.create({
     baseURL: API_URL
@@ -19,6 +21,7 @@ client.interceptors.response.use(res => { return res; }, (err) => {
         const code = err.response?.status;
         console.log(code);
         if (code === 401) {
+            store.dispatch(unauthUser());
             setToken(null);
         }
     }
