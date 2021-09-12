@@ -11,6 +11,8 @@ export function userDataGetWithExpiry<T>(key: string): T | null {
     let allData: any;
     try {
         allData = JSON.parse(str);
+        if (allData === null)
+            return null;
     } catch(e) {
         return null;
     }

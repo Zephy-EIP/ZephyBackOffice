@@ -2,25 +2,24 @@ import styles from './PageHeader.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
-import Button from "@/components/buttons/Button";
+import Button from '@/components/buttons/Button';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { logout } from '@/modules/auth/authReducer';
 import { connect, ConnectedProps } from 'react-redux';
-import { useEffect, useState } from "react";
-import { getToken } from "@/utils/token";
-import { useRouter } from "next/router";
-import { getUser } from "@/modules/userReducer";
-import User from "@/entities/User";
-import { userDataGetWithExpiry, userDataSetWithExpiry } from "@/utils/localStorageUtils";
-import Box from '../shapes/Box';
-import SideMenu from './sideMenu/SideMenu';
+import { useEffect, useState } from 'react';
+import { getToken } from '@/utils/token';
+import { useRouter } from 'next/router';
+import { getUser } from '@/modules/userReducer';
+import User from '@/entities/User';
+import { userDataGetWithExpiry, userDataSetWithExpiry } from '@/utils/localStorageUtils';
+import SideMenu from '@/components/templates/sideMenu/SideMenu';
 
 const mapStateToProps = (state: RootState) => {
     return {
         auth: {
             logout: {
                 ...state.auth.logout
-            }
+            },
         },
         user: { ...state.user },
     }
@@ -48,7 +47,7 @@ function PageHeader(props: {
     useEffect(() => {
         if (getToken() === null)
             router.push('/login');
-    }, [props.auth.logout.success, props.auth.logout.loaded]);
+    }, [props.auth.logout.success, props.auth.logout.loaded, getToken()]);
 
     useEffect(() => {
         const user = userDataGetWithExpiry<User>('user');

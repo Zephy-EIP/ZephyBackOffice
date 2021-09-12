@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API_URL } from "./constants";
-import { getToken } from "./token";
+import { API_URL } from "@/utils/constants";
+import { getToken, setToken } from "@/utils/token";
 
 const client = axios.create({
     baseURL: API_URL
@@ -13,5 +13,15 @@ client.interceptors.request.use(config => {
         config.headers.Authorization = token;
     return config;
 });
+
+client.interceptors.response.use(res => { return res; }, (err) => {
+    if (axios.isAxiosError(err)) {
+        const code = err.response?.status;
+        console.log(code);
+        if (code === 401) {
+            setToken(null);
+        }
+    }
+})
 
 export default client;

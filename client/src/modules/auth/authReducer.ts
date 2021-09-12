@@ -22,7 +22,7 @@ const initialState: AuthState = {
         loading: false,
         success: false,
         loaded: false,
-    }
+    },
 };
 
 export const login = createAsyncThunk(
@@ -38,13 +38,11 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-    const res = await client.delete('/user/auth').catch(_err => null);
-    if (res === null)
-        return {success: false};
+    await client.delete('/user/auth').catch(_err => null);
     setToken(null);
     userDataClear();
     return {success: true};
-})
+});
 
 const authSlice = createSlice({
     name: 'auth',
@@ -67,10 +65,10 @@ const authSlice = createSlice({
             .addCase(logout.pending, (state, _action) => {
                 state.logout = {...initialState.logout, loading: true};
             })
-            .addCase(logout.fulfilled, (state, action) => {
-                state.logout = {...initialState.logout, loaded: true, success: action.payload.success};
+            .addCase(logout.fulfilled, (state, _action) => {
+                state.logout = {...initialState.logout, loaded: true, success: true};
             });
     },
-})
+});
 
 export default authSlice.reducer;
