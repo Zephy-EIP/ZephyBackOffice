@@ -4,16 +4,14 @@ import styles from './TextInput.module.scss';
 interface Props {
     onChange?: (value: any) => void
     placeholder?: string,
-    styleCasses?: string[],
+    className?: string,
     type?: string,
 };
 
 export default function TextInput(props: Props) {
     let className = `${styles.input}`;
-    if (props.styleCasses !== undefined) {
-        props.styleCasses.forEach(name => {
-            className += ` ${name}`
-        });
+    if (props.className !== undefined) {
+        className += ' ' + props.className;
     }
     const ref = useRef<HTMLInputElement>(null);
 

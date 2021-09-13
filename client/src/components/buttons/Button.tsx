@@ -3,16 +3,14 @@ import styles from './Button.module.scss';
 interface Props {
     children: React.ReactNode,
     onClick?: () => void,
-    styleCasses?: string[],
+    className: string,
     disabled?: boolean
 }
 
 export default function Button(props: Props) {
     let className = `${styles.linkButton} white quicksand-medium`;
-    if (props.styleCasses !== undefined) {
-        props.styleCasses.forEach(name => {
-            className += ` ${name}`
-        });
+    if (props.className !== undefined) {
+        className += ' ' + props.className;
     }
 
     if (props.disabled === true) {

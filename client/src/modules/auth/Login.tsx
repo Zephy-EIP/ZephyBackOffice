@@ -77,17 +77,17 @@ const Login = (props: ConnectedProps<typeof connector>) => {
             <BasicHeader title="Login | Zephy Back Office" />
             <BasicPage>
                 <form onSubmit={(e) => {e.preventDefault()} }>
-                    <Box styleCasses={[styles.box]}>
+                    <Box className={styles.box}>
                         <h2 className="purple">LOGIN</h2>
                         <div className={`quicksand-medium ${styles.label}`}>Email</div>
-                        <TextInput styleCasses={[styles.input]} placeholder="example@email.com" onChange={setEmail} />
+                        <TextInput className={styles.input} placeholder="example@email.com" onChange={setEmail} />
                         <div className={`quicksand-medium ${styles.label}`}>Password</div>
-                        <TextInput styleCasses={[styles.input]} placeholder="Password123" type="password" onChange={setPassword} />
+                        <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setPassword} />
                         <div>
                             {inputError}
                             {credentialsErr}
                         </div>
-                        <Button styleCasses={[styles.button]} onClick={checkAndLogin} disabled={props.auth.login.loading}>Login</Button>
+                        <Button className={styles.button} onClick={checkAndLogin} disabled={props.auth.login.loading}>Login</Button>
                     </Box>
                 </form>
             </BasicPage>
