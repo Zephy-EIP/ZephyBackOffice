@@ -12,24 +12,6 @@ export default function getSideMenuConfig() {
             title: 'Administration',
             href: '/administration',
             minImportance: 0,
-            subMenus: [
-                {
-                    title: 'Manage Roles',
-                    id: '#manage-roles',
-                },
-                {
-                    title: 'Create Roles',
-                    id: '#create-roles',
-                },
-                {
-                    title: 'Manage Users',
-                    id: '#manage-users',
-                },
-                {
-                    title: 'Create Users',
-                    id: '#create-users',
-                },
-            ]
         }
     );
 

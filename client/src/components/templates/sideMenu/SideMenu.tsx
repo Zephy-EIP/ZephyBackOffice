@@ -11,10 +11,6 @@ export interface SideMenuConfig {
     title: string,
     href: string,
     minImportance: number | null,
-    subMenus?: {
-        title: string,
-        id: string,
-    }[]
 }
 
 export default function SideMenu(props: Props) {
