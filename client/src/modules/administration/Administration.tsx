@@ -7,7 +7,6 @@ export default function Administration() {
             <BasicHeader title="Administration | Zephy Back Office" />
             <main>
                 <Page>
-                    hehe
                 </Page>
             </main>
         </>

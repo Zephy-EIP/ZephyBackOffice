@@ -87,7 +87,7 @@ const Login = (props: ConnectedProps<typeof connector>) => {
                             {inputError}
                             {credentialsErr}
                         </div>
-                        <Button className={styles.button} onClick={checkAndLogin} disabled={props.auth.login.loading}>Login</Button>
+                        <Button className={styles.button} onClick={checkAndLogin} loading={props.auth.login.loading}>Login</Button>
                     </Box>
                 </form>
             </BasicPage>

@@ -4,7 +4,7 @@ import Button from '@/components/buttons/Button';
 import styles from './ChangePassword.module.scss';
 import { RootState, useThunkDispatch } from "@/utils/store";
 import { connect, ConnectedProps } from "react-redux";
-import { changePassword } from '@/modules/profile/changePassword/changePasswordReducer';
+import { changePassword, resetPasswordChangeReducer } from '@/modules/profile/changePassword/changePasswordReducer';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -30,11 +30,10 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
                 </div>
             );
             return;
-        } else {
-            setInputError(<></>);
         }
+        setInputError(<></>);
+        setServerInfo(<></>);
         setButtonClicked(true);
-
         dispatch(await props.changePassword({oldPassword, newPassword}));
     }
 
@@ -56,9 +55,10 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
                     Password change successful!
                 </div>
             );
-        else
-            setServerInfo(<></>);
+        dispatch(resetPasswordChangeReducer());
     }, [props.passwordChange.loaded]);
+
+    console.log(props.passwordChange);
 
     return (
         <form onSubmit={e => {e.preventDefault()}}>
@@ -71,7 +71,7 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
                 {inputError}
                 {serverInfo}
             </div>
-            <Button onClick={checkAndChangePassword} className={styles.button} disabled={false}>Change password</Button>
+            <Button onClick={checkAndChangePassword} className={styles.button} loading={props.passwordChange.loading}>Change password</Button>
         </form>
     );
 }

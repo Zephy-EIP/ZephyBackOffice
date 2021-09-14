@@ -22,3 +22,18 @@
         filter: brightness(0.95);
     }
 }
+
+.buttonDisabled, .buttonLoading {
+    filter: grayscale(1);
+    &:hover {
+        filter: grayscale(1);
+    }
+}
+
+.buttonDisabled {
+    cursor: not-allowed;
+}
+
+.buttonLoading {
+    cursor: wait;
+}

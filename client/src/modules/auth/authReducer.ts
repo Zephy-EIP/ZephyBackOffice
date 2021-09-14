@@ -52,6 +52,9 @@ const authSlice = createSlice({
     reducers: {
         unauthUser: (state) => {
             state.unauthed = true;
+        },
+        resetAuthReducer: () => {
+            return initialState;
         }
     },
     extraReducers: builder => {
@@ -76,6 +79,6 @@ const authSlice = createSlice({
     },
 });
 
-export const { unauthUser } = authSlice.actions;
+export const { unauthUser, resetAuthReducer } = authSlice.actions;
 
 export default authSlice.reducer;

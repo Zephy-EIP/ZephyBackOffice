@@ -4,7 +4,7 @@ import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
 import Button from '@/components/buttons/Button';
 import { RootState, useThunkDispatch } from '@/utils/store';
-import { logout } from '@/modules/auth/authReducer';
+import { logout, resetAuthReducer } from '@/modules/auth/authReducer';
 import { connect, ConnectedProps } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getToken } from '@/utils/token';
@@ -42,6 +42,7 @@ function Page(props: {
     useEffect(() => {
         if (getToken() === null)
             router.push('/login');
+        dispatch(resetAuthReducer());
     }, [props.auth.unauthed, props.auth.logout.loaded]);
 
     useEffect(() => {
