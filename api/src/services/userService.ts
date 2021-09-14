@@ -33,6 +33,7 @@ namespace UserService {
         return username.length >= 3 && /^[a-zA-Z0-9 ]*$/.test(username) && username.length < 50;
     }
 
+    /** password at least 8 chars, one special char, one lowercase character, one uppercase character*/
     export function passwordIsValid(password: string): boolean {
         return /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,128}/.test(password);
     }
@@ -58,12 +59,15 @@ namespace UserService {
         return await UserDao.get(email) !== null;
     };
 
-    export async function changePassword(oldPassword: string, newPassword: string, user: User): Promise<boolean> {
+    /**
+     * @returns {number} HTTP code
+     */
+    export async function changePassword(oldPassword: string, newPassword: string, user: User): Promise<number> {
         const hash = hashPassword(oldPassword, user.salt);
         if (hash !== user.pass)
-            return false;
+            return 422;
         user.pass = hashPassword(newPassword, user.salt);
-        return await UserDao.update(user);
+        return await UserDao.update(user) === true ? 200 : 500;
     }
 
     /**

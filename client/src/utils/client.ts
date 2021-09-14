@@ -19,12 +19,12 @@ client.interceptors.request.use(config => {
 client.interceptors.response.use(res => { return res; }, (err) => {
     if (axios.isAxiosError(err)) {
         const code = err.response?.status;
-        console.log(code);
         if (code === 401) {
             store.dispatch(unauthUser());
             setToken(null);
         }
     }
+    return Promise.reject(err);
 })
 
 export default client;

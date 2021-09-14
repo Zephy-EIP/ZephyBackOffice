@@ -64,3 +64,13 @@
 @mixin mediaHeight($nb) {
     @media all and (max-height: $nb) { @content; }
 }
+
+@mixin error {
+    font-size: 11pt;
+    color: red;
+}
+
+@mixin success {
+    font-size: 11pt;
+    color: #4BB543;
+}

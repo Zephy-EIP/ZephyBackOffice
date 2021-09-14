@@ -1,3 +1,5 @@
+@import 'base';
+
 .box {
     margin: 100px 0 0 0;
     max-width: 100%;
@@ -37,8 +39,7 @@
     }
 
     .error {
-        font-size: 11pt;
-        color: red;
+        @include error;
         text-align: center;
     }
 }

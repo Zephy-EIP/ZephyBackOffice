@@ -28,13 +28,13 @@ router.put('/password', authenticate((req, res, info) => {
     const newPassword = req.body.new_password;
     const oldPassword = req.body.old_password;
 
-    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string') {
+    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string' || !UserService.passwordIsValid(newPassword)) {
         res.status(400).json(createBasicResponse(400));
         return;
     }
 
-    UserService.changePassword(oldPassword, newPassword, info.user).then(success => {
-        res.json({success: success});
+    UserService.changePassword(oldPassword, newPassword, info.user).then(code => {
+        res.status(code).json(createBasicResponse(code));
     });
 }));
 
