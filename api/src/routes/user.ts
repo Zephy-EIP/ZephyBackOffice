@@ -24,6 +24,21 @@ router.post('/auth', (req, res) => {
     });
 });
 
+router.put('/username', authenticate((req, res, info) => {
+    let newUsername = req.body.new_username;
+
+    if (typeof newUsername === 'string')
+        newUsername = newUsername.trim();
+    if (typeof newUsername !== 'string' || !UserService.usernameIsValid(newUsername)) {
+        res.status(400).json(createBasicResponse(400));
+        return;
+    }
+
+    UserService.changeUsername(info.user, newUsername).then(code => {
+        res.status(code).json(createBasicResponse(code));
+    });
+}));
+
 router.put('/password', authenticate((req, res, info) => {
     const newPassword = req.body.new_password;
     const oldPassword = req.body.old_password;

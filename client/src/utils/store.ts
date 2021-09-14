@@ -1,3 +1,4 @@
+import createAccountReducer from "@/modules/administration/createAccount/createAccountReducer";
 import authReducer, { logout, unauthUser } from "@/modules/auth/authReducer";
 import changePasswordReducer from "@/modules/profile/changePassword/changePasswordReducer";
 import userReducer from "@/modules/userReducer";
@@ -9,6 +10,7 @@ const appReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     passwordChange: changePasswordReducer,
+    createAccount: createAccountReducer,
 });
 
 const rootReducer = (state: any, action: any) =>{ 

@@ -2,6 +2,7 @@ import { BasicCall, BasicResponse } from "@/utils/reducerUtils";
 import client from "@/utils/client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SimpleReducerPayload } from "@/utils/types";
 
 const initialState: BasicCall & { error: number } = {
     loading: false,
@@ -16,10 +17,7 @@ export const changePassword = createAsyncThunk(
         oldPassword: string,
         newPassword: string,
     }) => {
-        const res: {
-            success: boolean,
-            error: number,
-        } = await client.put<BasicResponse>('/user/password', {
+        const res: SimpleReducerPayload = await client.put<BasicResponse>('/user/password', {
             old_password: params.oldPassword,
             new_password: params.newPassword,
         }).then(_res => {

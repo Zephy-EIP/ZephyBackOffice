@@ -6,6 +6,10 @@ interface Props {
     placeholder?: string,
     className?: string,
     type?: string,
+    id?: string,
+    autoComplete?: string,
+    disabled?: boolean,
+    value?: string,
 };
 
 export default function TextInput(props: Props) {
@@ -14,6 +18,10 @@ export default function TextInput(props: Props) {
         className += ' ' + props.className;
     }
     const ref = useRef<HTMLInputElement>(null);
+
+    if (props.disabled) {
+        className += ' ' + styles.disabled;
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -29,6 +37,7 @@ export default function TextInput(props: Props) {
     return (
         <div>
             <input
+                id={props.id}
                 ref={ref}
                 className={className}
                 onChange={e => {
@@ -37,6 +46,9 @@ export default function TextInput(props: Props) {
                 }}
                 type={props.type || 'text'}
                 placeholder={props.placeholder}
+                autoComplete={props.autoComplete}
+                disabled={props.disabled}
+                value={props.value}
             />
         </div>
     );

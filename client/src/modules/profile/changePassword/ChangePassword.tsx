@@ -65,15 +65,13 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
         dispatch(resetPasswordChangeReducer());
     }, [props.passwordChange.loaded]);
 
-    console.log(props.passwordChange);
-
     return (
         <form onSubmit={e => {e.preventDefault()}}>
             <h2 className={styles.title}>Change your password</h2>
             <div className={`quicksand-medium ${styles.label}`}>Current password</div>
-            <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setOldPassword} />
+            <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setOldPassword} autoComplete="old-password" />
             <div className={`quicksand-medium ${styles.label}`}>New password</div>
-            <TextInput className={styles.input} placeholder="Password124" type="password" onChange={setNewPassword} />
+            <TextInput className={styles.input} placeholder="Password124" type="password" onChange={setNewPassword} autoComplete="new-password" />
             <div>
                 {inputError}
                 {serverInfo}

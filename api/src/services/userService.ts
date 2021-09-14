@@ -70,6 +70,11 @@ namespace UserService {
         return await UserDao.update(user) === true ? 200 : 500;
     }
 
+    export async function changeUsername(user: User, newUsername: string): Promise<number> {
+        user.username = newUsername;
+        return await UserDao.update(user) === true ? 200 : 500;
+    }
+
     /**
      * @returns {number} http code
      */
