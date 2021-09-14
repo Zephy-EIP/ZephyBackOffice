@@ -1,5 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from 'react';
 import styles from './TextInput.module.scss';
+import showPasswordIcon from '@/assets/images/icons/red-eye.svg';
+import hidePasswordIcon from '@/assets/images/icons/invisible.svg';
+import Image from 'next/image';
 
 interface Props {
     onChange?: (value: any) => void
@@ -14,13 +17,17 @@ interface Props {
 
 export default function TextInput(props: Props) {
     let className = `${styles.input}`;
+    let classNameWrapper = styles.wrapper;
+    const [showPassword, setShowPassword] = useState(false);
     if (props.className !== undefined) {
-        className += ' ' + props.className;
+        classNameWrapper += ' ' + props.className;
     }
     const ref = useRef<HTMLInputElement>(null);
 
     if (props.disabled) {
         className += ' ' + styles.disabled;
+    } else if (props.type === 'password') {
+        className += ' ' + styles.password;
     }
 
     useEffect(() => {
@@ -34,8 +41,19 @@ export default function TextInput(props: Props) {
         }, 100);
     }, []);
 
+    let passwordStyle = styles.passwordButton;
+    let type = props.type || 'text';
+    if (props.type === 'password' && showPassword) {
+        type = 'text';
+    }
+
+    let icon = showPasswordIcon;
+    if (showPassword) {
+        icon = hidePasswordIcon;
+    }
+
     return (
-        <div>
+        <div className={classNameWrapper}>
             <input
                 id={props.id}
                 ref={ref}
@@ -44,12 +62,17 @@ export default function TextInput(props: Props) {
                     if (props.onChange)
                         props.onChange(e.target.value)
                 }}
-                type={props.type || 'text'}
+                type={type}
                 placeholder={props.placeholder}
                 autoComplete={props.autoComplete}
                 disabled={props.disabled}
                 value={props.value}
             />
+            {props.disabled !== true && props.type === 'password' &&
+             <button className={passwordStyle} onClick={() => setShowPassword(!showPassword) } tabIndex={-1}>
+                 <Image src={icon} width="20px" height="20px"/>
+             </button>
+            }
         </div>
     );
 }

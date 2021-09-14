@@ -1,12 +1,38 @@
-.input {
-    border: 2px solid #E0E0E0;
-    border-radius: 10px;
-    outline: none;
-    padding: 5px;
-    font-size: 16pt;
-}
+.wrapper {
+    position: relative;
+    width: fit-content;
 
-.disabled {
-    background: #f0f0f0;
-    cursor: not-allowed;
+    input {
+        border: 2px solid #E0E0E0;
+        border-radius: 10px;
+        outline: none;
+        padding: 5px;
+        font-size: 16pt;
+        width: 100%;
+    }
+
+    .disabled {
+        background: #f0f0f0;
+        cursor: not-allowed;
+    }
+
+    .password {
+        padding-right: 35px;
+    }
+
+    .passwordButton {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translate(0, -50%);
+        padding: 0;
+        outline: none;
+        border: none;
+        background: none;
+        cursor: pointer;
+        opacity: 0.7;
+        height: 20px;
+        width: 20px;
+    }
+
 }
