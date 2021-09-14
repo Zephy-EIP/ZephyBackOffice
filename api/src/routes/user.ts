@@ -28,7 +28,7 @@ router.put('/password', authenticate((req, res, info) => {
     const newPassword = req.body.new_password;
     const oldPassword = req.body.old_password;
 
-    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string' || !UserService.passwordIsValid(newPassword)) {
+    if (typeof newPassword !== 'string' || typeof oldPassword !== 'string' || !UserService.passwordIsValid(newPassword) || oldPassword === newPassword) {
         res.status(400).json(createBasicResponse(400));
         return;
     }

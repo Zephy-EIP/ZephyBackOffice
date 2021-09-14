@@ -23,6 +23,7 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
     const [buttonClicked, setButtonClicked] = useState(false);
 
     const checkAndChangePassword = async () => {
+        setServerInfo(<></>);
         if (oldPassword.length === 0 || newPassword.length === 0) {
             setInputError(
                 <div className={styles.error}>
@@ -30,9 +31,15 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
                 </div>
             );
             return;
+        } else if (oldPassword === newPassword) {
+            setInputError(
+                <div className={styles.error}>
+                    New password cannot be identical to current password.
+                </div>
+            );
+            return;
         }
         setInputError(<></>);
-        setServerInfo(<></>);
         setButtonClicked(true);
         dispatch(await props.changePassword({oldPassword, newPassword}));
     }
