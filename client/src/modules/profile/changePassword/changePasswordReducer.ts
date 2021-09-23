@@ -1,8 +1,8 @@
 import { BasicCall, BasicResponse } from "@/utils/reducerUtils";
 import client from "@/utils/client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { SimpleReducerPayload } from "@/utils/types";
+import { getBasicErrorPayloadAxios } from '@/utils/utils';
 
 const initialState: BasicCall & { error: number } = {
     loading: false,
@@ -23,11 +23,7 @@ export const changePassword = createAsyncThunk(
         }).then(_res => {
             return { success: true, error: 0 };
         }).catch(err => {
-            if (axios.isAxiosError(err)) {
-                if (typeof err.response?.status === 'number')
-                    return { success: false, error: err.response.status };
-            }
-            return { success: false, error: 500 };
+            return getBasicErrorPayloadAxios(err);
         });
         return res;
     }

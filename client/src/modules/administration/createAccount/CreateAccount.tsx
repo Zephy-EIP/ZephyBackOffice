@@ -3,7 +3,7 @@ import { RootState, useThunkDispatch } from '@/utils/store';
 import { connect, ConnectedProps } from 'react-redux';
 import TextInput from '@/components/inputs/TextInput';
 import Button from '@/components/buttons/Button';
-import { MutableRefObject, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { passwordIsValid } from '@/utils/utils';
 import { createAccount } from '@/modules/administration/createAccount/createAccountReducer';
 import Tooltip from '@/components/tooltips/Tooltip';

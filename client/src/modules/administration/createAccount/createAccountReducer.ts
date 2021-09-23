@@ -1,6 +1,7 @@
 import client from "@/utils/client";
 import { BasicCall } from "@/utils/reducerUtils";
 import { SimpleReducerPayload } from "@/utils/types";
+import { getBasicErrorPayloadAxios } from '@/utils/utils';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -30,10 +31,7 @@ export const createAccount = createAsyncThunk(
         }).then(_res => {
             return { success: true, error: 0 };
         }).catch(err => {
-            if (axios.isAxiosError(err)) {
-                return { success: false, error: err.response?.status || 500 };
-            }
-            return { success: false, error: 500 };
+            return getBasicErrorPayloadAxios(err);
         });
         return result;
     }
