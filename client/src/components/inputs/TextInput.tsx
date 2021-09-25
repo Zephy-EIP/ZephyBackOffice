@@ -16,7 +16,7 @@ interface Props {
 };
 
 export default function TextInput(props: Props) {
-    let className = `${styles.input}`;
+    let className = styles.input;
     let classNameWrapper = styles.wrapper;
     const [showPassword, setShowPassword] = useState(false);
     if (props.className !== undefined) {

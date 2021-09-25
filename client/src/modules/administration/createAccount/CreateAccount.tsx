@@ -50,6 +50,10 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
 
     useEffect(() => { (async () => { dispatch(await props.getRoles()) })(); }, []);
 
+    let roles = props.roleList.roles?.map(role => {
+        return new SelectElement(role.display_name, role.id.toString());
+    }) || [];
+
     return (
         <section id="create-account">
             <form onSubmit={e => e.preventDefault()}>
@@ -71,7 +75,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                 <label className="quicksand-medium">Password</label>
                 <Tooltip position="right" text="Will be copied on account creation">
                     <TextInput
-                        className={styles.inputNoMargin}
+                        className={styles.input}
                         value={password}
                         placeholder="Password!23"
                         type="password"
@@ -79,13 +83,15 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                         disabled={true} />
                 </Tooltip>
 
-                <Select
-                    elements={props.roleList.roles?.map(role => {
-                        return new SelectElement(role.display_name, role.id.toString());
-                    }) || []}
-                    onChange={(value) => {
-                        setRoleId(parseInt(value));
-                    }} />
+                <div className={styles.select}>
+                    <Select
+                        elements={[new SelectElement('No role', 'null')].concat(roles)}
+                        defaultKey="null"
+                        defaultValue="No role"
+                        onChange={(value) => {
+                            setRoleId(parseInt(value));
+                        }} />
+                </div>
                 <Button onClick={copyToClipboard} className={styles.button}>
                     Create Account
                 </Button>
