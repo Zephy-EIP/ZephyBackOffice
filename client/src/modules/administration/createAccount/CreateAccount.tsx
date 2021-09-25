@@ -4,11 +4,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import TextInput from '@/components/inputs/TextInput';
 import Button from '@/components/buttons/Button';
 import { useEffect, useRef, useState } from 'react';
-import { passwordIsValid } from '@/utils/utils';
+import { emailIsValid, passwordIsValid, usernameIsValid } from '@/utils/utils';
 import { createAccount } from '@/modules/administration/createAccount/createAccountReducer';
 import Tooltip from '@/components/tooltips/Tooltip';
 import { getRoles } from '@/modules/roleReducer';
 import Select, { SelectElement } from '@/components/selectors/Select';
+import copyIcon from '@/assets/images/icons/copy.svg';
+import Image from 'next/image';
+import PermanentTooltip from '@/components/tooltips/PermanentTooltip';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -31,22 +34,39 @@ function getRandomPassword(): string {
 function CreateAccount(props: ConnectedProps<typeof connector>) {
     const [password, setPassword] = useState(getRandomPassword());
     const [email, setEmail] = useState('');
-    const [roleId, setRoleId] = useState(-1);
+    const [roleId, setRoleId] = useState(null as null | number);
     const [username, setUsername] = useState('');
+    const [errors, setErrors] = useState([] as React.ReactNode[]);
+    const [copiedTooltip, setCopiedTooltip] = useState(false);
     const dispatch = useThunkDispatch();
     const textRef = useRef(null);
 
     const copyToClipboard = () => {
         textRef.current!.select();
         document.execCommand('copy');
+        setCopiedTooltip(true);
+        setTimeout(() => {
+            setCopiedTooltip(false);
+        }, 2000);
     }
 
     const resetFields = () => {
         setEmail('');
         setUsername('');
-        setRoleId(-1);
+        setRoleId(null);
         setPassword(getRandomPassword());
     }
+
+    const createAccountFct = () => {
+        const err = [];
+        if (!usernameIsValid(username))
+            err.push(<div key="username">Invalid username</div>)
+        if (!emailIsValid(email))
+            err.push(<div key="username">Invalid email</div>)
+        setErrors(err);
+        if (err.length > 0)
+            return;
+    };
 
     useEffect(() => { (async () => { dispatch(await props.getRoles()) })(); }, []);
 
@@ -73,7 +93,10 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                     autoComplete="off"
                     onChange={setEmail} />
                 <label className="quicksand-medium">Password</label>
-                <Tooltip position="right" text="Will be copied on account creation">
+                <Tooltip
+                    className={styles.tooltip}
+                    position="right"
+                    text="Don't worry about the password, it's generated autmatically">
                     <TextInput
                         className={styles.input}
                         value={password}
@@ -83,18 +106,34 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                         disabled={true} />
                 </Tooltip>
 
+                <label className="quicksand-medium">Role</label>
                 <div className={styles.select}>
                     <Select
                         elements={[new SelectElement('No role', 'null')].concat(roles)}
                         defaultKey="null"
-                        defaultValue="No role"
+                        defaultTitle="No role"
                         onChange={(value) => {
-                            setRoleId(parseInt(value));
+                            if (value === 'null')
+                                setRoleId(null);
+                            else
+                                setRoleId(parseInt(value));
                         }} />
                 </div>
-                <Button onClick={copyToClipboard} className={styles.button}>
-                    Create Account
-                </Button>
+                <div className={styles.error}>
+                    {errors}
+                </div>
+                <div className={styles.buttonWrapper}>
+                    <Button loading={props.createAccount.loading} onClick={createAccountFct} className={styles.button}>
+                        Create Account
+                    </Button>
+                    <PermanentTooltip enabled={copiedTooltip} className={styles.tooltipCopied} position="right" text="Copied!">
+                        <Tooltip enabled={props.createAccount.loaded === true} className={styles.tooltip} position="right" text="You will be able to copy the information after the account's creation">
+                            <Button onClick={copyToClipboard} className={styles.copyButton} disabled={props.createAccount.success === true}>
+                                <Image src={copyIcon} width="16pt" height="16pt" className={styles.copyIcon} />
+                            </Button>
+                        </Tooltip>
+                    </PermanentTooltip>
+                </div>
             </form>
             <textarea
                 style={{position: 'fixed', opacity: 0, maxHeight: 0, maxWidth: 0, top: -100, left: -100}}

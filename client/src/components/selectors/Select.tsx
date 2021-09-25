@@ -16,7 +16,6 @@ export class SelectElement {
 
 interface Props {
     elements: SelectElement[],
-    defaultValue?: string,
     defaultTitle?: string,
     defaultKey?: string,
     onChange?: (value: string) => any,

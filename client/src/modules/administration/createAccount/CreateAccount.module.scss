@@ -1,3 +1,5 @@
+@import 'base';
+
 .title {
     font-size: 24pt;
 }
@@ -16,5 +18,37 @@
 }
 
 .button {
-    margin-top: 15px;
+}
+
+.copyButton {
+    background: $orange;
+    padding: 10px 15px;
+    margin-left: 20px;
+    .copyIcon {
+        filter: invert(1);
+    }
+}
+
+.error {
+    color: red;
+    margin-top: 5px;
+    font-size: 11pt;
+}
+
+.tooltip {
+    max-width: 200px;
+    width: max-content !important;
+    text-align: center;
+}
+
+.tooltipCopied {
+    background: #B4D4A5 !important;
+    &::after {
+        border-color: transparent #B4D4A5 transparent transparent !important;
+    }
+}
+
+.buttonWrapper {
+    margin-top: 10px;
+    display: flex;
 }

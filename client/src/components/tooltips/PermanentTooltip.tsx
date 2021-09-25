@@ -1,6 +1,6 @@
 import styles from './Tooltip.module.scss';
 
-export default function Tooltip(props: {
+export default function PermanentTooltip(props: {
     position: 'left' | 'down' | 'right' | 'up',
     text: string,
     children: React.ReactNode,
@@ -28,15 +28,13 @@ export default function Tooltip(props: {
             break;
     }
 
-    if (props.className)
-        tooltipText += ' ' + props.className;
+    tooltip += ' ' + styles.permanentTooltip;
 
     if (props.enabled === false)
-        return (
-            <div className={tooltip}>
-                {props.children}
-            </div>
-        );
+        tooltip += ' ' + styles.permanentTooltipDisabled;
+
+    if (props.className)
+        tooltipText += ' ' + props.className;
 
     return (
         <div className={tooltip}>
