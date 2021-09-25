@@ -18,9 +18,7 @@ import getSideMenuConfig from '@/utils/getSideMenuConfig';
 const mapStateToProps = (state: RootState) => {
     return {
         auth: {
-            logout: {
-                ...state.auth.logout
-            },
+            logout: state.auth.logout,
             unauthed: state.auth.unauthed,
         },
         user: { ...state.user },
@@ -51,11 +49,7 @@ function Page(props: {
             setUser(user);
             return;
         }
-        const machin = async () => {
-            dispatch(await props.getUser());
-        }
-
-        machin();
+        (async () => { dispatch(await props.getUser()); })();
     }, []);
 
     useEffect(() => {

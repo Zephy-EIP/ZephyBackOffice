@@ -19,7 +19,7 @@ const initialState: RoleReducerState = {
     }
 }
 
-const getRoles = createAsyncThunk('role/getRoles', async () => {
+export const getRoles = createAsyncThunk('role/getRoles', async () => {
     return await client.get<BasicResponse & { role_list: Role[] }>('/role/list')
         .then(res => {
             return getBasicDataPayload(res.data.role_list);
