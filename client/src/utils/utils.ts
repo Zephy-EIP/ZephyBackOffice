@@ -1,3 +1,5 @@
+import Role from '@/entities/Role';
+import User from '@/entities/User';
 import axios from 'axios';
 
 export function passwordIsValid(password: string): boolean {
@@ -29,4 +31,13 @@ export function getBasicErrorPayloadAxios<T = any>(err: any): BasicPayload<T> {
 
 export function getBasicDataPayload<T>(data?: T): BasicPayload<T> {
     return { success: true, error: 0, data };
+}
+
+export function getUserRole(user: User, roles: Role[]): Role | null {
+    if (user.role_id === null)
+        return null;
+    for (const role of roles)
+        if (user.role_id === role.id)
+            return role;
+    return null;
 }

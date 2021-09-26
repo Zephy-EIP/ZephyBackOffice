@@ -1,4 +1,4 @@
-import styles from './Tooltip.module.scss';
+import styles from './PermanentTooltip.module.scss';
 
 export default function PermanentTooltip(props: {
     position: 'left' | 'down' | 'right' | 'up',

@@ -19,6 +19,7 @@ interface Props {
     defaultTitle?: string,
     defaultKey?: string,
     onChange?: (value: string) => any,
+    enabled?: boolean,
 }
 
 export default function Select(props: Props) {
@@ -34,7 +35,9 @@ export default function Select(props: Props) {
         <>
             <div className={className}>
                 <button className={styles.current} onClick={() => {
-                    setOpen(!open);
+                    if (props.enabled === false)
+                        return;
+                        setOpen(!open);
                 }}>
                     {title}
                 </button>

@@ -52,3 +52,7 @@
     margin-top: 10px;
     display: flex;
 }
+
+.success {
+    @include success;
+}

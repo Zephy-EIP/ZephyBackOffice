@@ -4,7 +4,7 @@ import styles from './SideMenu.module.scss';
 
 interface Props {
     options: SideMenuConfig[],
-    userImportance: number,
+    userImportance: number | null,
 }
 
 export interface SideMenuConfig {
@@ -21,6 +21,12 @@ export default function SideMenu(props: Props) {
         let className = styles.sideMenuButton;
         if (router.route === option.href)
             className += ` ${styles.sideMenuButtonActive}`;
+        if (option.minImportance !== null && props.userImportance === null)
+            return;
+        if (option.minImportance !== null &&
+            props.userImportance !== null &&
+            option.minImportance < props.userImportance)
+            return;
 
         options.push(
             <LinkButton

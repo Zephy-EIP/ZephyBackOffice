@@ -3,7 +3,6 @@ import { BasicCall } from "@/utils/reducerUtils";
 import { SimpleReducerPayload } from "@/utils/types";
 import { getBasicErrorPayloadAxios } from '@/utils/utils';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 interface CreateAccountState extends BasicCall {
     error?: number,
@@ -48,9 +47,7 @@ const CreateAccountSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(createAccount.pending, () => {
-                const state = initialState;
-                state.loading = true;
-                return state;
+                return {...initialState, loading: true};
             })
             .addCase(createAccount.fulfilled, (state, action) => {
                 state.loading = false;
@@ -59,11 +56,11 @@ const CreateAccountSlice = createSlice({
                 state.error = action.payload.error;
             })
             .addCase(createAccount.rejected, () => {
-                const state = initialState;
-                state.success = false;
-                return state;
+                return {...initialState, success: false};
             })
     }
 });
+
+export const { resetCreateAccount } = CreateAccountSlice.actions;
 
 export default CreateAccountSlice.reducer;

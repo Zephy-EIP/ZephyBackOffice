@@ -11,9 +11,10 @@ import { getToken } from '@/utils/token';
 import { useRouter } from 'next/router';
 import { getUser } from '@/modules/userReducer';
 import User from '@/entities/User';
-import { userDataGetWithExpiry, userDataSetWithExpiry } from '@/utils/localStorageUtils';
 import SideMenu from '@/components/templates/sideMenu/SideMenu';
 import getSideMenuConfig from '@/utils/getSideMenuConfig';
+import { getRoles } from '@/modules/roleReducer';
+import { getUserRole } from '@/utils/utils';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -21,11 +22,12 @@ const mapStateToProps = (state: RootState) => {
             logout: state.auth.logout,
             unauthed: state.auth.unauthed,
         },
+        role: state.role,
         user: { ...state.user },
     }
 }
 
-const connector = connect(mapStateToProps, { logout, getUser });
+const connector = connect(mapStateToProps, { logout, getUser, getRoles });
 
 /// This header requires the user to be connected.
 /// If disconnected, he will be redirected to /login
@@ -36,6 +38,8 @@ function Page(props: {
     const router = useRouter();
     const [user, setUser] = useState(null as User | null);
     const sideMenuConfig = getSideMenuConfig();
+    const [roleImportance, setRoleImportance] = useState(null as null | number);
+    const [currentPageImportance, setPageImportance] = useState(null as null | number);
 
     useEffect(() => {
         if (getToken() === null)
@@ -44,23 +48,49 @@ function Page(props: {
     }, [props.auth.unauthed, props.auth.logout.loaded]);
 
     useEffect(() => {
-        const user = userDataGetWithExpiry<User>('user');
-        if (user !== null) {
-            setUser(user);
-            return;
+        if (!props.role.roleList.loading)
+            (async () => { dispatch(await props.getRoles()) })();
+        if (!props.user.loading)
+            (async () => { dispatch(await props.getUser()); })();
+        for (const page of sideMenuConfig) {
+            if (page.href === router.route)
+                setPageImportance(page.minImportance);
         }
-        (async () => { dispatch(await props.getUser()); })();
     }, []);
 
     useEffect(() => {
-        if (props.user.user !== null) {
-            userDataSetWithExpiry('user', props.user.user, 300000);
+        if (props.user.user !== null)
             setUser(props.user.user);
-        }
     }, [props.user.user]);
 
-    if (user === null)
+    useEffect(() => {
+        if (props.user.user === null || props.role.roleList.roles === null)
+            return;
+        const role = getUserRole(props.user.user, props.role.roleList.roles);
+        if (role === null)
+            setRoleImportance(null);
+        else
+            setRoleImportance(role.importance);
+    }, [props.user.user, props.role.roleList.roles])
+
+    if (user === null || props.role.roleList === null)
         return <></>; // TODO loading
+
+    let content = props.children;
+    if (currentPageImportance !== null && roleImportance === null ||
+        (currentPageImportance !== null && roleImportance !== null && currentPageImportance < roleImportance))
+        content = (
+            <div className={styles.pageContent}>
+                <div style={{padding: 15}}>
+                    <h1>
+                        403 Forbidden
+                    </h1>
+                    <p>
+                        You've got no business here.
+                    </p>
+                </div>
+            </div>
+        );
 
     return (
         <>
@@ -82,9 +112,9 @@ function Page(props: {
                 <Button onClick={async () => {dispatch(await props.logout())} }>Logout</Button>
             </div>
             <div className={styles.content}>
-                <SideMenu options={sideMenuConfig} userImportance={0} />
+                <SideMenu options={sideMenuConfig} userImportance={roleImportance} />
                 <div className={styles.pageContent}>
-                    {props.children}
+                    {content}
                 </div>
             </div>
         </>

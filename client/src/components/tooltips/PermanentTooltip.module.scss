@@ -29,6 +29,23 @@
     }
 }
 
+.permanentTooltip {
+    .tooltipTextLeft, .tooltipTextRight, .tooltipTextDown, .tooltipTextUp {
+        opacity: 1;
+    }
+}
+
+.permanentTooltipDisabled {
+    .tooltipTextLeft, .tooltipTextRight, .tooltipTextDown, .tooltipTextUp {
+        opacity: 0;
+    }
+    &:hover {
+        .tooltipTextLeft, .tooltipTextRight, .tooltipTextDown, .tooltipTextUp {
+            opacity: 0;
+        }
+    }
+}
+
 .tooltipRight {
     .tooltipTextRight {
         right: -10px;

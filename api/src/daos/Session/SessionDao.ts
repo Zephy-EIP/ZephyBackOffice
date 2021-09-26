@@ -11,7 +11,10 @@ export interface ISessionDao {
 
 class SessionDaoClass implements ISessionDao {
     async getAuthInfo(user_id: number, session_id: number): Promise<AuthInfo | null> {
-        const q = await pool.query('select u.*, s.id as session_id from sessions s join users u on user_id=$1 where s.id=$2 and s.user_id = $1', [user_id, session_id]);
+        const q = await pool.query(
+            'select u.*, s.id as session_id from sessions s join users u on u.id=$1 where s.id=$2 and s.user_id = $1',
+            [user_id, session_id]
+        );
         if (q.rowCount == 0)
             return null;
         let info: AuthInfo = new AuthInfo();
