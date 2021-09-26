@@ -6,6 +6,7 @@ interface Props {
     className?: string,
     disabled?: boolean,
     loading?: boolean,
+    type?: string,
 }
 
 export default function Button(props: Props) {

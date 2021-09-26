@@ -139,8 +139,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                 <div className={styles.select}>
                     <Select
                         elements={[new SelectElement('No role', 'null')].concat(roles)}
-                        defaultKey="null"
-                        defaultTitle="No role"
+                        elemKey={`${roleId}`}
                         onChange={(value) => {
                             if (value === 'null')
                                 setRoleId(null);

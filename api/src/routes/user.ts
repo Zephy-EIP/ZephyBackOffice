@@ -65,6 +65,8 @@ router.post('/register', authenticateWithRole(0, async (req, res, info) => {
     let username = req.body.username;
     const roleId = req.body.role_id;
 
+    console.log(req.body);
+
     if (typeof username === 'string')
         username = username.trim();
 

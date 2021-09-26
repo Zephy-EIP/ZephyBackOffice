@@ -60,8 +60,8 @@ class UserDaoClass implements IUserDao {
         let success = false;
         let id = 0;
         await pool.query(
-            'insert into users (email, username, pass, salt) values ($1, $2, $3, $4) on conflict do nothing returning id',
-            [user.email, user.username, user.pass, user.salt]
+            'insert into users (email, username, pass, salt, role_id) values ($1, $2, $3, $4, $5) on conflict do nothing returning id',
+            [user.email, user.username, user.pass, user.salt, user.role_id]
         ).then(q => {
             if (q.rowCount == 0)
                 return;

@@ -17,28 +17,38 @@ export class SelectElement {
 interface Props {
     elements: SelectElement[],
     defaultTitle?: string,
-    defaultKey?: string,
     onChange?: (value: string) => any,
     enabled?: boolean,
+    elemKey?: string,
 }
 
 export default function Select(props: Props) {
     const [title, setTitle] = useState(props.defaultTitle || 'Choose value...');
-    const [chosenId, setChosenId] = useState(props.defaultKey || '');
+    const [chosenId, setChosenId] = useState('' as null | string);
     const [open, setOpen] = useState(false);
 
     let className = styles.select;
     if (open)
         className += ' ' + styles.selectOpen;
 
+    if (props.elemKey !== undefined && props.elemKey !== chosenId) {
+        setChosenId(props.elemKey);
+        for (const elem of props.elements)
+            if (elem.key === props.elemKey)
+                setTitle(elem.title);
+    }
+
     return (
         <>
             <div className={className}>
-                <button className={styles.current} onClick={() => {
+                <button
+                    className={styles.current}
+                    onClick={() => {
                     if (props.enabled === false)
                         return;
                         setOpen(!open);
-                }}>
+                }}
+                    type="button" >
                     {title}
                 </button>
                 <div className={styles.dropdown}>
