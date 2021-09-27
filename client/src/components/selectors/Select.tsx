@@ -28,7 +28,9 @@ export default function Select(props: Props) {
     const [open, setOpen] = useState(false);
 
     let className = styles.select;
-    if (open)
+    if (props.enabled === false)
+        className += ' ' + styles.selectDisabled;
+    else if (open)
         className += ' ' + styles.selectOpen;
 
     if (props.elemKey !== undefined && props.elemKey !== chosenId) {
@@ -81,5 +83,6 @@ export default function Select(props: Props) {
                 </button>
             </div>
         </>
-    )
+    );
+
 }
