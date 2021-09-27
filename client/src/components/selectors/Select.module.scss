@@ -21,6 +21,10 @@
         display: none;
 
         button {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
             @include quicksand-regular;
             text-align: left;
             font-size: 16pt;
@@ -46,6 +50,10 @@
     }
 
     .current {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
         position: relative;
 
         @include quicksand-regular;

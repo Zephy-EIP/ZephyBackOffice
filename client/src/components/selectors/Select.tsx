@@ -50,7 +50,8 @@ export default function Select(props: Props) {
                         return;
                         setOpen(!open);
                 }}
-                    type="button" >
+                    type="button"
+                    title={title} >
                     {title}
                 </button>
                 <div className={styles.dropdown}>
@@ -71,6 +72,7 @@ export default function Select(props: Props) {
                                         setOpen(false);
                                         setChosenId(elem.key);
                                     }}
+                                    title={elem.title}
                                     key={elem.key} >
                                     {elem.title}
                                 </button>
