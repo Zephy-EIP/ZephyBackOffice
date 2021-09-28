@@ -13,6 +13,8 @@ interface Props {
     autoComplete?: string,
     disabled?: boolean,
     value?: string,
+    min?: string,
+    max?: string,
 };
 
 export default function TextInput(props: Props) {
@@ -67,6 +69,8 @@ export default function TextInput(props: Props) {
                 autoComplete={props.autoComplete}
                 disabled={props.disabled}
                 value={props.value}
+                min={props.min}
+                max={props.max}
             />
             {props.disabled !== true && props.type === 'password' &&
              <button className={passwordStyle} onClick={() => setShowPassword(!showPassword) } tabIndex={-1}>

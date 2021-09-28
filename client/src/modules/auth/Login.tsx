@@ -80,9 +80,18 @@ const Login = (props: ConnectedProps<typeof connector>) => {
                     <Box className={styles.box}>
                         <h2 className="purple">LOGIN</h2>
                         <div className={`quicksand-medium ${styles.label}`}>Email</div>
-                        <TextInput className={styles.input} placeholder="example@email.com" onChange={setEmail} />
+                        <TextInput
+                            className={styles.input}
+                            placeholder="example@email.com"
+                            onChange={setEmail}
+                            autoComplete="email" />
                         <div className={`quicksand-medium ${styles.label}`}>Password</div>
-                        <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setPassword} />
+                        <TextInput
+                            className={styles.input}
+                            placeholder="Password123"
+                            type="password"
+                            autoComplete="password"
+                            onChange={setPassword} />
                         <div>
                             {inputError}
                             {credentialsErr}

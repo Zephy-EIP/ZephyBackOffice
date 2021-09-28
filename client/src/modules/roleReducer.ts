@@ -41,11 +41,15 @@ const initialState: RoleReducerState = {
 }
 
 export const getRoles = createAsyncThunk('role/getRoles', async () => {
+    console.log("Getting roles");
     return await client.get<BasicResponse & { role_list: Role[] }>('/role/list')
         .then(res => {
+            console.log("Got roles");
             return getBasicDataPayload(res.data.role_list);
         })
         .catch(err => {
+            console.log("error getting roles");
+            console.log(err);
             return getBasicErrorPayloadAxios<Role[]>(err);
         });
 });
@@ -69,14 +73,12 @@ export const updateRole = createAsyncThunk('role/updateRole', async (args: {
 })
 
 export const createRole = createAsyncThunk('role/createRole', async (args: {
-    roleId: number,
-    displayName?: string,
-    importance?: number,
+    displayName: string,
+    importance: number,
 }) => {
     type RoleResponse = BasicResponse & { role: Role };
 
-    return await client.put<RoleResponse>('/role', {
-        role_id: args.roleId,
+    return await client.post<RoleResponse>('/role', {
         name: args.displayName,
         importance: args.importance,
     }).then(res => {
@@ -123,8 +125,7 @@ const RoleReducerSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(getRoles.pending, (state) => {
-                state.roleList = initialState.roleList;
-                state.roleList.loading = true;
+                state.roleList = {...initialState.roleList, loading: true};
             })
             .addCase(getRoles.fulfilled, (state, action) => {
                 state.roleList.loading = false;
@@ -137,8 +138,7 @@ const RoleReducerSlice = createSlice({
                 state.roleList.loaded = true;
             })
             .addCase(updateRole.pending, (state) => {
-                state.updateRole = initialState.updateRole;
-                state.updateRole.loading = true;
+                state.updateRole = {...initialState.updateRole, loading: true};
             })
             .addCase(updateRole.fulfilled, (state, action) => {
                 state.updateRole.loading = false;
@@ -152,8 +152,7 @@ const RoleReducerSlice = createSlice({
                 state.updateRole.success = false;
             })
             .addCase(createRole.pending, (state) => {
-                state.createRole = initialState.createRole;
-                state.createRole.loading = true;
+                state.createRole = {...initialState.createRole, loading: true};
             })
             .addCase(createRole.fulfilled, (state, action) => {
                 state.createRole.loading = false;
@@ -166,8 +165,7 @@ const RoleReducerSlice = createSlice({
                 state.createRole.success = false;
             })
             .addCase(deleteRole.pending, (state) => {
-                state.deleteRole = initialState.deleteRole;
-                state.deleteRole.loading = true;
+                state.deleteRole = {...initialState.deleteRole, loading: true};
             })
             .addCase(deleteRole.fulfilled, (state, action) => {
                 state.deleteRole.loading = false;

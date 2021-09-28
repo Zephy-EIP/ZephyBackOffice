@@ -69,7 +69,7 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
         <form onSubmit={e => {e.preventDefault()}}>
             <h2 className={styles.title}>Change your password</h2>
             <div className={`quicksand-medium ${styles.label}`}>Current password</div>
-            <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setOldPassword} autoComplete="old-password" />
+            <TextInput className={styles.input} placeholder="Password123" type="password" onChange={setOldPassword} autoComplete="current-password" />
             <div className={`quicksand-medium ${styles.label}`}>New password</div>
             <TextInput className={styles.input} placeholder="Password124" type="password" onChange={setNewPassword} autoComplete="new-password" />
             <div>
