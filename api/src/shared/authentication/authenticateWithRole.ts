@@ -3,7 +3,7 @@ import express from 'express';
 import { authenticate } from '@/shared/authentication/authentication';
 import createBasicResponse from '@/shared/basicResponse';
 import UserDao from '@/daos/User/UserDao';
-import logger from '../logger';
+import logger from '@/shared/logger';
 
 
 export default function authenticateWithRole(minRoleImportance: number, func: (req: express.Request, res: express.Response, info: AuthInfo)=>void): express.RequestHandler {

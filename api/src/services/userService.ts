@@ -2,7 +2,7 @@ import RoleDao from '@/daos/Roles/RoleDao';
 import SessionDao from '@/daos/Session/SessionDao';
 import UserDao from '@/daos/User/UserDao';
 import Session from '@/entities/Session';
-import User from '@/entities/User';
+import User, { UserSafeInfo } from '@/entities/User';
 import { createAuthToken } from '@/shared/authentication/authentication';
 import { generateSalt, hashPassword } from '@/shared/hashing';
 
@@ -96,8 +96,9 @@ namespace UserService {
         return 200;
     }
 
-    export function getList(): Promise<User[]> {
-        return UserDao.list();
+    export async function getList(): Promise<UserSafeInfo[]> {
+        const users = await UserDao.list();
+        return users.map(user => user.getSafeInfo());
     }
 
 };

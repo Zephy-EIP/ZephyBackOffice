@@ -23,7 +23,7 @@ const mapStateToProps = (state: RootState) => {
             unauthed: state.auth.unauthed,
         },
         role: state.role,
-        user: { ...state.user },
+        user: { ...state.user.user },
     }
 }
 

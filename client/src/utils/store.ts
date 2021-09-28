@@ -3,6 +3,7 @@ import authReducer, { logout, unauthUser } from '@/modules/auth/authReducer';
 import changePasswordReducer from '@/modules/profile/changePassword/changePasswordReducer';
 import roleReducer from '@/modules/roleReducer';
 import userReducer from '@/modules/userReducer';
+import userUpdateReducer from '@/modules/userUpdateReducer';
 import { applyMiddleware, combineReducers, createStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
     passwordChange: changePasswordReducer,
     createAccount: createAccountReducer,
     role: roleReducer,
+    userUpdate: userUpdateReducer,
 });
 
 const rootReducer = (state: any, action: any) =>{

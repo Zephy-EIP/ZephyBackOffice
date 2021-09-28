@@ -6,12 +6,12 @@ import { Router } from 'express';
 
 const router = Router();
 
-type roleResponse = BasicResponse & { role: Role };
-type roleListResponse = BasicResponse & { role_list: Role[] };
+type RoleResponse = BasicResponse & { role: Role };
+type RoleListResponse = BasicResponse & { role_list: Role[] };
 
 router.get('/list', authenticateWithRole(1000, (_req, res, _info) => {
     RoleService.list().then(list => {
-        const message = createBasicResponse(200) as roleListResponse;
+        const message = createBasicResponse(200) as RoleListResponse;
         message.role_list = list;
         res.json(message);
     });
@@ -30,7 +30,7 @@ router.post('/', authenticateWithRole(0, async (req, res, info) => {
         return;
     }
 
-    let message = createBasicResponse(200) as roleResponse;
+    let message = createBasicResponse(200) as RoleResponse;
     message.role = ret;
     res.json(message);
 }));
@@ -43,15 +43,9 @@ router.put('/', authenticateWithRole(0, async (req, res, info) => {
         res.status(400).json(createBasicResponse(400));
         return;
     }
-    if (importance === undefined && name === undefined) {
-        res.status(400).json(createBasicResponse(400));
-        return;
-    }
-    if (importance !== undefined && typeof importance !== 'number') {
-        res.status(400).json(createBasicResponse(400));
-        return;
-    }
-    if (name !== undefined && typeof name !== 'string') {
+    if ((importance === undefined && name === undefined) ||
+        (importance !== undefined && typeof importance !== 'number') ||
+        (name !== undefined && typeof name !== 'string')) {
         res.status(400).json(createBasicResponse(400));
         return;
     }
@@ -61,7 +55,7 @@ router.put('/', authenticateWithRole(0, async (req, res, info) => {
         return;
     }
 
-    let message = createBasicResponse(200) as roleResponse;
+    let message = createBasicResponse(200) as RoleResponse;
     message.role = ret;
     res.json(message);
 }));

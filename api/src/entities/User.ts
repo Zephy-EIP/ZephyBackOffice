@@ -1,6 +1,6 @@
 import Role from '@/entities/Role';
 
-type UserSafeInfo = {username: string, id: number, email: string, role_id: number | null};
+export type UserSafeInfo = {username: string, id: number, email: string, role_id: number | null};
 
 class User {
     username: string;
