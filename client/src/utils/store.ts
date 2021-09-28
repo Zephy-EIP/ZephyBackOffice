@@ -17,7 +17,7 @@ const appReducer = combineReducers({
     userUpdate: userUpdateReducer,
 });
 
-const rootReducer = (state: any, action: any) =>{
+const rootReducer = (state: any, action: any) => {
     if (action.type === logout.fulfilled.toString() || action.type === unauthUser.toString()) {
         state = undefined;
     }
@@ -33,4 +33,3 @@ export function useThunkDispatch() {
 }
 
 export default store;
-

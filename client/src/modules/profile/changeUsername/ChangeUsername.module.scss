@@ -1,0 +1,22 @@
+@import 'base';
+
+.wrapper {
+    h2 {
+        font-size: 24pt;
+    }
+
+    .input {
+        margin-bottom: 15px;
+        min-width: 500px;
+    }
+
+    .error {
+        @include error;
+        margin-bottom: 10px;
+    }
+
+    .success {
+        @include success;
+        margin-bottom: 10px;
+    }
+}
