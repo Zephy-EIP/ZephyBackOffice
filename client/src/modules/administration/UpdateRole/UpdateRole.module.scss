@@ -1,0 +1,38 @@
+@import 'base';
+
+.wrapper {
+    h2 {
+        font-size: 24pt;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .input {
+        margin-bottom: 15px;
+        min-width: 500px;
+    }
+
+    .error {
+        @include error;
+        margin-bottom: 10px;
+    }
+
+    .success {
+        @include success;
+        margin-bottom: 10px;
+    }
+
+    .roleSelect {
+        max-width: 200px;
+        width: 200px;
+        margin-bottom: 15px;
+    }
+
+}

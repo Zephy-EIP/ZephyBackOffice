@@ -77,8 +77,7 @@ export default function Select(props: Props) {
                                     {elem.title}
                                 </button>
                             );
-                        }
-                        )
+                        })
                     }
                 </div>
                 <button className={styles.closeButton} onClick={() => { setOpen(false); }}>

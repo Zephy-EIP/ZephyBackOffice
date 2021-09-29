@@ -17,7 +17,7 @@ const connector = connect(mapStateToProps, { createRole, resetCreateRole, getRol
 
 function CreateRole(props: ConnectedProps<typeof connector>) {
     const [roleName, setRoleName] = useState('');
-    const [roleImportance, setRoleImportance] = useState(0);
+    const [roleImportance, setRoleImportance] = useState(null as number | null);
     const [info, setInfo] = useState(<></>);
     const dispatch = useThunkDispatch();
 
@@ -34,13 +34,6 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
         }
     }, [props.role.loaded]);
 
-    /*
-     *     const resetFields = () => {
-     *         setRoleName('');
-     *         setRoleImportance(0);
-     *     }
-     *  */
-
     const checkAndCreateRole = async () => {
         let name = roleName.trim();
 
@@ -52,11 +45,27 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
             );
             return;
         }
+        if (roleImportance === null) {
+            setInfo(
+                <div className={styles.error}>
+                    Role is empty.
+                </div>
+            );
+            return;
+        }
         setInfo(<></>);
         dispatch(await props.createRole({ displayName: name, importance: roleImportance }));
     }
 
-    const parseRoleImportance = (e: string) => { try { setRoleImportance(parseInt(e)); } catch {} }
+    const parseRoleImportance = (e: string) => {
+        try {
+            const value = parseInt(e);
+            if (value === 0)
+                setRoleImportance(null);
+            else
+                setRoleImportance(value);
+        } catch {}
+    }
 
     return (
         <form onSubmit={e => e.preventDefault()} className={styles.wrapper}>
@@ -77,7 +86,7 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
                 type="number"
                 min="0"
                 className={styles.input}
-                value={roleImportance.toString()}
+                value={roleImportance?.toString() || ''}
                 onChange={parseRoleImportance} />
             {info}
             <Button onClick={checkAndCreateRole}>

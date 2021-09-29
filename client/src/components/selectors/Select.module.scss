@@ -1,36 +1,56 @@
 @import 'base';
 
 .select {
-    z-index: 100;
     font-size: 16pt;
     width: 100%;
     position: relative;
 
+
+    // /* Track */
+    // ::-webkit-scrollbar-track {
+    //     background: black;
+    //     -webkit-border-radius: 10px;
+    //     border-radius: 15px;
+    // }
+
+    // /* Handle */
+    // ::-webkit-scrollbar-thumb {
+    //     -webkit-border-radius: 10px;
+    //     border-radius: 15px;
+    //     height: 10px;
+    //     background: rgba(255,0,0,0.8); 
+    // }
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
     .dropdown {
         width: 100%;
         position: absolute;
-        display: flex;
         flex-direction: column;
-        padding-top: 38px;
+        margin-top: 38px;
         top: 0;
         left: 0;
         background: white;
         border: 2px solid #E0E0E0;
-        border-radius: 15px;
-        z-index: -1;
+        border-radius: 0 0 15px 15px;
         display: none;
+        overflow-y: scroll;
+        max-height: 200px;
+
+        scrollbar-width: none;
 
         button {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            width: 100%;
 
             @include quicksand-regular;
             text-align: left;
             font-size: 16pt;
             background: none;
             border: none;
-            z-index: 1;
             padding: 5px;
             border-bottom: solid #ddd 2px;
             &:hover {
@@ -88,8 +108,6 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -2;
-
     }
 
 }
@@ -97,10 +115,12 @@
 .selectOpen {
 
     .dropdown {
-        display: flex;
+        display: block;
+        z-index: 1001;
     }
 
     .current {
+        z-index: 1002;
         border-radius: 15px 15px 0 0;
 
         &::after {
@@ -109,6 +129,7 @@
     }
 
     .closeButton {
+        z-index: 1000;
         display: block;
     }
 
