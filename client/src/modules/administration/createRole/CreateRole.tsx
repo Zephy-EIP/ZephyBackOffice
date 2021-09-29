@@ -25,7 +25,7 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
         if (props.role.loaded) {
             if (props.role.success) {
                 (async () => {
-                    console.log(await props.getRoles())
+                    dispatch(await props.getRoles())
                 })();
                 setInfo(<div className={styles.success}>Role Created!</div>);
             } else
@@ -59,6 +59,10 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
 
     const parseRoleImportance = (e: string) => {
         try {
+            if (e === '') {
+                setRoleImportance(null);
+                return;
+            }
             const value = parseInt(e);
             if (value === 0)
                 setRoleImportance(null);

@@ -32,8 +32,8 @@ class RoleDaoClass implements IRoleDao {
 
     async update (role: Role): Promise<boolean> {
         const q = await pool.query(
-            'update roles set display_name = $1, importance = $2 returning id',
-            [role.display_name, role.importance]
+            'update roles set display_name = $1, importance = $2  where id=$3 returning id',
+            [role.display_name, role.importance, role.id]
         );
         return q.rowCount == 1;
     }

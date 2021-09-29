@@ -41,14 +41,11 @@ const initialState: RoleReducerState = {
 }
 
 export const getRoles = createAsyncThunk('role/getRoles', async () => {
-    console.log("Getting roles");
     return await client.get<BasicResponse & { role_list: Role[] }>('/role/list')
         .then(res => {
-            console.log("Got roles");
             return getBasicDataPayload(res.data.role_list);
         })
         .catch(err => {
-            console.log("error getting roles");
             console.log(err);
             return getBasicErrorPayloadAxios<Role[]>(err);
         });

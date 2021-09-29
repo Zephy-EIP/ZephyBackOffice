@@ -39,7 +39,7 @@ router.post('/', authenticateWithRole(0, async (req, res, info) => {
 }));
 
 router.put('/', authenticateWithRole(0, async (req, res, info) => {
-    const name = req.body.name;
+    let name = req.body.name;
     const importance = req.body.importance;
     const id = req.body.role_id;
     if (typeof id !== 'number') {
@@ -48,11 +48,13 @@ router.put('/', authenticateWithRole(0, async (req, res, info) => {
     }
     if ((importance === undefined && name === undefined) ||
         (importance !== undefined && typeof importance !== 'number') ||
-        (name !== undefined && typeof name !== 'string')) {
+        (name !== undefined && typeof name !== 'string' && !UserService.usernameIsValid(name.trim()))) {
         res.status(400).json(createBasicResponse(400));
         return;
     }
-    const ret = await RoleService.updateRole(info.user, id, importance, name);
+    if (typeof name === 'string')
+        name = name.trim();
+    const ret = await RoleService.updateRole(info.user, id, name, importance);
     if (typeof ret === 'number') {
         res.status(ret).json(createBasicResponse(ret));
         return;

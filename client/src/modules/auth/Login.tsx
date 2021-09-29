@@ -43,9 +43,9 @@ const Login = (props: ConnectedProps<typeof connector>) => {
     const checkInput = (): boolean => {
         const err = [] as React.ReactNode[];
         if (checkEmail() === false)
-            err.push(<div key="emailErr" className={styles.error}>Email is not valid</div>);
+            err.push(<div key="emailErr" className={styles.error}>Email is not valid.</div>);
         if (checkPassword() === false)
-            err.push(<div key="passwordErr" className={styles.error}>Password is empty</div>);
+            err.push(<div key="passwordErr" className={styles.error}>Password is empty.</div>);
         if (err !== inputError)
             setInputError(err);
 
