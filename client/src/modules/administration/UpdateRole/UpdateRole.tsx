@@ -1,7 +1,7 @@
 import Button from '@/components/buttons/Button';
 import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
-import { deleteRole, getRoles, updateRole } from '@/modules/roleReducer';
+import { deleteRole, getRoles, resetDeleteRole, resetUpdateRole, updateRole } from '@/modules/roleReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { usernameIsValid } from '@/utils/utils';
 import { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ const mapStateToProps = (state: RootState) => {
     };
 }
 
-const connector = connect(mapStateToProps, { deleteRole, getRoles, updateRole });
+const connector = connect(mapStateToProps, { deleteRole, getRoles, updateRole, resetDeleteRole, resetUpdateRole });
 
 function UpdateRole(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
@@ -34,11 +34,24 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
         if (props.roleUpdate.loaded)
             if (props.roleUpdate.success) {
                 setInfo(<div className={styles.success}>Role Updated!</div>);
-                (async () => {dispatch(await props.getRoles())});
+                dispatch(props.resetUpdateRole());
+                (async () => {dispatch(await props.getRoles())})();
             } else {
-                setInfo(<div className={styles.error}> Error while creating role.</div>)
+                setInfo(<div className={styles.error}> Error while updating role.</div>)
             }
     }, [props.roleUpdate.loaded]);
+
+    useEffect(() => {
+        if (props.roleDelete.loaded)
+            if (props.roleDelete.success) {
+                setInfo(<div className={styles.success}>Role Deleted!</div>);
+                resetFields();
+                dispatch(props.resetDeleteRole());
+                (async () => {dispatch(await props.getRoles())})();
+            } else {
+                setInfo(<div className={styles.error}> Error while deleting role.</div>)
+            }
+    }, [props.roleDelete.loaded]);
 
     let roles: SelectElement[] = [];
     props.roles.roles?.forEach(role => {
@@ -46,6 +59,12 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
             return;
         roles.push(new SelectElement(role.display_name, role.id.toString()));
     });
+
+    const resetFields = () => {
+        setRoleId(null);
+        setRoleImportance(null);
+        setRoleName('');
+    }
 
     const parseRoleImportance = (e: string) => {
         try {
@@ -58,6 +77,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
         } catch {} }
 
     const selectHandler = (value: string) => {
+        setInfo(<></>);
         if (value === 'null') {
             setRoleImportance(null);
             setRoleName('');
@@ -90,6 +110,11 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
         }
         setInfo(<></>);
         dispatch(await props.updateRole({ roleId: roleId!, displayName: roleName, importance: roleImportance }));
+    }
+
+    const roleDelete = async () => {
+        setInfo(<></>);
+        dispatch(await props.deleteRole({ roleId: roleId! }));
     }
 
     return (
@@ -135,6 +160,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
             <Button
                 className={styles.buttonDelete}
                 disabled={roleId === null}
+                onClick={roleDelete}
                 loading={props.roleUpdate.loading || props.roleDelete.loading}>
                 Delete Role
             </Button>

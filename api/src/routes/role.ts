@@ -75,7 +75,7 @@ router.delete('/', authenticateWithRole(0, async (req, res, info) => {
 
     const code = await RoleService.deleteRole(info.user, id);
 
-    res.json(code).json(createBasicResponse(code));
+    res.status(code).json(createBasicResponse(code));
 
 }));
 

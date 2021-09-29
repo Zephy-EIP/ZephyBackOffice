@@ -23,9 +23,8 @@ interface Props {
 }
 
 export default function Select(props: Props) {
-    const [title, setTitle] = useState(props.defaultTitle || 'Choose value...');
-    const [chosenId, setChosenId] = useState('' as null | string);
     const [open, setOpen] = useState(false);
+    const [chosenElem, setChosenElem] = useState(new SelectElement(props.defaultTitle || 'Choose value...', ''));
 
     let className = styles.select;
     if (props.enabled === false)
@@ -33,11 +32,15 @@ export default function Select(props: Props) {
     else if (open)
         className += ' ' + styles.selectOpen;
 
-    if (props.elemKey !== undefined && props.elemKey !== chosenId) {
-        setChosenId(props.elemKey);
+    if (props.elemKey !== undefined && props.elemKey !== chosenElem.key) {
         for (const elem of props.elements)
             if (elem.key === props.elemKey)
-                setTitle(elem.title);
+                setChosenElem(elem);
+    }
+
+    const elem = props.elements.find(e => { return e.key === chosenElem.key });
+    if (elem !== undefined && elem.title !== chosenElem.title) {
+        setChosenElem(elem);
     }
 
     return (
@@ -46,13 +49,13 @@ export default function Select(props: Props) {
                 <button
                     className={styles.current}
                     onClick={() => {
-                    if (props.enabled === false)
-                        return;
+                        if (props.enabled === false)
+                            return;
                         setOpen(!open);
-                }}
+                    }}
                     type="button"
-                    title={title} >
-                    {title}
+                    title={chosenElem.title} >
+                    {chosenElem.title}
                 </button>
                 <div className={styles.dropdown}>
                     {
@@ -60,7 +63,7 @@ export default function Select(props: Props) {
                             let className: string = '';
                             if (index === props.elements.length - 1)
                                 className = styles.buttonLast;
-                            if (chosenId === elem.key) {
+                            if (chosenElem.key === elem.key) {
                                 className += ' ' + styles.buttonChosen;
                             }
                             return (
@@ -68,9 +71,8 @@ export default function Select(props: Props) {
                                     className={className}
                                     onClick={() => {
                                         props.onChange?.call('', elem.value);
-                                        setTitle(elem.title);
                                         setOpen(false);
-                                        setChosenId(elem.key);
+                                        setChosenElem(elem);
                                     }}
                                     title={elem.title}
                                     key={elem.key} >
