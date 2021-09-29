@@ -21,11 +21,36 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
     const [roleImportance, setRoleImportance] = useState(null as null | number);
     const [roleName, setRoleName] = useState('');
 
-    let roles = props.roles.roles?.map(role => {
-        return new SelectElement(role.display_name, role.id.toString());
-    }) || [];
+    let roles: SelectElement[] = [];
+    props.roles.roles?.forEach(role => {
+        if (role.importance <= 0)
+            return;
+        roles.push(new SelectElement(role.display_name, role.id.toString()));
+    });
 
     const parseRoleImportance = (e: string) => { try { setRoleImportance(parseInt(e)); } catch {} }
+
+    const selectHandler = (value: string) => {
+        if (value === 'null') {
+            setRoleImportance(null);
+            setRoleName('');
+            setRoleId(null);
+            return;
+        }
+        let id = parseInt(value);
+        const role = props.roles.roles?.find(elem => {
+            return elem.id === id;
+        });
+        if (role !== undefined) {
+            setRoleImportance(role.importance);
+            setRoleName(role.display_name);
+            setRoleId(role.id);
+        } else {
+            setRoleImportance(null);
+            setRoleName('');
+            setRoleId(null);
+        }
+    }
 
     return (
         <form className={styles.wrapper} onSubmit={e => e.preventDefault()}>
@@ -37,12 +62,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
                 <Select
                     elements={roles}
                     defaultTitle="Choose Role"
-                    onChange={value => {
-                        if (value === 'null')
-                            setRoleId(null);
-                        else
-                            setRoleId(parseInt(value));
-                    }}
+                    onChange={selectHandler}
                     enabled={!props.roleUpdate.loaded || props.roleDelete.loaded } />
             </div>
             <div className="quicksand-medium">
@@ -52,6 +72,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
                 placeholder="User"
                 className={styles.input}
                 value={roleName}
+                disabled={roleId === null}
                 onChange={setRoleName} />
             <div className="quicksand-medium">
                 Role Importance
@@ -60,6 +81,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
                 placeholder="700"
                 type="number"
                 min="0"
+                disabled={roleId === null}
                 className={styles.input}
                 value={roleImportance?.toString() || ''}
                 onChange={parseRoleImportance} />
