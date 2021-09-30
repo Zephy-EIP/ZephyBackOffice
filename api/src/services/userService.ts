@@ -1,6 +1,7 @@
 import RoleDao from '@/daos/Roles/RoleDao';
 import SessionDao from '@/daos/Session/SessionDao';
 import UserDao from '@/daos/User/UserDao';
+import Role from '@/entities/Role';
 import Session from '@/entities/Session';
 import User, { UserSafeInfo } from '@/entities/User';
 import { createAuthToken } from '@/shared/authentication/authentication';
@@ -17,6 +18,8 @@ namespace UserService {
         if (hash != user.pass)
             return undefined;
         let session = await SessionDao.create(user.id);
+        if (session === null)
+            return undefined;
         let token = createAuthToken(session);
         return token;
     }
@@ -79,16 +82,28 @@ namespace UserService {
      * @returns {number} http code
      */
     export async function setRole(requestingUser: User, userIdOrMail: string | number, desiredRole: number | null): Promise<number> {
-        if (requestingUser.role_id === null || (desiredRole !== null && desiredRole > requestingUser.role_id))
+        if (requestingUser.role_id === null)
             return 403;
+        let role: Role | null = null;
+        if (desiredRole !== null) {
+            role = await RoleDao.get(desiredRole);
+            if (role === null)
+                return 404;
+            if (role.importance <= requestingUser.role!.importance)
+                return 403;
+        }
         let affectedUser: User | null = null;
         if (typeof userIdOrMail === 'string')
             affectedUser = await UserDao.get(userIdOrMail);
         else
             affectedUser = await UserDao.getById(userIdOrMail);
+
         if (affectedUser === null)
             return 400;
-        else if (affectedUser.role_id !== null && affectedUser.role_id > requestingUser.role_id)
+
+        await UserDao.fillRole(affectedUser);
+
+        if (affectedUser.role !== undefined && affectedUser.role.importance <= requestingUser.role!.importance)
             return 403;
 
         affectedUser.role_id = desiredRole;

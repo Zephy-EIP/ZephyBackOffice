@@ -65,8 +65,6 @@ router.post('/register', authenticateWithRole(0, async (req, res, info) => {
     let username = req.body.username;
     const roleId = req.body.role_id;
 
-    console.log(req.body);
-
     if (typeof username === 'string')
         username = username.trim();
 
@@ -87,13 +85,18 @@ router.post('/register', authenticateWithRole(0, async (req, res, info) => {
     });
 }));
 
-router.put('/set-role', authenticateWithRole(10, async (req, res, info) => {
+router.put('/set-role', authenticateWithRole(0, async (req, res, info) => {
     let userIdOrMail = req.body.email;
     if (userIdOrMail === undefined)
         userIdOrMail = req.body.user_id;
-    const desiredRole = req.body.role_id;
+    const desiredRole: number | null = req.body.role_id;
 
-    if ((typeof userIdOrMail !== 'string' && typeof userIdOrMail !== 'number') || typeof desiredRole !== 'number') {
+    if (desiredRole !== null && typeof desiredRole !== 'number') {
+        res.status(400).json(createBasicResponse(400));
+        return;
+    }
+
+    if (typeof userIdOrMail !== 'string' && typeof userIdOrMail !== 'number') {
         res.status(400).json(createBasicResponse(400));
         return;
     }

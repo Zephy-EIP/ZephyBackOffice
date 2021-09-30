@@ -13,7 +13,7 @@ namespace RoleService {
      * @returns {number} http error code or newly created Role
      */
     export async function createRole(creator: User, importance: number, name: string): Promise<number | Role> {
-        if (creator.role_id === null || creator.role_id > importance)
+        if (creator.role_id === null || creator.role!.importance >= importance)
             return 403;
         if (creator.role === undefined)
             if (await UserDao.fillRole(creator) === false)

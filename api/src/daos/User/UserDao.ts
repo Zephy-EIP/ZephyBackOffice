@@ -14,32 +14,43 @@ export interface IUserDao {
 
 class UserDaoClass implements IUserDao {
     async count(): Promise<number> {
-        const q = await pool.query(
-            'select count(id) from users'
-        );
-        return parseInt(q.rows[0].count);
+        return await pool.query('select count(id) from users')
+            .then(q => {
+                return q.rows[0].count;
+            }).catch(() => {
+                return 0;
+            });
     }
 
     async update (user: User): Promise<boolean> {
-        const q = await pool.query(
+        return await pool.query(
             'update users set email = $1, username = $2, pass = $3, salt = $4, role_id = $5 where id = $6 returning id',
             [user.email, user.username, user.pass, user.salt, user.role_id, user.id]
-        );
-        return q.rowCount == 1;
+        )
+            .then(q => q.rowCount === 1)
+            .catch(() => false);
     }
 
     async getById(id: number): Promise<User|null> {
-        const q = await pool.query('select * from users where id=$1', [id]);
-        if (q.rowCount == 0)
-            return null;
-        return new User(q.rows[0]);
+        return await pool.query('select * from users where id=$1', [id])
+            .then(q => {
+                if (q.rowCount < 1)
+                    return null;
+                return new User(q.rows[0]);
+            })
+            .catch(_err => {
+                return null;
+            });
     }
 
     async get(email: string): Promise<User|null> {
-        const q = await pool.query('select * from users where email=$1', [email]);
-        if (q.rowCount == 0)
-            return null;
-        return new User(q.rows[0]);
+        return await pool.query('select * from users where email=$1', [email])
+            .then(q => {
+                if (q.rowCount == 0)
+                    return null;
+                return new User(q.rows[0]);
+            })
+            .catch(() => null);
     };
 
     async fillRole(user: User): Promise<boolean> {
@@ -57,31 +68,26 @@ class UserDaoClass implements IUserDao {
      * Returns the id if the user is created, and null otherwise
      */
     async create(user: User): Promise<number|null> {
-        let success = false;
-        let id = 0;
-        await pool.query(
+        return await pool.query(
             'insert into users (email, username, pass, salt, role_id) values ($1, $2, $3, $4, $5) on conflict do nothing returning id',
             [user.email, user.username, user.pass, user.salt, user.role_id]
         ).then(q => {
             if (q.rowCount == 0)
                 return;
-            id = q.rows[0].id;
-            success = true;
-        });
-        if (!success)
-            return null;
-        return id;
+            return q.rows[0].id;
+        }).catch(() => null);
     };
 
     async list(): Promise<User[]> {
-        const q = await pool.query(
+        return await pool.query(
             'select * from users'
-        );
+        ).then(q => {
         const list: User[] = [];
-        q.rows.forEach(row => {
-            list.push(new User(row));
-        });
-        return list;
+            q.rows.forEach(row => {
+                list.push(new User(row));
+            });
+            return list;
+        }).catch(() => []);
     }
 
 }
