@@ -3,7 +3,7 @@ import BasicHeader from '@/modules/BasicHeader';
 import CreateAccount from '@/modules/administration/createAccount/CreateAccount';
 import styles from './Administration.module.scss';
 import CreateRole from '@/modules/administration/createRole/CreateRole';
-import UpdateRole from '@/modules/administration/UpdateRole/UpdateRole';
+import UpdateRole from '@/modules/administration/updateRole/UpdateRole';
 
 export default function Administration() {
     return (
