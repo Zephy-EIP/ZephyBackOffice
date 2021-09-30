@@ -69,9 +69,9 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
 
         const err = [];
         if (!usernameIsValid(username))
-            err.push(<div key="username">Invalid username</div>)
+            err.push(<div key="username">Invalid username.</div>)
         if (!emailIsValid(email))
-            err.push(<div key="email">Invalid email</div>)
+            err.push(<div key="email">Invalid email.</div>)
         setErrors(err);
         if (err.length > 0)
             return;

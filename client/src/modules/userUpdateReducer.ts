@@ -41,7 +41,7 @@ export const changeUserRole = createAsyncThunk(
     'userUpdate/role',
     async (args: {
         userId: number,
-        newRoleId: number
+        newRoleId: number | null
     }) => {
         return await client.put<BasicResponse>(
             '/user/set-role', {

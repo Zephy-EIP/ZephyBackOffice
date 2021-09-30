@@ -46,11 +46,7 @@ function CreateRole(props: ConnectedProps<typeof connector>) {
             return;
         }
         if (roleImportance === null) {
-            setInfo(
-                <div className={styles.error}>
-                    Role is empty.
-                </div>
-            );
+            setInfo(<div className={styles.error}>Role importance is empty.</div>);
             return;
         }
         setInfo(<></>);

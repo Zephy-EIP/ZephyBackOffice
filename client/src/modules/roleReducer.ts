@@ -46,7 +46,6 @@ export const getRoles = createAsyncThunk('role/getRoles', async () => {
             return getBasicDataPayload(res.data.role_list);
         })
         .catch(err => {
-            console.log(err);
             return getBasicErrorPayloadAxios<Role[]>(err);
         });
 });

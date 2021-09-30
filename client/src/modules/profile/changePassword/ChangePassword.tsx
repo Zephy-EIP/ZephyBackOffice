@@ -25,18 +25,10 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
     const checkAndChangePassword = async () => {
         setServerInfo(<></>);
         if (oldPassword.length === 0 || newPassword.length === 0) {
-            setInputError(
-                <div className={styles.error}>
-                    Passwords cannot be empty
-                </div>
-            );
+            setInputError(<div className={styles.error}>Passwords cannot be empty.</div>);
             return;
         } else if (oldPassword === newPassword) {
-            setInputError(
-                <div className={styles.error}>
-                    New password cannot be identical to current password.
-                </div>
-            );
+            setInputError(<div className={styles.error}>New password cannot be identical to current password.</div>);
             return;
         }
         setInputError(<></>);

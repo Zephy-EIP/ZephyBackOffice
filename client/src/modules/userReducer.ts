@@ -1,5 +1,5 @@
 import User from '@/entities/User';
-import { BasicCall, BasicResponse } from '@/utils/reducerUtils';
+import { BasicCall } from '@/utils/reducerUtils';
 import client from '@/utils/client';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBasicDataPayload, getBasicErrorPayloadAxios } from '@/utils/utils';

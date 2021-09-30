@@ -4,6 +4,7 @@ import CreateAccount from '@/modules/administration/createAccount/CreateAccount'
 import styles from './Administration.module.scss';
 import CreateRole from '@/modules/administration/createRole/CreateRole';
 import UpdateRole from '@/modules/administration/updateRole/UpdateRole';
+import UpdateUser from '@/modules/administration/updateUser/UpdateUser';
 
 export default function Administration() {
     return (
@@ -13,6 +14,7 @@ export default function Administration() {
                 <Page>
                     <div className={styles.wrapper}>
                         <CreateAccount />
+                        <UpdateUser />
                         <CreateRole />
                         <UpdateRole />
                     </div>
