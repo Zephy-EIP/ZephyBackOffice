@@ -12,6 +12,7 @@ import Select, { SelectElement } from '@/components/selectors/Select';
 import copyIcon from '@/assets/images/icons/copy.svg';
 import Image from 'next/image';
 import PermanentTooltip from '@/components/tooltips/PermanentTooltip';
+import { getUserList } from '@/modules/userReducer';
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -20,7 +21,7 @@ const mapStateToProps = (state: RootState) => {
     };
 }
 
-const connector = connect(mapStateToProps, { createAccountFct: createAccount, getRoles, resetCreateAccount });
+const connector = connect(mapStateToProps, { createAccountFct: createAccount, getRoles, resetCreateAccount, getUserList });
 
 function getRandomPassword(): string {
     let password = '';
@@ -40,6 +41,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
     const [errors, setErrors] = useState([] as React.ReactNode[]);
     const [success, setSuccess] = useState(undefined as React.ReactNode);
     const [copiedTooltip, setCopiedTooltip] = useState(false);
+    const [createdAccount, setCreatedAccount] = useState(false);
     const dispatch = useThunkDispatch();
     const textRef = useRef(null);
 
@@ -58,10 +60,14 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
         setRoleId(null);
         setPassword(getRandomPassword());
         setSuccess(undefined);
+        setCreatedAccount(false);
     }
 
     const createAccountFct = async () => {
-        if (props.createAccount.success) {
+        setErrors([]);
+        setSuccess(<></>);
+
+        if (createdAccount) {
             dispatch(resetCreateAccount());
             resetFields();
             return;
@@ -81,9 +87,12 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
 
     useEffect(() => {
         if (props.createAccount.loaded) {
-            if (props.createAccount.success)
+            if (props.createAccount.success) {
                 setSuccess(<>Account created successfully!</>);
-            else
+                dispatch(props.resetCreateAccount());
+                (async () => dispatch(await props.getUserList()))();
+                setCreatedAccount(true);
+            } else
                 setErrors([<div key="error">Error {props.createAccount.error}</div>])
         }
     }, [props.createAccount.loaded])
@@ -98,7 +107,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
     }) || [];
 
     let createAccountTitle = 'Create Account';
-    if (props.createAccount.success)
+    if (createdAccount)
         createAccountTitle = 'Reset Fields'
 
     return (
@@ -108,7 +117,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                 <label className="quicksand-medium">Username</label>
                 <TextInput
                     className={styles.input}
-                    disabled={props.createAccount.success}
+                    disabled={createdAccount}
                     value={username}
                     placeholder="Username 123"
                     autoComplete="off"
@@ -116,7 +125,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                 <label className="quicksand-medium">Email</label>
                 <TextInput
                     className={styles.input}
-                    disabled={props.createAccount.success}
+                    disabled={createdAccount}
                     value={email}
                     placeholder="truc@machin.com"
                     autoComplete="off"
@@ -146,7 +155,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                             else
                                 setRoleId(parseInt(value));
                         }}
-                        enabled={!props.createAccount.success} />
+                        enabled={!createdAccount} />
                 </div>
                 <div className={styles.error}>
                     {errors}
@@ -159,8 +168,8 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                         {createAccountTitle}
                     </Button>
                     <PermanentTooltip enabled={copiedTooltip} className={styles.tooltipCopied} position="right" text="Copied!">
-                        <Tooltip enabled={props.createAccount.loaded === false} className={styles.tooltip} position="right" text="You will be able to copy the information after the account's creation">
-                            <Button onClick={copyToClipboard} className={styles.copyButton} disabled={props.createAccount.success === false}>
+                        <Tooltip enabled={createdAccount === false} className={styles.tooltip} position="right" text="You will be able to copy the information after the account's creation">
+                            <Button onClick={copyToClipboard} className={styles.copyButton} disabled={createdAccount === false}>
                                 <Image src={copyIcon} width="16pt" height="16pt" className={styles.copyIcon} />
                             </Button>
                         </Tooltip>
