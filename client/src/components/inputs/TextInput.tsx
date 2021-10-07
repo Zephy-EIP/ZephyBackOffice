@@ -73,7 +73,11 @@ export default function TextInput(props: Props) {
                 max={props.max}
             />
             {props.disabled !== true && props.type === 'password' &&
-             <button className={passwordStyle} onClick={() => setShowPassword(!showPassword) } tabIndex={-1}>
+             <button
+                 type="button"
+                 className={passwordStyle}
+                 onClick={() => setShowPassword(!showPassword) }
+                 tabIndex={-1}>
                  <Image src={icon} width="20px" height="20px"/>
              </button>
             }

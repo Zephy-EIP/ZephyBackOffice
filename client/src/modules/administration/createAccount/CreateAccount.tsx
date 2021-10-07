@@ -164,7 +164,11 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
                     {success}
                 </div>
                 <div className={styles.buttonWrapper}>
-                    <Button loading={props.createAccount.loading} onClick={createAccountFct} className={styles.button}>
+                    <Button
+                        type="submit"
+                        loading={props.createAccount.loading}
+                        onClick={createAccountFct}
+                        className={styles.button}>
                         {createAccountTitle}
                     </Button>
                     <PermanentTooltip enabled={copiedTooltip} className={styles.tooltipCopied} position="right" text="Copied!">

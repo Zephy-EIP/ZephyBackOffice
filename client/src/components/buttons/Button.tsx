@@ -6,7 +6,7 @@ interface Props {
     className?: string,
     disabled?: boolean,
     loading?: boolean,
-    type?: string,
+    type?: 'button' | 'submit' | 'reset',
 }
 
 export default function Button(props: Props) {
@@ -21,7 +21,11 @@ export default function Button(props: Props) {
         className += ` ${styles.buttonLoading}`;
 
     return (
-        <button className={className} onClick={props.onClick} disabled={props.disabled || false}>
+        <button
+            type={props.type}
+            className={className}
+            onClick={props.onClick}
+            disabled={props.disabled || false}>
             {props.children}
         </button>
     );
