@@ -15,11 +15,7 @@ export interface IUserDao {
 class UserDaoClass implements IUserDao {
     async count(): Promise<number> {
         return await pool.query('select count(id) from users')
-            .then(q => {
-                return q.rows[0].count;
-            }).catch(() => {
-                return 0;
-            });
+            .then(q => parseInt(q.rows[0].count)).catch(() => 0);
     }
 
     async update (user: User): Promise<boolean> {
