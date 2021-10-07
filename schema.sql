@@ -35,7 +35,8 @@ create table if not exists sessions
 
 create table if not exists members
 (
-  member_name varchar(100) primary key
+  member_name varchar(100) primary key,
+  unique(member_name)
 );
 
 create table if not exists sprints
