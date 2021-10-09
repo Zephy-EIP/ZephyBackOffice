@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@zeit/next-sass": "^1.0.1",
+    "ansi-regex": "^6.0.1",
     "axios": "^0.21.1",
     "next": "^11.1.2",
     "node-sass": "^6.0.1",
