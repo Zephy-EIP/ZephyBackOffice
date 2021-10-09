@@ -65,12 +65,12 @@ create table if not exists sprint_part_reports
   report text not null
 );
 
-create table if not exists changelog
+create table if not exists changelogs
 (
+  id serial primary key,
   "date" timestamp default current_timestamp not null,
   version varchar(20) not null,
   author varchar(100) not null,
-  foreign key (author) references members (member_name) on delete set null on update cascade,
   sections text not null,
   comments text not null
 );

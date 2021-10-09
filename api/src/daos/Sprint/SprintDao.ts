@@ -16,7 +16,11 @@ class SprintDaoClass implements ISprintDao {
             'select * from sprints where sprint_name = $1',
             [sprintName]
         )
-            .then(res => new Sprint(res.rows[0]))
+            .then(res => {
+                if (res.rowCount === 0)
+                    return null;
+                return new Sprint(res.rows[0]);
+            })
             .catch(_err => null);
     }
 
