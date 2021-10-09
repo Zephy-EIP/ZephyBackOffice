@@ -1,12 +1,13 @@
 import Sprint, { ISprint } from '@/entities/Sprint';
+import SprintData from '@/shared/pld/dataType';
 import pool from '@/shared/pool';
 
 export interface ISprintDao {
     get(sprintName: string): Promise<Sprint | null>;
-    add(sprintName: string, data: any): Promise<boolean>;
+    add(sprintName: string, data: SprintData): Promise<boolean>;
     delete(sprintName: string): Promise<boolean>;
     updateName(oldName: string, newName: string): Promise<Sprint | null>;
-    updateData(sprintName: string, data: any): Promise<Sprint | null>;
+    updateData(sprintName: string, data: SprintData): Promise<Sprint | null>;
     list(): Promise<Sprint[]>;
 }
 
@@ -24,7 +25,7 @@ class SprintDaoClass implements ISprintDao {
             .catch(_err => null);
     }
 
-    async add(sprintName: string, data: any): Promise<boolean> {
+    async add(sprintName: string, data: SprintData): Promise<boolean> {
         return await pool.query<ISprint>(
             'insert into sprints (sprint_name, "data") values ($1, $2) returning *',
             [sprintName, data]
@@ -51,7 +52,7 @@ class SprintDaoClass implements ISprintDao {
             .catch(_err => null);
     }
 
-    async updateData(sprintName: string, data: any): Promise<Sprint | null> {
+    async updateData(sprintName: string, data: SprintData): Promise<Sprint | null> {
         return await pool.query<ISprint>(
             'update sprints set "data" = $1 where sprint_name = $2 returning *',
             [data, sprintName]
