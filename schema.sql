@@ -1,5 +1,5 @@
 
--- Types
+-- Custom Types
 
 CREATE TYPE part_type AS ENUM ('KO', 'FU', 'D');
 
@@ -52,7 +52,8 @@ create table if not exists sprint_parts
   foreign key (sprint_name) references sprints (sprint_name) on delete cascade on update cascade,
   title varchar(100) not null,
   description text not null,
-  "type" part_type
+  "type" part_type not null,
+  unique ("type", sprint_name)
 );
 
 create table if not exists sprint_part_reports

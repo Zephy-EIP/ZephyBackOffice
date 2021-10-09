@@ -1,7 +1,7 @@
 import Changelog, { IChangelog } from '@/entities/Changelog';
 import pool from '@/shared/pool';
 
-interface IChangeDao {
+export interface IChangeDao {
     list(): Promise<Changelog[]>;
     get(id: number): Promise<Changelog | null>;
     create(changelog: Changelog): Promise<boolean>;
