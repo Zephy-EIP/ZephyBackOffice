@@ -1,5 +1,4 @@
 import Member from '@/entities/Member';
-import logger from '@/shared/logger';
 import SprintData, { CSVEntry, emptySprintData, MemberLoad, StatusType } from '@/shared/pld/dataType';
 
 namespace CSVDataHandler {
