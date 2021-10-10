@@ -1,7 +1,6 @@
 import MemberDao from '@/daos/Member/MemberDao';
 import SprintDao from '@/daos/Sprint/SprintDao';
 import Sprint from '@/entities/Sprint';
-import logger from '@/shared/logger';
 import CSVDataHandler from '@/shared/pld/csvDataHandler';
 import SprintData, { CSVEntry } from '@/shared/pld/dataType';
 import csv from 'csvtojson';
@@ -9,17 +8,18 @@ import csv from 'csvtojson';
 namespace SprintService {
 
     export async function createSprintFromCSV(sprintName: string, filepath: string): Promise<boolean> {
-        logger.info(`Creating sprint '${sprintName}' from filepath '${filepath}'.`)
         try {
-            const sprintData = await csv().fromFile(filepath) as CSVEntry[];
+            let sprintData = await csv().fromFile(filepath) as CSVEntry[] | null;
             const members = await MemberDao.list();
-            if (!CSVDataHandler.validateData(sprintData, members, sprintName))
+            sprintData = CSVDataHandler.validateData(sprintData!, members, sprintName);
+            if (sprintData === null)
                 return false;
-        } catch {
+            const data = CSVDataHandler.csvToSprintData(sprintData, members);
+            return await SprintDao.add(sprintName, data);
+        } catch(e) {
+            console.error(e);
             return false;
         }
-
-        return true;
     }
 
     export async function updateSprintData(data: SprintData, sprintName: string): Promise<boolean> {

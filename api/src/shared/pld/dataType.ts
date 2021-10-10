@@ -1,7 +1,9 @@
+export type StatusType = 'not started' | 'in progress' | 'done';
+
 export interface MemberLoad {
     memberName: string;
     load: number;
-    status: 'not started' | 'in progress' | 'done';
+    status: StatusType;
 }
 
 export interface UserStory {
@@ -11,12 +13,17 @@ export interface UserStory {
     description: string;
     dod: string[];
     load: number;
-    status: 'not started' | 'in progress' | 'done';
+    status: StatusType;
     memberLoads: MemberLoad[];
 }
 
-export default interface SprintData {
+export interface Deliverable {
     userStories: UserStory[];
+    name: string;
+}
+
+export default interface SprintData {
+    deliverables: Deliverable[];
 }
 
 export type CSVEntry = {
@@ -33,4 +40,4 @@ export type CSVEntry = {
     'Definition of Done': string,
 }
 
-export const emptySprintData: SprintData = { userStories: [] };
+export const emptySprintData: SprintData = { deliverables: [] };

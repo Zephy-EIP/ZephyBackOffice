@@ -1,6 +1,6 @@
 import Member from '@/entities/Member';
 import logger from '@/shared/logger';
-import { CSVEntry } from '@/shared/pld/dataType';
+import SprintData, { CSVEntry, emptySprintData, MemberLoad, StatusType } from '@/shared/pld/dataType';
 
 namespace CSVDataHandler {
 
@@ -51,12 +51,9 @@ namespace CSVDataHandler {
             const totalCharge = parseFloat(entry['Charge estimée (J/H)']);
             let chargeFound = 0;
 
-            if (totalCharge.toString() == 'NaN')
-                logger.info(JSON.stringify(entry));
-
             for (const member of members) {
                 const firstname: string = member.member_name.split(' ')[0];
-                if (entry[firstname] === '')
+                if (entry[firstname] === undefined || entry[firstname] === '')
                     continue;
 
                 chargeFound += parseFloat(entry[firstname]);
@@ -67,20 +64,93 @@ namespace CSVDataHandler {
         } catch { return false; }
     }
 
-    export function validateData(entries: CSVEntry[], members: Member[], sprintName: string): boolean {
+    export function validateStatus(entry: CSVEntry): boolean {
+        return entry.Status === 'Completed' || entry.Status === 'In progress' || entry.Status === 'Not started' || entry.Status === '';
+    }
+
+    export function validateData(entries: CSVEntry[], members: Member[], sprintName: string): CSVEntry[] | null {
         for (const entry of entries)
             if (!validateBasicFieldTypes(entry))
-                return false;
+                return null;
         entries = entries.filter(entry => entry.Sprint === sprintName);
+        if (entries.length === 0)
+            return null;
         for (const entry of entries) {
             if (!validateMemberFieldTypes(entry, members) ||
                 !validateAssignTo(entry, members) ||
-                !validateCharge(entry, members))
-                return false;
+                !validateCharge(entry, members) ||
+                !validateStatus(entry))
+                return null;
         }
-        return true;
+        return entries;
+    }
+
+    function getDod(entry: CSVEntry): string[] {
+        return entry['Definition of Done'].split('\n');
+    }
+
+    function getStatus(status: string): StatusType {
+        switch (status) {
+            case 'Completed':
+                return 'done';
+            case 'In progress':
+                return 'in progress';
+            case 'Not started':
+                return 'not started';
+        }
+        return 'done';
+    }
+
+    function getMemberLoads(entry: any, members: Member[]): MemberLoad[] {
+        const loads: MemberLoad[] = [];
+
+        for (const member of members) {
+            const firstname: string = member.member_name.split(' ')[0];
+            if (entry[firstname] === undefined || entry[firstname] === '')
+                continue;
+            loads.push({
+                load: parseFloat(entry[firstname]),
+                memberName: member.member_name,
+                status: getStatus(entry[`Status ${firstname}`]),
+            });
+        }
+
+        return loads;
+    }
+
+    export function csvToSprintData(entries: CSVEntry[], members: Member[]): SprintData {
+        entries = entries.sort((a, b) => a['Sous-livrable'] < b['Sous-livrable'] ? -1 : 1);
+        let data = emptySprintData;
+        if (entries.length === 0)
+            return data;
+        let currentDeliverable = entries[0].Livrable;
+        data.deliverables.push({userStories: [], name: currentDeliverable});
+
+        for (const entry of entries) {
+            if (entry.Livrable !== currentDeliverable) {
+                currentDeliverable = entry.Livrable;
+                data.deliverables.push({userStories: [], name: currentDeliverable});
+            }
+            const dod: string[] = getDod(entry);
+            const status: StatusType = getStatus(entry.Status);
+            const memberLoads: MemberLoad[] = getMemberLoads(entry, members);
+
+            data.deliverables[data.deliverables.length - 1].userStories.push({
+                title: entry.Name,
+                role: entry['En tant que'],
+                goal: entry['Je veux'],
+                description: entry.Description,
+                dod: dod,
+                load: parseFloat(entry['Charge estimée (J/H)']),
+                status: status,
+                memberLoads: memberLoads,
+            });
+        }
+
+        return data;
     }
 
 }
 
 export default CSVDataHandler;
+
