@@ -1,15 +1,15 @@
 import Changelog, { IChangelog } from '@/entities/Changelog';
 import pool from '@/shared/pool';
 
-export interface IChangeDao {
+export interface IChangelogDao {
     list(): Promise<Changelog[]>;
     get(id: number): Promise<Changelog | null>;
-    create(changelog: Changelog): Promise<boolean>;
+    create(changelog: Changelog): Promise<Changelog | null>;
     update(changelog: Changelog): Promise<boolean>;
     delete(changelog: Changelog): Promise<boolean>;
 }
 
-class ChangeDaoClass implements IChangeDao {
+class ChangelogDaoClass implements IChangelogDao {
 
     async list(): Promise<Changelog[]> {
         return await pool.query<IChangelog>(
@@ -32,13 +32,17 @@ class ChangeDaoClass implements IChangeDao {
             .catch(_err => null);
     }
 
-    async create(changelog: Changelog): Promise<boolean> {
+    async create(changelog: Changelog): Promise<Changelog | null> {
         return await pool.query<IChangelog>(
             'insert into changelogs ("version", author, sections, "comments") values ($1, $2, $3, $4) returning *',
             [changelog.version, changelog.author, changelog.sections, changelog.comments]
         )
-            .then(res => res.rowCount === 1)
-            .catch(_err => false);
+            .then(res => {
+                if (res.rowCount === 0)
+                    return null;
+                return new Changelog(res.rows[0]);
+            })
+            .catch(_err => null);
     }
 
     async update(changelog: Changelog): Promise<boolean> {
@@ -60,5 +64,5 @@ class ChangeDaoClass implements IChangeDao {
     }
 }
 
-const ChangeDao = new ChangeDaoClass();
-export default ChangeDao;
+const ChangelogDao = new ChangelogDaoClass();
+export default ChangelogDao;
