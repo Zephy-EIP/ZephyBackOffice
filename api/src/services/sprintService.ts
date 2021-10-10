@@ -38,6 +38,10 @@ namespace SprintService {
         return await SprintDao.list();
     }
 
+    export async function listNames(): Promise<string[]> {
+        return await SprintDao.listNames();
+    }
+
 }
 
 export default SprintService;

@@ -9,9 +9,18 @@ export interface ISprintDao {
     updateName(oldName: string, newName: string): Promise<Sprint | null>;
     updateData(sprintName: string, data: SprintData): Promise<Sprint | null>;
     list(): Promise<Sprint[]>;
+    listNames(): Promise<string[]>;
 }
 
 class SprintDaoClass implements ISprintDao {
+    async listNames(): Promise<string[]> {
+        return await pool.query<ISprint>(
+            'select sprint_name from sprints'
+        )
+            .then(res => res.rows.map(row => row.sprint_name))
+            .catch(_err => []);
+    }
+
     async get(sprintName: string): Promise<Sprint | null> {
         return await pool.query<ISprint>(
             'select * from sprints where sprint_name = $1',
@@ -63,8 +72,7 @@ class SprintDaoClass implements ISprintDao {
 
     async list(): Promise<Sprint[]> {
         return await pool.query<ISprint>(
-            'update sprints set "data" = $1 where sprint_name = $2 returning *',
-            []
+            'select * from sprints'
         )
             .then(res => res.rows.map(value => new Sprint(value)))
             .catch(_err => []);
