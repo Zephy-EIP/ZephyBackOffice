@@ -10,7 +10,7 @@ export interface ISprintPartReportDao {
 }
 
 class SprintPartReportDaoClass implements ISprintPartReportDao {
-    async list(sprintPartId: number | undefined): Promise<SprintPartReport[]> {
+    async list(sprintPartId?: number | undefined): Promise<SprintPartReport[]> {
         let query = 'select * from sprint_part_reports';
         let queryArgs: any[] | undefined;
 
