@@ -19,4 +19,18 @@ export default interface SprintData {
     userStories: UserStory[];
 }
 
+export type CSVEntry = {
+    Name: string,
+    Status: string,
+    Sprint: string,
+    Livrable: string,
+    'Sous-livrable': string,
+    'Charge estimée (J/H)': string,
+    'Assign to': string,
+    'En tant que': string,
+    'Je veux': string,
+    Description: string,
+    'Definition of Done': string,
+}
+
 export const emptySprintData: SprintData = { userStories: [] };

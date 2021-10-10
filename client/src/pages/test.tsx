@@ -13,10 +13,11 @@ export default function Test() {
             return;
         const data = new FormData();
         data.append('sprintFile', file);
+        data.append('sprint_name', 'Test & Learn');
 
         client.post(
             '/sprint',
-            data
+            data,
         )
               .then(_e => ref?.reset())
               .catch(_e => {});
