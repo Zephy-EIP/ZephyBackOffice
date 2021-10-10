@@ -3,11 +3,15 @@ import userRouter from '@/routes/user';
 import roleRouter from '@/routes/role';
 import sprintRouter from '@/routes/sprint';
 import changelogRouter from '@/routes/changelog';
+import memberRouter from '@/routes/member';
+import sprintPartRouter from '@/routes/sprint-part';
 
 const baseRouter = Router();
 baseRouter.use('/user', userRouter);
 baseRouter.use('/role', roleRouter);
 baseRouter.use('/sprint', sprintRouter);
 baseRouter.use('/changelog', changelogRouter);
+baseRouter.use('/member', memberRouter);
+baseRouter.use('/sprint-part', sprintPartRouter);
 
 export default baseRouter;

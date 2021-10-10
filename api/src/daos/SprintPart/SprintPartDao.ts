@@ -6,7 +6,7 @@ export interface ISprintPartDao {
     get(id: number): Promise<SprintPart | null>;
     create(sprintPart: SprintPart): Promise<SprintPart | null>;
     update(sprintPart: SprintPart): Promise<boolean>;
-    delete(sprintPart: SprintPart): Promise<boolean>;
+    delete(id: number): Promise<boolean>;
 }
 
 class SprintPartDaoClass implements ISprintPartDao {
@@ -62,10 +62,10 @@ class SprintPartDaoClass implements ISprintPartDao {
             .catch(_err => false);
     }
 
-    async delete(sprintPart: SprintPart): Promise<boolean> {
+    async delete(id: number): Promise<boolean> {
         return await pool.query<ISprintPart>(
             'delete from sprint_parts where id = $1 returning *',
-            [sprintPart.id]
+            [id]
         )
             .then(q => q.rowCount > 0)
             .catch(_err => false);

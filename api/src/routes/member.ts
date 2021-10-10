@@ -35,7 +35,7 @@ memberRouter.delete('/', authenticateWithRole(1000, (req, res) => {
             if (!success)
                 return res.status(500).json(createBasicResponse(500));
             return res.json(createBasicResponse(200));
-        })
+        });
 }));
 
 export default memberRouter;
