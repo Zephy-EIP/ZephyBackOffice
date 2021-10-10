@@ -13,7 +13,9 @@ export function checkPayload(payload: any): boolean {
         typeof payload.session_id === 'number';
 }
 
-export function authenticate(func: (req: express.Request, res: express.Response, info: AuthInfo)=>void): express.RequestHandler {
+export function authenticate(
+    func: (req: express.Request, res: express.Response, info: AuthInfo) => any
+): express.RequestHandler {
     return async (req: express.Request, res: express.Response) => {
         let token = req.headers.authorization;
         if (typeof token !== 'string' || token == null) {

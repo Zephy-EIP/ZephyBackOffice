@@ -1,5 +1,5 @@
 {
-  "name": "seazen-api",
+  "name": "api-backoffice-zephy",
   "version": "0.0.0",
   "scripts": {
     "build": "./node_modules/.bin/ts-node build.ts",
@@ -63,6 +63,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "express-fileupload": "^1.2.1",
     "helmet": "^4.6.0",
     "http-status-codes": "^2.1.4",
     "jet-logger": "^1.0.6",
@@ -77,6 +78,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.12",
+    "@types/express-fileupload": "^1.1.7",
     "@types/find": "^0.2.1",
     "@types/fs-extra": "^9.0.11",
     "@types/jasmine": "^3.7.7",

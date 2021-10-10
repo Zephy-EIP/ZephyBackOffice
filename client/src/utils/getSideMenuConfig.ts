@@ -1,4 +1,4 @@
-import { SideMenuConfig } from "@/components/templates/sideMenu/SideMenu";
+import { SideMenuConfig } from '@/components/templates/sideMenu/SideMenu';
 
 export default function getSideMenuConfig() {
     const sideMenuOptions: SideMenuConfig[] = [];
@@ -11,6 +11,15 @@ export default function getSideMenuConfig() {
         {
             title: 'Administration',
             href: '/administration',
+            minImportance: 0,
+        }
+    );
+
+    // Test page
+    sideMenuOptions.push(
+        {
+            title: 'Test',
+            href: '/test',
             minImportance: 0,
         }
     );

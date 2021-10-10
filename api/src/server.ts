@@ -11,6 +11,7 @@ import logger from '@/shared/logger';
 import '@/startup';
 import createBasicResponse from '@/shared/basicResponse';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(fileUpload());
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
