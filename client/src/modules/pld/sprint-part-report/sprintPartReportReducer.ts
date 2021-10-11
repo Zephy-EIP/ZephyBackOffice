@@ -168,6 +168,11 @@ const SprintPartReportSlice = createSlice({
     }
 });
 
-export const { resetSprintPartReport } = SprintPartReportSlice.actions;
+export const {
+    resetSprintPartReport,
+    resetSprintPartReportCreate,
+    resetSprintPartReportDelete,
+    resetSprintPartReportUpdate,
+} = SprintPartReportSlice.actions;
 
 export default SprintPartReportSlice.reducer;

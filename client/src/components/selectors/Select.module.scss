@@ -33,7 +33,7 @@
         left: 0;
         background: white;
         border: 2px solid #E0E0E0;
-        border-radius: 0 0 15px 15px;
+        border-radius: 0 0 10px 10px;
         display: none;
         overflow-y: scroll;
         max-height: 220px;
@@ -60,7 +60,7 @@
         }
 
         .buttonLast {
-            border-radius: 0 0 15px 15px;
+            border-radius: 0 0 10px 10px;
             border: none;
         }
 
@@ -86,7 +86,7 @@
 
         background: white;
         border:  2px solid #E0E0E0;
-        border-radius: 15px;
+        border-radius: 10px;
         cursor: pointer;
 
         &::after {
@@ -121,7 +121,7 @@
 
     .current {
         z-index: 1002;
-        border-radius: 15px 15px 0 0;
+        border-radius: 10px 10px 0 0;
 
         &::after {
             transform: rotate(-90deg) translateY(-25%);

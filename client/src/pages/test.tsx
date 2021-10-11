@@ -2,6 +2,7 @@ import Page from '@/components/templates/Page';
 import BasicHeader from '@/modules/BasicHeader';
 import CreateMember from '@/modules/pld/member/CreateMember';
 import DeleteMember from '@/modules/pld/member/DeleteMember';
+import SprintPartReportForm from '@/modules/pld/sprint-part-report/SprintPartReportForm';
 import CreateSprintPart from '@/modules/pld/sprint-part/CreateSprintPart';
 import UpdateSprintPart from '@/modules/pld/sprint-part/UpdateSprintPart';
 import SprintCreate from '@/modules/pld/sprint/SprintCreate';
@@ -24,6 +25,7 @@ export default function Test() {
                     <DeleteMember />
                     <CreateSprintPart />
                     <UpdateSprintPart />
+                    <SprintPartReportForm />
                 </div>
             </Page>
         </>
