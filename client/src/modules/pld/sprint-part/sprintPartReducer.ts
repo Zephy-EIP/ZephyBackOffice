@@ -52,7 +52,7 @@ export const createSprintPart = createAsyncThunk(
 export const getSprintPartList = createAsyncThunk(
     'sprint-part/list',
     async () => {
-        return await client.get<{sprintParts: SprintPart[]}>('/list')
+        return await client.get<{sprintParts: SprintPart[]}>('/sprint-part/list')
             .then(res => getBasicDataPayload(res.data.sprintParts))
             .catch(err => getBasicErrorPayloadAxios<SprintPart[]>(err))
     });
