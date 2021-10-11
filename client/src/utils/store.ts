@@ -1,5 +1,6 @@
 import createAccountReducer from '@/modules/administration/createAccount/createAccountReducer';
 import authReducer, { logout, unauthUser } from '@/modules/auth/authReducer';
+import changelogReducer from '@/modules/pld/changelog/changelogReducer';
 import memberReducer from '@/modules/pld/member/memberReducer';
 import sprintPartReportReducer from '@/modules/pld/sprint-part-report/sprintPartReportReducer';
 import sprintPartReducer from '@/modules/pld/sprint-part/sprintPartReducer';
@@ -22,7 +23,8 @@ const appReducer = combineReducers({
     sprint: sprintReducer,
     member: memberReducer,
     sprintPart: sprintPartReducer,
-    sprintPartReport: sprintPartReportReducer
+    sprintPartReport: sprintPartReportReducer,
+    changelog: changelogReducer,
 });
 
 const rootReducer = (state: any, action: any) => {
