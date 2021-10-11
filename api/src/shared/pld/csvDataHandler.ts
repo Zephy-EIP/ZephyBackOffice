@@ -1,4 +1,5 @@
 import Member from '@/entities/Member';
+import logger from '@/shared/logger';
 import SprintData, { CSVEntry, emptySprintData, MemberLoad, StatusType } from '@/shared/pld/dataType';
 
 namespace CSVDataHandler {
@@ -78,8 +79,10 @@ namespace CSVDataHandler {
             if (!validateMemberFieldTypes(entry, members) ||
                 !validateAssignTo(entry, members) ||
                 !validateCharge(entry, members) ||
-                !validateStatus(entry))
+                !validateStatus(entry)) {
+                logger.err('PLD Creation: Error with entry: ' + JSON.stringify(entry));
                 return null;
+            }
         }
         return entries;
     }
