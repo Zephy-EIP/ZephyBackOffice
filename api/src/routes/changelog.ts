@@ -16,10 +16,10 @@ changelogRouter.post('/', authenticateWithRole(1000, (req, res) => {
     const sections = req.body.sections;
     const comments = req.body.comments;
 
-    if (typeof author !== 'string' ||
-        typeof version !== 'string' ||
-        typeof sections !== 'string' ||
-        typeof comments !== 'string')
+    if (typeof author !== 'string' || author.trim().length < 2 ||
+        typeof version !== 'string' || version.trim().length < 1 ||
+        typeof sections !== 'string' || sections.trim().length < 5 ||
+        typeof comments !== 'string' || comments.trim().length < 5)
         return res.status(400).json(createBasicResponse(400));
     ChangelogService.create(author, version, sections, comments)
         .then(changelog => {
@@ -37,10 +37,10 @@ changelogRouter.put('/', authenticateWithRole(1000, (req, res) => {
     const id = req.body.id;
     const date = req.body.date;
 
-    if (typeof author !== 'string' ||
-        typeof version !== 'string' ||
-        typeof sections !== 'string' ||
-        typeof comments !== 'string' ||
+    if (typeof author !== 'string' || author.trim().length < 2 ||
+        typeof version !== 'string' || version.trim().length < 1 ||
+        typeof sections !== 'string' || sections.trim().length < 5 ||
+        typeof comments !== 'string' || comments.trim().length < 5 ||
         typeof date !== 'string' ||
         typeof id !== 'number')
         return res.status(400).json(createBasicResponse(400));
