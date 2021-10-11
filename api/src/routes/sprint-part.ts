@@ -9,7 +9,6 @@ const sprintPartRouter = Router();
 sprintPartRouter.get('/list', authenticateWithRole(1000, (_req, res) => {
     SprintPartDao.list()
         .then(list => {
-            console.log(list);
             res.json({sprintParts: list});
         });
 }));
