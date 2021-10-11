@@ -1,6 +1,7 @@
 import Button from '@/components/buttons/Button';
+import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
-import { getSprintListNames, resetSprintUpdateData, updateSprintData } from '@/modules/pld/sprint/sprintReducer';
+import { getSprintListNames, resetCreateSprint, createSprint } from '@/modules/pld/sprint/sprintReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
@@ -8,18 +9,15 @@ import { connect, ConnectedProps } from 'react-redux';
 const mapStateToProps = (state: RootState) => {
     return {
         sprintNames: state.sprint.listNames,
-        sprintUpdate: state.sprint.updateData,
+        create: state.sprint.createSprint,
     };
 }
 
-const connector = connect(mapStateToProps, { getSprintListNames, resetSprintUpdateData, updateSprintData });
+const connector = connect(mapStateToProps, { getSprintListNames, resetCreateSprint, createSprint });
 
 function SprintUpdateData(props: ConnectedProps<typeof connector>) {
     const [file, setFile] = useState(null as File | null);
     const dispatch = useThunkDispatch();
-    const elements: SelectElement[] = [new SelectElement('Choose sprint...', '')].concat(
-        props.sprintNames.list?.map(value => new SelectElement(value, value)) || []
-    );
     const [sprintName, setSprintName] = useState('');
     const [ref, setRef] = useState(null as HTMLFormElement | null);
 
@@ -29,12 +27,14 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
     }, []);
 
     useEffect(() => {
-        if (props.sprintUpdate.loaded) {
+        if (props.create.loaded) {
             // TODO: better communication with the user
-            dispatch(props.resetSprintUpdateData());
+            dispatch(props.resetCreateSprint());
             reset();
+            if (props.create.success)
+                (async () => dispatch(await props.getSprintListNames()))();
         }
-    }, [props.sprintUpdate.loaded]);
+    }, [props.create.loaded]);
 
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null || e.target.files.length === 0) {
@@ -54,22 +54,24 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
         if (sprintName === '' || file === null)
             return;
 
-        dispatch(await props.updateSprintData({sprintName, dataFile: file}));
+        dispatch(await props.createSprint({sprintName, dataFile: file}));
     }
 
     return (
         <form ref={setRef} onSubmit={e => e.preventDefault()}>
-            <h2>Update Sprint Data</h2>
+            <h2>Create Sprint</h2>
             <div className="quicksand-medium">
-                Choose sprint
+                Sprint name
             </div>
-            <div className="input">
-                <Select elements={elements} elemKey={sprintName} onChange={setSprintName} />
-            </div>
+            <TextInput
+                placeholder="Test & Learn"
+                className="input"
+                onChange={setSprintName}
+                value={sprintName} />
             <input type="file" name="sprintFile" onChange={onChangeFile} />
             <br /><br />
             <Button onClick={onClick}>
-                Update CSV
+                Create from CSV
             </Button>
         </form>
     );

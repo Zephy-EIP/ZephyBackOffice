@@ -49,6 +49,9 @@ function SprintDelete(props: ConnectedProps<typeof connector>) {
     return (
         <form onSubmit={e => e.preventDefault()}>
             <h2>Delete Sprint</h2>
+            <div className="quicksand-medium">
+                Choose sprint
+            </div>
             <div className="input">
                 <Select elements={elements} elemKey={sprintName} onChange={setSprintName} />
             </div>
