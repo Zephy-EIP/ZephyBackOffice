@@ -18,6 +18,15 @@ export default function getSideMenuConfig() {
     // Test page
     sideMenuOptions.push(
         {
+            title: 'PLD',
+            href: '/pld',
+            minImportance: 1000,
+        }
+    );
+
+    // Test page
+    sideMenuOptions.push(
+        {
             title: 'Test',
             href: '/test',
             minImportance: 0,
