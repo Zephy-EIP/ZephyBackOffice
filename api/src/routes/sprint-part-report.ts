@@ -31,7 +31,7 @@ sprintPartReportRouter.post('/', authenticateWithRole(1000, async (req, res) => 
     });
 }));
 
-sprintPartReportRouter.post('/', authenticateWithRole(1000, async (req, res) => {
+sprintPartReportRouter.put('/', authenticateWithRole(1000, async (req, res) => {
     const sprint_part_id = req.body.sprint_part_id;
     const report = req.body.report;
     const member_name = req.body.member_name;
