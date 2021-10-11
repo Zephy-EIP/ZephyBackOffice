@@ -1,6 +1,7 @@
 import Page from '@/components/templates/Page';
 import BasicHeader from '@/modules/BasicHeader';
 import CreateChangelog from '@/modules/pld/changelog/CreateChangelog';
+import UpdateChangelog from '@/modules/pld/changelog/UpdateChangelog';
 import CreateMember from '@/modules/pld/member/CreateMember';
 import DeleteMember from '@/modules/pld/member/DeleteMember';
 import SprintPartReportForm from '@/modules/pld/sprint-part-report/SprintPartReportForm';
@@ -28,6 +29,7 @@ export default function Test() {
                     <UpdateSprintPart />
                     <SprintPartReportForm />
                     <CreateChangelog />
+                    <UpdateChangelog />
                 </div>
             </Page>
         </>

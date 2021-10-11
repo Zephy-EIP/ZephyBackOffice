@@ -15,7 +15,9 @@ class ChangelogDaoClass implements IChangelogDao {
         return await pool.query<IChangelog>(
             'select * from changelogs'
         )
-            .then(res => res.rows.map(changelog => new Changelog(changelog)))
+            .then(res => {
+                return res.rows.map(changelog => new Changelog(changelog))
+            })
             .catch(_err => []);
     }
 

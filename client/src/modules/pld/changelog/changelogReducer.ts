@@ -92,7 +92,7 @@ export const deleteChangelog = createAsyncThunk(
     async (args: {
         id: number,
     }) => {
-        return client.put<BasicResponse>('/changelog', {
+        return client.delete<BasicResponse>('/changelog', {
             data: {
                 id: args.id,
             }

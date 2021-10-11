@@ -1,5 +1,5 @@
 export interface IChangelog {
-    date: string;
+    date: Date;
     version: string;
     author: string;
     sections: string;
@@ -8,7 +8,7 @@ export interface IChangelog {
 }
 
 export default class Changelog implements IChangelog {
-    date: string;
+    date: Date;
     version: string;
     author: string;
     sections: string;
@@ -16,7 +16,7 @@ export default class Changelog implements IChangelog {
     id: number;
 
     constructor(obj: IChangelog) {
-        this.date = typeof obj.date === 'string' ? obj.date : '';
+        this.date = obj.date instanceof Date ? obj.date : new Date();
         this.version = typeof obj.version === 'string' ? obj.version : '';
         this.author = typeof obj.author === 'string' ? obj.author : '';
         this.sections = typeof obj.sections === 'string' ? obj.sections : '';

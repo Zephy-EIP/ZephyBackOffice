@@ -35,15 +35,17 @@ changelogRouter.put('/', authenticateWithRole(1000, (req, res) => {
     const sections = req.body.sections;
     const comments = req.body.comments;
     const id = req.body.id;
-    const date = req.body.date;
+    const dateString = req.body.date;
+    const date = new Date(dateString);
 
     if (typeof author !== 'string' || author.trim().length < 2 ||
         typeof version !== 'string' || version.trim().length < 1 ||
         typeof sections !== 'string' || sections.trim().length < 5 ||
         typeof comments !== 'string' || comments.trim().length < 5 ||
-        typeof date !== 'string' ||
-        typeof id !== 'number')
+        typeof dateString !== 'string' || isNaN(date.getTime()) ||
+        typeof id !== 'number') {
         return res.status(400).json(createBasicResponse(400));
+    }
 
     const cl = new Changelog({author, version, sections, comments, id, date});
     ChangelogService.update(cl)
