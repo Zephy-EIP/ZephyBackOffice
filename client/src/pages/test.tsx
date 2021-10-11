@@ -1,9 +1,10 @@
 import Page from '@/components/templates/Page';
 import BasicHeader from '@/modules/BasicHeader';
+import SprintUpdateData from '@/modules/pld/SprintUpdateData';
 import client from '@/utils/client';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-export default function Test() {
+function UploadForm() {
     const [file, setFile] = useState(null as File | null);
     const [ref, setRef] = useState(null as HTMLFormElement | null);
 
@@ -32,14 +33,25 @@ export default function Test() {
     }
 
     return (
+        <form ref={setRef} onSubmit={onSubmit}>
+            <h2>Create Sprint</h2>
+            <input type="file" name="sprintFile" onChange={onChange} />
+            <br /><br />
+            <input type="submit" />
+        </form>
+    );
+}
+
+export default function Test() {
+
+    return (
         <>
             <BasicHeader title="Test - Zephy Back Office" />
             <Page>
-                <form ref={setRef} style={{padding: 15}} onSubmit={onSubmit}>
-                    <input type="file" name="sprintFile" onChange={onChange} />
-                    <br /><br />
-                    <input type="submit" />
-                </form>
+                <div style={{padding: 15}}>
+                    <UploadForm />
+                    <SprintUpdateData />
+                </div>
             </Page>
         </>
     );

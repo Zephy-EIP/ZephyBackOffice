@@ -37,7 +37,6 @@ sprintRouter.post('/', authenticateWithRole(1000, (req, res, info): any => {
 }));
 
 sprintRouter.put('/data', authenticateWithRole(1000, (req, res, info): any => {
-
     const name = req.body.sprint_name;
 
     if (typeof name !== 'string' || name.length < 5)

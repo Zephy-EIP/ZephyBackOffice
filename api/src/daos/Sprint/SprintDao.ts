@@ -1,4 +1,5 @@
 import Sprint, { ISprint } from '@/entities/Sprint';
+import logger from '@/shared/logger';
 import SprintData from '@/shared/pld/dataType';
 import pool from '@/shared/pool';
 
@@ -64,10 +65,21 @@ class SprintDaoClass implements ISprintDao {
     async updateData(sprintName: string, data: SprintData): Promise<Sprint | null> {
         return await pool.query<ISprint>(
             'update sprints set "data" = $1 where sprint_name = $2 returning *',
-            [data, sprintName]
-        )
-            .then(res => new Sprint(res.rows[0]))
-            .catch(_err => null);
+            [{}, sprintName]
+        ).then(async _res => {
+            return await pool.query<ISprint>(
+                'update sprints set "data" = $1 where sprint_name = $2 returning *',
+                [data, sprintName]
+            )
+                .then(res => new Sprint(res.rows[0]))
+                .catch(err => {
+                    logger.err(err);
+                    return null;
+                });
+        }).catch(err => {
+            logger.err(err);
+            return null;
+        });
     }
 
     async list(): Promise<Sprint[]> {
