@@ -17,12 +17,7 @@ const connector = connect(mapStateToProps, {getMemberList, createMember, resetCr
 function CreateMember(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
     const [memberName, setMemberName] = useState('');
-    /* 
-     *     useEffect(() => {
-     *         if (!props.list.loading && !props.list.loaded)
-     *             (async () => dispatch(await props.getMemberList()))();
-     *     }, []);
-     *  */
+
     useEffect(() => {
         if (!props.create.loaded)
             return;
