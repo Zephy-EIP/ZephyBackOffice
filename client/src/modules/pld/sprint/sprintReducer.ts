@@ -11,7 +11,10 @@ interface SprintState {
     listNames: BasicCall & {
         list?: string[]
     },
+    createSprint: BasicCall,
     updateData: BasicCall,
+    updateName: BasicCall,
+    deleteSprint: BasicCall,
 };
 
 const initialState: SprintState = {
@@ -25,12 +28,26 @@ const initialState: SprintState = {
         success: false,
         loaded: false,
     },
+    createSprint: {
+        loading: false,
+        success: false,
+        loaded: false,
+    },
     updateData: {
         loading: false,
         success: false,
         loaded: false,
     },
-
+    updateName: {
+        loading: false,
+        success: false,
+        loaded: false,
+    },
+    deleteSprint: {
+        loading: false,
+        success: false,
+        loaded: false,
+    },
 }
 
 export const getSprintList = createAsyncThunk(
@@ -59,12 +76,15 @@ export const getSprintListNames = createAsyncThunk(
 
 export const createSprint = createAsyncThunk(
     'sprint/createSprint',
-    async () => {
-        return await client.get<{sprintNames: string[]}>('/sprint/list/names')
+    async (args: {sprintName: string, dataFile: File}) => {
+        const data = new FormData();
+        data.append('sprintFile', args.dataFile);
+        data.append('sprint_name', args.sprintName);
+        return await client.post<BasicResponse>('/sprint', data)
             .then(res => {
                 return getBasicDataPayload(res.data);
             }).catch(err => {
-                return getBasicErrorPayloadAxios<{sprintNames: string[]}>(err);
+                return getBasicErrorPayloadAxios<BasicResponse>(err);
             });
     }
 )
@@ -83,6 +103,35 @@ export const updateSprintData = createAsyncThunk(
             });
     });
 
+export const updateSprintName = createAsyncThunk(
+    'sprint/updateSprintName',
+    async (args: {sprintName: string, newName: string}) => {
+        return await client.put<BasicResponse>('/sprint/name', {
+            sprint_name: args.sprintName,
+            new_sprint_name: args.newName,
+        })
+            .then(res => {
+                return getBasicDataPayload<BasicResponse>(res.data);
+            }).catch(err => {
+                return getBasicErrorPayloadAxios<BasicResponse>(err);
+            });
+    });
+
+export const deleteSprint = createAsyncThunk(
+    'sprint/delete',
+    async (args: {sprintName: string}) => {
+        return await client.delete<BasicResponse>('/sprint', {
+            data: {
+                sprint_name: args.sprintName,
+            }
+        })
+            .then(res => {
+                return getBasicDataPayload(res.data);
+            }).catch(err => {
+                return getBasicErrorPayloadAxios<BasicResponse>(err);
+            });
+    });
+
 const SprintSlice = createSlice({
     name: 'sprint',
     initialState,
@@ -91,8 +140,17 @@ const SprintSlice = createSlice({
             return initialState;
         },
         resetSprintUpdateData(state) {
-            return {...state, updateData: state.updateData};
-        }
+            return {...state, updateData: initialState.updateData};
+        },
+        resetCreateSprint(state) {
+            return {...state, createSprint: initialState.createSprint};
+        },
+        resetSprintUpdateName(state) {
+            return {...state, updateName: initialState.updateName};
+        },
+        resetDeleteSprint(state) {
+            return {...state, deleteSprint: initialState.deleteSprint};
+        },
     },
     extraReducers: builder => {
         builder
@@ -122,6 +180,18 @@ const SprintSlice = createSlice({
                 state.listNames.loading = false;
                 state.listNames.loaded = true;
             })
+            .addCase(createSprint.pending, (state) => {
+                return {...state, createSprint: {...initialState.createSprint, loading: true}};
+            })
+            .addCase(createSprint.fulfilled, (state, action) => {
+                state.createSprint.loading = false;
+                state.createSprint.loaded = true;
+                state.createSprint.success = action.payload.success;
+            })
+            .addCase(createSprint.rejected, (state) => {
+                state.createSprint.loading = false;
+                state.createSprint.loaded = true;
+            })
             .addCase(updateSprintData.pending, (state) => {
                 return {...state, updateData: {...initialState.updateData, loading: true}};
             })
@@ -134,9 +204,33 @@ const SprintSlice = createSlice({
                 state.updateData.loading = false;
                 state.updateData.loaded = true;
             })
+            .addCase(updateSprintName.pending, (state) => {
+                return {...state, updateName: {...initialState.updateName, loading: true}};
+            })
+            .addCase(updateSprintName.fulfilled, (state, action) => {
+                state.updateName.loading = false;
+                state.updateName.loaded = true;
+                state.updateName.success = action.payload.success;
+            })
+            .addCase(updateSprintName.rejected, (state) => {
+                state.updateName.loading = false;
+                state.updateName.loaded = true;
+            })
+            .addCase(deleteSprint.pending, (state) => {
+                return {...state, deleteSprint: {...initialState.deleteSprint, loading: true}};
+            })
+            .addCase(deleteSprint.fulfilled, (state, action) => {
+                state.deleteSprint.loading = false;
+                state.deleteSprint.loaded = true;
+                state.deleteSprint.success = action.payload.success;
+            })
+            .addCase(deleteSprint.rejected, (state) => {
+                state.deleteSprint.loading = false;
+                state.deleteSprint.loaded = true;
+            })
     }
 });
 
-export const { resetSprint, resetSprintUpdateData } = SprintSlice.actions;
+export const { resetSprint, resetSprintUpdateData, resetSprintUpdateName, resetCreateSprint, resetDeleteSprint } = SprintSlice.actions;
 
 export default SprintSlice.reducer;

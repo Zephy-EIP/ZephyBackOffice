@@ -68,7 +68,9 @@ function ChangePassword(props: ConnectedProps<typeof connector>) {
                 {inputError}
                 {serverInfo}
             </div>
-            <Button onClick={checkAndChangePassword} className={styles.button} loading={props.passwordChange.loading}>Change password</Button>
+            <Button onClick={checkAndChangePassword} className={styles.button} loading={props.passwordChange.loading}>
+                Change Password
+            </Button>
         </form>
     );
 }

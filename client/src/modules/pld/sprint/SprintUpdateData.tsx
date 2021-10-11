@@ -1,6 +1,6 @@
 import Button from '@/components/buttons/Button';
 import Select, { SelectElement } from '@/components/selectors/Select';
-import { getSprintListNames, resetSprintUpdateData, updateSprintData } from '@/modules/pld/sprintReducer';
+import { getSprintListNames, resetSprintUpdateData, updateSprintData } from '@/modules/pld/sprint/sprintReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';

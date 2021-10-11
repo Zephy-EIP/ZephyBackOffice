@@ -1,6 +1,8 @@
 import Page from '@/components/templates/Page';
 import BasicHeader from '@/modules/BasicHeader';
-import SprintUpdateData from '@/modules/pld/SprintUpdateData';
+import SprintDelete from '@/modules/pld/sprint/SprintDelete';
+import SprintUpdateData from '@/modules/pld/sprint/SprintUpdateData';
+import SprintUpdateName from '@/modules/pld/sprint/SprintUpdateName';
 import client from '@/utils/client';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -51,6 +53,8 @@ export default function Test() {
                 <div style={{padding: 15}}>
                     <UploadForm />
                     <SprintUpdateData />
+                    <SprintUpdateName />
+                    <SprintDelete />
                 </div>
             </Page>
         </>
