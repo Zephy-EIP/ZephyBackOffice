@@ -23,11 +23,6 @@ function SprintDelete(props: ConnectedProps<typeof connector>) {
     );
 
     useEffect(() => {
-        if (!props.sprintNames.loaded && !props.sprintNames.loading)
-            (async () => dispatch(await props.getSprintListNames()))();
-    }, []);
-
-    useEffect(() => {
         if (!props.delSprint.loaded)
             return;
         dispatch(props.resetDeleteSprint());
@@ -35,6 +30,11 @@ function SprintDelete(props: ConnectedProps<typeof connector>) {
         if (props.delSprint.success)
             (async () => dispatch(await props.getSprintListNames()))();
     }, [props.delSprint.loaded]);
+
+    useEffect(() => {
+        if (!props.sprintNames.loaded && !props.sprintNames.loading)
+            (async () => dispatch(await props.getSprintListNames()))();
+    }, []);
 
     function reset() {
         setSprintName('');

@@ -48,9 +48,9 @@ function Page(props: {
     }, [props.auth.unauthed, props.auth.logout.loaded]);
 
     useEffect(() => {
-        if (!props.role.roleList.loading)
+        if (!props.role.roleList.loading && !props.role.roleList.loaded)
             (async () => { dispatch(await props.getRoles()) })();
-        if (!props.user.loading)
+        if (!props.user.loading && !props.user.loaded)
             (async () => { dispatch(await props.getUser()); })();
         for (const page of sideMenuConfig) {
             if (page.href === router.route)

@@ -98,7 +98,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
     }, [props.createAccount.loaded])
 
     useEffect(() => {
-        if (!props.role.roleList.loading)
+        if (!props.role.roleList.loading && !props.role.roleList.loaded)
             (async () => { dispatch(await props.getRoles()) })();
     }, []);
 

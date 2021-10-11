@@ -3,6 +3,7 @@ import BasicHeader from '@/modules/BasicHeader';
 import CreateMember from '@/modules/pld/member/CreateMember';
 import DeleteMember from '@/modules/pld/member/DeleteMember';
 import CreateSprintPart from '@/modules/pld/sprint-part/CreateSprintPart';
+import UpdateSprintPart from '@/modules/pld/sprint-part/UpdateSprintPart';
 import SprintCreate from '@/modules/pld/sprint/SprintCreate';
 import SprintDelete from '@/modules/pld/sprint/SprintDelete';
 import SprintUpdateData from '@/modules/pld/sprint/SprintUpdateData';
@@ -22,6 +23,7 @@ export default function Test() {
                     <CreateMember />
                     <DeleteMember />
                     <CreateSprintPart />
+                    <UpdateSprintPart />
                 </div>
             </Page>
         </>

@@ -14,7 +14,7 @@ class SprintPartDaoClass implements ISprintPartDao {
         let query = 'select * from sprint_parts where sprint_name = $1';
         let queryArgs = [sprintName];
 
-        if (typeof sprintName === undefined) {
+        if (sprintName === undefined) {
             query = 'select * from sprint_parts';
             queryArgs = [];
         }

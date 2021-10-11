@@ -26,7 +26,7 @@ function UpdateRole(props: ConnectedProps<typeof connector>) {
     const [info, setInfo] = useState(<></>);
 
     useEffect(() => {
-        if (!props.roles.loaded || !props.roles.loading)
+        if (!props.roles.loaded && !props.roles.loading)
             (async () => {dispatch(await props.getRoles())});
     }, []);
 
