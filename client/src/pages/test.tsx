@@ -50,7 +50,7 @@ export default function Test() {
         <>
             <BasicHeader title="Test - Zephy Back Office" />
             <Page>
-                <div style={{padding: 15}}>
+                <div style={{padding: 15, paddingBottom: 250}}>
                     <UploadForm />
                     <SprintUpdateData />
                     <SprintUpdateName />
