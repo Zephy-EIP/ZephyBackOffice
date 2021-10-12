@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
 export default function PLDDeliverables() {
     return (
-        <View style={globalStyles.wrapper}>
+        <View>
             <Text style={globalStyles.title}>Organigramme des livrables</Text>
             <Image src="/images/livrables.jpeg" style={styles.image} />
             <Text style={globalStyles.title}>Description des livrables</Text>

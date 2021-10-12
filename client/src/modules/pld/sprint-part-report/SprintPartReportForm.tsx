@@ -40,6 +40,9 @@ function SprintPartReportForm(props: ConnectedProps<typeof connector>) {
     const [reportExists, setReportExists] = useState(false);
     let mainButtonTitle = 'Create Report';
 
+    if (reportExists)
+        mainButtonTitle = 'Update Report';
+
     const sprintParts: SelectElement[] = [new SelectElement('Choose sprint part...', '')].concat(
         props.spList.list?.map(value => new SelectElement(`${value.sprint_name} | ${value.type}`, value.id.toString())) || []
     );
@@ -56,7 +59,6 @@ function SprintPartReportForm(props: ConnectedProps<typeof connector>) {
                 return;
             }
             setReportExists(true);
-            mainButtonTitle = 'Update Report';
             setReport(spr.report);
         } else {
             setReportExists(false);

@@ -95,7 +95,7 @@ export default function PLDDescription(props: {
     ];
 
     return (
-        <View style={globalStyles.wrapper}>
+        <View>
             <Text style={globalStyles.title}>
                 Descriptif du document
             </Text>
