@@ -10,9 +10,11 @@ function ShowSprint(props: {
             <Text style={globalStyles.h2}>{props.sprint.sprint_name}</Text>
             { props.sprint.data.deliverables.map(deliverable => {
                   return (
-                      <Text style={globalStyles.h3}>
-                          {deliverable.name}
-                      </Text>
+                      <View>
+                          <Text style={globalStyles.h3}>
+                              {deliverable.name}
+                          </Text>
+                      </View>
                   )
             }) }
         </View>
@@ -25,6 +27,12 @@ export default function PLDSprints(props: {
     return (
         <View style={globalStyles.wrapper}>
             <Text style={globalStyles.title}>User stories et definition of done</Text>
+            {
+                props.sprints.map(sprint => <ShowSprint sprint={sprint} />)
+            }
+            {
+                props.sprints.map(sprint => <ShowSprint sprint={sprint} />)
+            }
             {
                 props.sprints.map(sprint => <ShowSprint sprint={sprint} />)
             }

@@ -38,7 +38,7 @@ class SprintDaoClass implements ISprintDao {
     async add(sprintName: string, data: SprintData): Promise<boolean> {
         return await pool.query<ISprint>(
             'insert into sprints (sprint_name, "data") values ($1, $2) returning *',
-            [sprintName, data]
+            [sprintName, JSON.stringify(data)]
         )
             .then(res => res.rowCount === 1)
             .catch(_err => false);
@@ -65,21 +65,13 @@ class SprintDaoClass implements ISprintDao {
     async updateData(sprintName: string, data: SprintData): Promise<Sprint | null> {
         return await pool.query<ISprint>(
             'update sprints set "data" = $1 where sprint_name = $2 returning *',
-            [{}, sprintName]
-        ).then(async _res => {
-            return await pool.query<ISprint>(
-                'update sprints set "data" = $1 where sprint_name = $2 returning *',
-                [data, sprintName]
-            )
-                .then(res => new Sprint(res.rows[0]))
-                .catch(err => {
-                    logger.err(err);
-                    return null;
-                });
-        }).catch(err => {
-            logger.err(err);
-            return null;
-        });
+            [JSON.stringify(data), sprintName]
+        )
+            .then(res => new Sprint(res.rows[0]))
+            .catch(err => {
+                logger.err(err);
+                return null;
+            });
     }
 
     async list(): Promise<Sprint[]> {
