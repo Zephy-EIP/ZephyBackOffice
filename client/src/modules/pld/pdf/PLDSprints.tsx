@@ -111,7 +111,11 @@ function ShowUS(props: {
             </Text>
             <Text style={styles.oneLineElem} wrap={false}>
                 <Text style={styles.bold} wrap={false}>{'Definition of done :\n'}</Text>{
-                    props.userStory.dod.map(str => `${str}\n`)
+                    props.userStory.dod.map(str => {
+                        if (str.length > 0 && str[0] === '-')
+                            return ('•' + str.substr(1) + '\n');
+                        return `${str}\n`
+                    })
                 }
             </Text>
             <View style={[styles.oneLineElem, styles.lastElem]} wrap={false}>

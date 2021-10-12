@@ -7,15 +7,17 @@ import { connect, ConnectedProps } from 'react-redux';
 import { getChangelogList } from '@/modules/pld/changelog/changelogReducer';
 import { useEffect } from 'react';
 import { getSprintList } from '@/modules/pld/sprint/sprintReducer';
+import { getSprintPartReportList } from '@/modules/pld/sprint-part-report/sprintPartReportReducer';
 
 const mapStateToProps = (state: RootState) => {
     return {
         changelog: state.changelog.list,
         sprints: state.sprint.list,
+        sprlist: state.sprintPartReport.list,
     };
 }
 
-const connector = connect(mapStateToProps, { getChangelogList, getSprintList });
+const connector = connect(mapStateToProps, { getChangelogList, getSprintList, getSprintPartReportList });
 
 function PLDPage(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
@@ -38,7 +40,7 @@ function PLDPage(props: ConnectedProps<typeof connector>) {
 
     return (
         <>
-            <BasicHeader title="Test - Zephy Back Office" />
+            <BasicHeader title="PLD - Zephy Back Office" />
             <Page>
                 <PDFViewer style={{width: '100%', height: '100%'}}>
                     <PLD
