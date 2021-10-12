@@ -49,6 +49,16 @@ const globalStyles = StyleSheet.create({
         fontSize: '24pt',
         marginBottom: 15,
     },
+    h2: {
+        fontFamily: 'QuicksandMedium',
+        fontSize: '20pt',
+        marginBottom: 15,
+    },
+    h3: {
+        fontFamily: 'QuicksandMedium',
+        fontSize: '16pt',
+        marginBottom: 15,
+    },
     wrapper: {
         padding: '5% 10%',
     }
