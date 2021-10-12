@@ -7,7 +7,15 @@ import PLDDescription from '@/modules/pld/pdf/PLDDescription';
 import PLDHomepage from '@/modules/pld/pdf/PLDHomepage';
 import PLDSprints from '@/modules/pld/pdf/PLDSprints';
 import PLDSummary from '@/modules/pld/pdf/PLDSummary';
-import { Document, Page } from '@react-pdf/renderer';
+import { Document, Page, StyleSheet } from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+    body: {
+        paddingTop: 30,
+        paddingBottom: 50,
+        paddingHorizontal: 50,
+    }
+});
 
 export default function PLD(props: {
     changelog: Changelog[],
@@ -27,7 +35,7 @@ export default function PLD(props: {
                 <PLDDescription changelog={props.changelog} />
                 <Footer />
             </Page>
-            <Page>
+            <Page style={styles.body}>
                 <PLDChangelog changelog={props.changelog} />
                 <Footer />
             </Page>
@@ -35,7 +43,7 @@ export default function PLD(props: {
                 <PLDDeliverables />
                 <Footer />
             </Page>
-            <Page>
+            <Page style={styles.body}>
                 <PLDSprints sprints={props.sprints} />
                 <Footer />
             </Page>

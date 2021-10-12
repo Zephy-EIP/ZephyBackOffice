@@ -89,7 +89,7 @@ export default function PLDChangelog(props: {
     });
 
     return (
-        <View style={globalStyles.wrapper}>
+        <View>
             <Text style={globalStyles.title}>
                 Tableau des révisions
             </Text>

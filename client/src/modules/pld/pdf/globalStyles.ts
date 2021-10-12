@@ -61,6 +61,9 @@ const globalStyles = StyleSheet.create({
     },
     wrapper: {
         padding: '5% 10%',
+    },
+    pageMargin: {
+        margin: '5% 10%',
     }
 })
 
