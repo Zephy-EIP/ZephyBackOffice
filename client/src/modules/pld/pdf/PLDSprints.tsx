@@ -74,6 +74,24 @@ const styles = StyleSheet.create({
 
     bold: {
         fontFamily: 'QuicksandBold',
+    },
+
+    memberInList: {
+        marginTop: 20,
+        fontSize: 14,
+    },
+
+    taskInList: {
+        fontFamily: 'QuicksandRegular',
+        fontSize: 12,
+        lineHeight: 1.2,
+    },
+    taskCompleted: {
+        color: '#4BB543',
+    },
+
+    memberLoads: {
+        marginBottom: 50,
     }
 });
 
@@ -109,6 +127,47 @@ function ShowUS(props: {
 
 type MemberTaskLoad = MemberLoad & {
     task: string,
+}
+
+function SprintTasks(props: {
+    tasks: MemberTaskLoad[],
+}) {
+    let lastMember = '';
+
+    return (
+        <View style={styles.memberLoads}>
+            {
+                props.tasks.map(task => {
+                    let memberName = <></>;
+                    if (lastMember !== task.memberName) {
+                        lastMember = task.memberName;
+                        memberName = (
+                            <View style={styles.memberInList}>
+                                <Text style={styles.bold}>
+                                    • {lastMember} :
+                                </Text>
+                            </View>
+                        )
+                    }
+
+                    const classes = [styles.taskInList];
+                    if (task.status === 'done')
+                        classes.push(styles.taskCompleted);
+                    else if (task.status === 'in progress')
+                        classes.push(globalStyles.orange);
+
+                    return (
+                        <View key={task.memberName + task.task}>
+                            {memberName}
+                            <Text style={classes}>∙ {task.task} ({task.load}j)</Text>
+                        </View>
+                    )
+
+
+                })
+            }
+        </View>
+    )
 }
 
 function ShowSprint(props: {
@@ -148,6 +207,7 @@ function ShowSprint(props: {
                       </View>
                   )
             }) }
+            <SprintTasks tasks={memberLoads} />
         </View>
     );
 }
@@ -156,11 +216,11 @@ export default function PLDSprints(props: {
     sprints: Sprint[],
 }) {
     return (
-        <>
-            <Text style={globalStyles.title}>User stories et definition of done</Text>
+        <View break>
+            <Text style={[globalStyles.title]}>User stories et definition of done</Text>
             {
                 props.sprints.map(sprint => <ShowSprint key={sprint.sprint_name} sprint={sprint} />)
             }
-        </>
+        </View>
     )
 }
