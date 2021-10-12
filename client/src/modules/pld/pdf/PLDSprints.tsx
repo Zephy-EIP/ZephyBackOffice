@@ -90,9 +90,6 @@ const styles = StyleSheet.create({
         color: '#4BB543',
     },
 
-    memberLoads: {
-        marginBottom: 50,
-    }
 });
 
 function ShowUS(props: {
@@ -135,7 +132,7 @@ function SprintTasks(props: {
     let lastMember = '';
 
     return (
-        <View style={styles.memberLoads}>
+        <View>
             {
                 props.tasks.map(task => {
                     let memberName = <></>;
@@ -171,7 +168,8 @@ function SprintTasks(props: {
 }
 
 function ShowSprint(props: {
-    sprint: Sprint
+    sprint: Sprint,
+    index: number
 }) {
     let memberLoads: MemberTaskLoad[] = [];
 
@@ -193,7 +191,7 @@ function ShowSprint(props: {
     });
 
     return (
-        <View>
+        <View break={props.index > 0}>
             <Text style={globalStyles.h2}>{props.sprint.sprint_name}</Text>
             { props.sprint.data.deliverables.map(deliverable => {
                   return (
@@ -216,10 +214,10 @@ export default function PLDSprints(props: {
     sprints: Sprint[],
 }) {
     return (
-        <View break>
+        <View>
             <Text style={[globalStyles.title]}>User stories et definition of done</Text>
             {
-                props.sprints.map(sprint => <ShowSprint key={sprint.sprint_name} sprint={sprint} />)
+                props.sprints.map((sprint, index) => <ShowSprint key={sprint.sprint_name} sprint={sprint} index={index} />)
             }
         </View>
     )
