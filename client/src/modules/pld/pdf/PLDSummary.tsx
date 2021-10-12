@@ -1,6 +1,5 @@
-import { Text, StyleSheet, View, Image } from '@react-pdf/renderer';
+import { Text, StyleSheet, View } from '@react-pdf/renderer';
 import gs from '@/modules/pld/pdf/globalStyles';
-import { getPLDDate } from '@/modules/pld/pdf/PLDutils';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -9,6 +8,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
         lineHeight: 1.6,
+        textAlign: 'justify',
     },
     invisible: {
         opacity: 0,

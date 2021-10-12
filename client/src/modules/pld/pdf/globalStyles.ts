@@ -21,6 +21,10 @@ Font.register({
     fontWeight: 'normal'
 });
 
+export const purpleLight = '#EDE6FF';
+export const purple = '#B4A7D6';
+export const orange = '#F7B26A';
+
 const globalStyles = StyleSheet.create({
     medium: {
         fontFamily: 'QuicksandMedium',
@@ -34,6 +38,9 @@ const globalStyles = StyleSheet.create({
     purple: {
         color: '#B4A7D6',
     },
+    purpleLight: {
+        color: '#EDE6FF',
+    },
     orange: {
         color: '#F7B26A',
     },
@@ -41,6 +48,9 @@ const globalStyles = StyleSheet.create({
         fontFamily: 'QuicksandBold',
         fontSize: '24pt',
         marginBottom: 15,
+    },
+    wrapper: {
+        padding: '5% 10%',
     }
 })
 
