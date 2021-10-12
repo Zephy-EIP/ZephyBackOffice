@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         fontFamily: 'QuicksandRegular',
         height: '100%',
         padding: 5,
-        fontSize: 15,
+        fontSize: 13,
         flex: 2,
         borderLeftStyle: 'solid',
         borderLeftWidth: 1,
