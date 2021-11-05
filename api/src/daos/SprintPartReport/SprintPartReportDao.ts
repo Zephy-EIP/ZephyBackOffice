@@ -11,11 +11,11 @@ export interface ISprintPartReportDao {
 
 class SprintPartReportDaoClass implements ISprintPartReportDao {
     async list(sprintPartId?: number | undefined): Promise<SprintPartReport[]> {
-        let query = 'select * from sprint_part_reports';
+        let query = 'select * from sprint_part_reports order by member_name asc';
         let queryArgs: any[] | undefined;
 
         if (typeof sprintPartId === 'number') {
-            query += ' where sprint_part_id = $1';
+            query = 'select * from sprint_part_reports where sprint_part_id = $1 order by member_name asc';
             queryArgs = [sprintPartId];
         }
 

@@ -30,7 +30,7 @@ class MemberDaoClass implements IMemberDao {
 
     async list(): Promise<Member[]> {
         return await pool.query<IMember>(
-            'select * from members'
+            'select * from members order by member_name asc'
         )
             .then(res => res.rows.map(value => { return new Member(value) }))
             .catch(_err => []);
