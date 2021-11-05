@@ -154,6 +154,7 @@ function SprintPartReportForm(props: ConnectedProps<typeof connector>) {
             </div>
             <TextInput
                 className="input"
+                type="textarea"
                 value={report}
                 onChange={setReport}
                 placeholder="Durant ce mois, ..." />

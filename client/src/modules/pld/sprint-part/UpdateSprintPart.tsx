@@ -88,6 +88,7 @@ function UpdateSprintPart(props: ConnectedProps<typeof connector>) {
             <TextInput className="input" placeholder={titlePlaceHolder} value={title} onChange={setTitle} />
             <div className="quicksand-medium">Description</div>
             <TextInput
+                type="textarea"
                 className="input"
                 placeholder="L'ensemble de l'équipe a..."
                 value={description} onChange={setDescription} />

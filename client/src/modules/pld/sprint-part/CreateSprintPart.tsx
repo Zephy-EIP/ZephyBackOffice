@@ -97,6 +97,7 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
                 placeholder={titlePlaceHolder} />
             <div className="quicksand-medium">Description</div>
             <TextInput
+                type="textarea"
                 className="input"
                 onChange={setDescription}
                 value={description}

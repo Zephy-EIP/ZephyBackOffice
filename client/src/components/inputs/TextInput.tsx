@@ -54,6 +54,24 @@ export default function TextInput(props: Props) {
         icon = hidePasswordIcon;
     }
 
+    if (props.type === 'textarea')
+        return (
+            <div className={classNameWrapper}>
+                <textarea
+                    id={props.id}
+                    className={`${className} quicksand-regular`}
+                    onChange={e => {
+                        if (props.onChange)
+                            props.onChange(e.target.value)
+                    }}
+                    placeholder={props.placeholder}
+                    autoComplete={props.autoComplete}
+                    disabled={props.disabled}
+                    value={props.value}
+                />
+            </div>
+        );
+
     return (
         <div className={classNameWrapper}>
             <input
