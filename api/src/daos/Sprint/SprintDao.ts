@@ -16,7 +16,7 @@ export interface ISprintDao {
 class SprintDaoClass implements ISprintDao {
     async listNames(): Promise<string[]> {
         return await pool.query<ISprint>(
-            'select sprint_name from sprints'
+            'select sprint_name from sprints order by "order"'
         )
             .then(res => res.rows.map(row => row.sprint_name))
             .catch(_err => []);
@@ -76,7 +76,7 @@ class SprintDaoClass implements ISprintDao {
 
     async list(): Promise<Sprint[]> {
         return await pool.query<ISprint>(
-            'select * from sprints'
+            'select * from sprints order by "order"'
         )
             .then(res => res.rows.map(value => new Sprint(value)))
             .catch(_err => []);

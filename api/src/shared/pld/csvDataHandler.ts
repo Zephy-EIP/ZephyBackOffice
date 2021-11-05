@@ -1,6 +1,6 @@
 import Member from '@/entities/Member';
 import logger from '@/shared/logger';
-import SprintData, { CSVEntry, emptySprintData, MemberLoad, StatusType } from '@/shared/pld/dataType';
+import SprintData, { CSVEntry, MemberLoad, StatusType } from '@/shared/pld/dataType';
 
 namespace CSVDataHandler {
 
@@ -100,7 +100,7 @@ namespace CSVDataHandler {
             case 'Not started':
                 return 'not started';
         }
-        return 'done';
+        return 'not started';
     }
 
     function getMemberLoads(entry: any, members: Member[]): MemberLoad[] {
@@ -122,7 +122,7 @@ namespace CSVDataHandler {
 
     export function csvToSprintData(entries: CSVEntry[], members: Member[]): SprintData {
         entries = entries.sort((a, b) => a['Sous-livrable'] < b['Sous-livrable'] ? -1 : 1);
-        let data = emptySprintData;
+        let data: SprintData = { deliverables: [] };
         if (entries.length === 0)
             return data;
         let currentDeliverable = entries[0].Livrable;

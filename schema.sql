@@ -42,7 +42,8 @@ create table if not exists members
 create table if not exists sprints
 (
   sprint_name varchar(100) primary key,
-  "data" text not null
+  "data" text not null,
+  "order" serial not null,
 );
 
 create table if not exists sprint_parts

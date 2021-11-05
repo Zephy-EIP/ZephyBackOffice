@@ -39,5 +39,3 @@ export type CSVEntry = {
     Description: string,
     'Definition of Done': string,
 }
-
-export const emptySprintData: SprintData = { deliverables: [] };
