@@ -103,17 +103,20 @@ namespace CSVDataHandler {
         return 'not started';
     }
 
-    function getMemberLoads(entry: any, members: Member[]): MemberLoad[] {
+    function getMemberLoads(entry: CSVEntry, members: Member[]): MemberLoad[] {
         const loads: MemberLoad[] = [];
 
         for (const member of members) {
             const firstname: string = member.member_name.split(' ')[0];
-            if (entry[firstname] === undefined || entry[firstname] === '')
+            if ((entry as any)[firstname] === undefined || (entry as any)[firstname] === '')
                 continue;
+            let status = getStatus(entry.Status);
+            if (status !== 'done')
+                status = getStatus((entry as any)[`Status ${firstname}`]);
             loads.push({
-                load: parseFloat(entry[firstname]),
+                load: parseFloat((entry as any)[firstname]),
                 memberName: member.member_name,
-                status: getStatus(entry[`Status ${firstname}`]),
+                status: status,
             });
         }
 
