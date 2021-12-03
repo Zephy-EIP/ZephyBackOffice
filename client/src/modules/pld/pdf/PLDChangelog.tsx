@@ -111,7 +111,7 @@ export default function PLDChangelog(props: {
                         }
                         const date = new Date(log.date);
                         return (
-                            <View key={log.id} style={styles.tableLine}>
+                            <View key={log.id} style={styles.tableLine} wrap={false}>
                                 <Text style={classesFirst}>
                                     {`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}
                                 </Text>
