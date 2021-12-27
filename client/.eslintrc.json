@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "indent": ["warning", 4]
+    "indent": [1, 4]
   }
 }

@@ -46,7 +46,7 @@ function CreateAccount(props: ConnectedProps<typeof connector>) {
     const textRef = useRef(null);
 
     const copyToClipboard = () => {
-        textRef.current!.select();
+        (textRef.current as any).select();
         document.execCommand('copy');
         setCopiedTooltip(true);
         setTimeout(() => {

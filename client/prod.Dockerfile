@@ -13,7 +13,7 @@ FROM node:lts as runner
 WORKDIR /app
 ENV NODE_ENV production
 # If use a custom next.config.js file, uncomment this line.
-# COPY --from=builder /my-project/next.config.js ./
+COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules

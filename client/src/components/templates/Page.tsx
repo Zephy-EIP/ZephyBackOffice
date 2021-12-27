@@ -86,7 +86,7 @@ function Page(props: {
                         403 Forbidden
                     </h1>
                     <p>
-                        You've got no business here.
+                        {"You've got no business here."}
                     </p>
                 </div>
             </div>

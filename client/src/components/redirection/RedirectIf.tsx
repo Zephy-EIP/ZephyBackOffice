@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
     children: React.ReactNode
@@ -9,12 +9,16 @@ interface Props {
 
 export default function RedirectIf(props: Props) {
     const router = useRouter();
-    if (props.fct() === false) {
-        useEffect(() => {
+    const [check, setCheck] = useState(false);
+    useEffect(() => {
+        if (props.fct() === false) {
             router.push(props.url);
-        })
+            return;
+        }
+        setCheck(true);
+    })
+    if (check)
         return (<></>);
-    }
     return (
         <>
             {props.children}
