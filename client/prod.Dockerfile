@@ -12,12 +12,17 @@ RUN yarn build
 FROM node:lts as runner
 WORKDIR /app
 ENV NODE_ENV production
-# If use a custom next.config.js file, uncomment this line.
+
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
+RUN useradd zephy
+RUN chown zephy:zephy --recursive /app
+
+USER zephy
 
 EXPOSE 3000
 CMD ["yarn", "start"]

@@ -23,10 +23,10 @@ services:
       context: ${PWD}/api
       dockerfile: prod.Dockerfile
     restart: unless-stopped
-    ports:
-      - '127.0.0.1:3000:3000'
     networks:
       - backend
+    ports:
+      - '127.0.0.1:3002:3000'
 
   api-development:
     profiles: ['dev']
@@ -35,7 +35,7 @@ services:
       dockerfile: dev.Dockerfile
     restart: unless-stopped
     ports:
-      - '127.0.0.1:3000:3000'
+      - '127.0.0.1:3002:3000'
     networks:
       - backend
     volumes:
