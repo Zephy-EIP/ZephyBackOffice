@@ -11,6 +11,7 @@ import PLDReports from '@/modules/pld/pdf/PLDReports';
 import PLDSprints from '@/modules/pld/pdf/PLDSprints';
 import PLDSummary from '@/modules/pld/pdf/PLDSummary';
 import { Document, Page, StyleSheet } from '@react-pdf/renderer';
+import BetaPlan from './BetaPlan';
 
 const styles = StyleSheet.create({
     body: {
@@ -50,6 +51,10 @@ export default function PLD(props: {
             </Page>
             <Page style={styles.body}>
                 <PLDSprints sprints={props.sprints} />
+                <Footer />
+            </Page>
+            <Page style={styles.body}>
+                <BetaPlan />
                 <Footer />
             </Page>
             <Page style={styles.body}>
