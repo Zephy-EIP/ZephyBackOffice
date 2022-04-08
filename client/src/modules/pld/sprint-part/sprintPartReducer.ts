@@ -38,7 +38,7 @@ const initialState: SprintPartState = {
 
 export const createSprintPart = createAsyncThunk(
     'sprint-part/create',
-    async (args: {sprintName: string, title: string, description: string, partType: 'KO' | 'FU' | 'D'}) => {
+    async (args: {sprintName: string, title: string, description: string, partType: 'KO' | 'FU' | 'FU2' | 'D'}) => {
         return await client.post<BasicResponse>('/sprint-part', {
             sprint_name: args.sprintName,
             title: args.title,

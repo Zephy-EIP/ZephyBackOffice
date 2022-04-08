@@ -3,7 +3,7 @@ export interface ISprintPart {
     sprint_name: string,
     title: string,
     description: string,
-    type: 'KO' | 'FU' | 'D' | '',
+    type: 'KO' | 'FU' | 'FU2' | 'D' | '',
 }
 
 export default class SprintPart implements ISprintPart {
@@ -11,13 +11,13 @@ export default class SprintPart implements ISprintPart {
     sprint_name: string;
     title: string;
     description: string;
-    type: 'KO' | 'FU' | 'D' | '';
+    type: 'KO' | 'FU' | 'FU2' | 'D' | '';
 
     constructor(obj: ISprintPart) {
         this.id = typeof obj.id === 'number' ? obj.id : -1;
         this.sprint_name = typeof obj.sprint_name === 'string' ? obj.sprint_name : '';
         this.title = typeof obj.title === 'string' ? obj.title : '';
         this.description = typeof obj.description === 'string' ? obj.description : '';
-        this.type = obj.type === 'D' || obj.type === 'FU' || obj.type === 'KO' ? obj.type : '';
+        this.type = obj.type === 'D' || obj.type === 'FU' || obj.type === 'FU2' || obj.type === 'KO' ? obj.type : '';
     }
 }

@@ -3,5 +3,5 @@ export default interface SprintPart {
     sprint_name: string,
     title: string,
     description: string,
-    type: 'KO' | 'FU' | 'D',
+    type: 'KO' | 'FU' | 'FU2' | 'D',
 }

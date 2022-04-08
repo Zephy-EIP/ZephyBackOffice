@@ -55,7 +55,9 @@ function SprintReports(props: {
     spl.sort((a, b) => {
         if (a.type === 'D')
             return 1;
-        else if (a.type === 'FU' && b.type === 'KO')
+        else if (b.type === 'KO')
+            return 1;
+        else if (a.type === 'FU2' && b.type == 'FU')
             return 1;
         return -1;
     });

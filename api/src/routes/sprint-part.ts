@@ -22,7 +22,7 @@ sprintPartRouter.post('/', authenticateWithRole(1000, (req, res) => {
     if (typeof sprint_name !== 'string' ||
         typeof title !== 'string' ||
         typeof description !== 'string' ||
-        (part_type !== 'KO' && part_type !== 'FU' && part_type !== 'D'))
+        (part_type !== 'KO' && part_type !== 'FU' && part_type !== 'FU2' && part_type !== 'D'))
         return res.status(400).json(createBasicResponse(400));
 
     let sprintPart = new SprintPart({sprint_name, title, description, type: part_type, id: 0});

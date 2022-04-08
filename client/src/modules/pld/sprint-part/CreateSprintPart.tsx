@@ -37,6 +37,7 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
         new SelectElement('Choose Type...', ''),
         new SelectElement('Kick Off', 'KO'),
         new SelectElement('Follow up', 'FU'),
+        new SelectElement('Follow up 2', 'FU2'),
         new SelectElement('Delivery', 'D'),
     ]
 
@@ -66,7 +67,7 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
     }
 
     async function createSP() {
-        if (type !== 'KO' && type !== 'FU' && type !== 'D')
+        if (type !== 'KO' && type !== 'FU' && type !== 'FU2' && type !== 'D')
             return;
         if (sprint === '' || title === '')
             return;

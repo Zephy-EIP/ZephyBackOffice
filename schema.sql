@@ -1,7 +1,7 @@
 
 -- Custom Types
 
-CREATE TYPE part_type AS ENUM ('KO', 'FU', 'D');
+CREATE TYPE part_type AS ENUM ('KO', 'FU', 'FU2', 'D');
 
 -- Users
 
@@ -43,7 +43,7 @@ create table if not exists sprints
 (
   sprint_name varchar(100) primary key,
   "data" text not null,
-  "order" serial not null,
+  "order" serial not null
 );
 
 create table if not exists sprint_parts
