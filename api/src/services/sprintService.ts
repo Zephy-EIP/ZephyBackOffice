@@ -8,32 +8,40 @@ import csv from 'csvtojson';
 
 namespace SprintService {
 
-    async function extractSprintDataFormCSV(sprintName: string, filepath: string): Promise<SprintData | null> {
+    /**
+       Return value is either the sprint data or the error string.
+     */
+    async function extractSprintDataFormCSV(sprintName: string, filepath: string): Promise<SprintData | string> {
         try {
             let sprintData = await csv().fromFile(filepath) as CSVEntry[] | null;
             const members = await MemberDao.list();
-            sprintData = CSVDataHandler.validateData(sprintData!, members, sprintName);
-            if (sprintData === null)
-                return null;
+            let validation = CSVDataHandler.validateData(sprintData!, members, sprintName);
+            if (validation.error !== undefined)
+                return validation.error;
+            sprintData = validation.entries!;
             return CSVDataHandler.csvToSprintData(sprintData, members);
         } catch(e) {
             logger.err(e);
-            return null;
+            return '';
         }
     }
 
-    export async function createSprintFromCSV(sprintName: string, filepath: string): Promise<boolean> {
+    export async function createSprintFromCSV(sprintName: string, filepath: string): Promise<{error: boolean, message?: string}> {
         const data = await extractSprintDataFormCSV(sprintName, filepath);
-        if (data === null)
-            return false;
-        return await SprintDao.add(sprintName, data);
+        if (typeof data === 'string')
+            return {error: true, message: data};
+        if (await SprintDao.add(sprintName, data))
+            return {error: true, message: 'Sprint already exists'};
+        return {error: false};
     }
 
-    export async function updateSprintFromCSV(sprintName: string, filepath: string): Promise<boolean> {
+    export async function updateSprintFromCSV(sprintName: string, filepath: string): Promise<{error: boolean, message?: string}> {
         const data = await extractSprintDataFormCSV(sprintName, filepath);
-        if (data === null)
-            return false;
-        return await SprintDao.updateData(sprintName, data) !== null;
+        if (typeof data === 'string')
+            return {error: true, message: data};
+        if (await SprintDao.updateData(sprintName, data))
+            return {error: true, message: 'Server error'};
+        return {error: false};
     }
 
     export async function updateSprintName(oldName: string, newName: string): Promise<boolean> {

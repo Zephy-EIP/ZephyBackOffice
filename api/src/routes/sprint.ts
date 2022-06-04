@@ -24,9 +24,9 @@ sprintRouter.post('/', authenticateWithRole(1000, (req, res, info): any => {
 
             SprintService.createSprintFromCSV(name, uploadPath)
                 .then(result => {
-                    if (result)
+                    if (result.error === false)
                         return res.status(200).json(createBasicResponse(200));
-                    res.status(400).json(createBasicResponse(400));
+                    res.status(400).json(createBasicResponse(400, result.message));
                 });
 
         });
@@ -54,9 +54,9 @@ sprintRouter.put('/data', authenticateWithRole(1000, (req, res, info): any => {
 
             SprintService.updateSprintFromCSV(name, uploadPath)
                 .then(result => {
-                    if (result)
+                    if (result.error === false)
                         return res.status(200).json(createBasicResponse(200));
-                    res.status(400).json(createBasicResponse(400));
+                    res.status(400).json(createBasicResponse(400, result.message));
                 });
 
         });

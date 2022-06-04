@@ -68,23 +68,26 @@ namespace CSVDataHandler {
         return entry.Status === 'Completed' || entry.Status === 'In progress' || entry.Status === 'Not started' || entry.Status === '';
     }
 
-    export function validateData(entries: CSVEntry[], members: Member[], sprintName: string): CSVEntry[] | null {
+    export function validateData(entries: CSVEntry[], members: Member[], sprintName: string): {
+        entries?: CSVEntry[],
+        error?: string
+    } {
         for (const entry of entries)
             if (!validateBasicFieldTypes(entry))
-                return null;
+                return {error: 'Wrong file format.'};
         entries = entries.filter(entry => entry.Sprint === sprintName);
         if (entries.length === 0)
-            return null;
+            return {error: 'No entries for sprint.'};
         for (const entry of entries) {
             if (!validateMemberFieldTypes(entry, members) ||
                 !validateAssignTo(entry, members) ||
                 !validateCharge(entry, members) ||
                 !validateStatus(entry)) {
                 logger.err('PLD Creation: Error with entry: ' + JSON.stringify(entry));
-                return null;
+                return {error: 'Error with entry: ' + JSON.stringify(entry)};
             }
         }
-        return entries;
+        return {entries};
     }
 
     function getDod(entry: CSVEntry): string[] {

@@ -21,12 +21,12 @@ export interface BasicPayload<T = any> {
     data?: T,
 }
 
-export function getBasicErrorPayloadAxios<T = any>(err: any): BasicPayload<T> {
+export function getBasicErrorPayloadAxios<T = any>(err: any, data?: T): BasicPayload<T> {
     if (axios.isAxiosError(err)) {
         if (typeof err.response?.status === 'number')
-            return { success: false, error: err.response.status };
+            return { success: false, error: err.response.status, data };
     }
-    return { success: false, error: 500 };
+    return { success: false, error: 500, data };
 }
 
 export function getBasicDataPayload<T>(data?: T): BasicPayload<T> {

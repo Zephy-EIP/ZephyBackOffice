@@ -1,6 +1,5 @@
 import Button from '@/components/buttons/Button';
 import TextInput from '@/components/inputs/TextInput';
-import Select, { SelectElement } from '@/components/selectors/Select';
 import { getSprintListNames, resetCreateSprint, createSprint } from '@/modules/pld/sprint/sprintReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -18,8 +17,9 @@ const connector = connect(mapStateToProps, { getSprintListNames, resetCreateSpri
 function SprintUpdateData(props: ConnectedProps<typeof connector>) {
     const [file, setFile] = useState(null as File | null);
     const dispatch = useThunkDispatch();
-    const [sprintName, setSprintName] = useState('');
+    const [sprintName, setSprintNameState] = useState('');
     const [ref, setRef] = useState(null as HTMLFormElement | null);
+    const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     useEffect(() => {
         if (!props.sprintNames.loaded && !props.sprintNames.loading)
@@ -28,11 +28,22 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
 
     useEffect(() => {
         if (props.create.loaded) {
-            // TODO: better communication with the user
             dispatch(props.resetCreateSprint());
             reset();
-            if (props.create.success)
+            if (props.create.success) {
+                setMsg(
+                    <div className="success">
+                        Created sprint successfully.
+                    </div>
+                );
                 (async () => dispatch(await props.getSprintListNames()))();
+            } else {
+                setMsg(
+                    <div className="error">
+                        Error: {props.create.error ?? "Couldn't create sprint"}
+                    </div>
+                )
+            }
         }
     }, [props.create.loaded]);
 
@@ -46,8 +57,13 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
 
     const reset = () => {
         setFile(null);
-        setSprintName('');
+        setSprintNameState('');
         ref?.reset();
+    }
+
+    function setSprintName(name: string) {
+        setSprintNameState(name);
+        setMsg(undefined);
     }
 
     const onClick = async () => {
@@ -70,6 +86,7 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
                 value={sprintName} />
             <input type="file" name="sprintFile" onChange={onChangeFile} />
             <br /><br />
+            {msg}
             <Button onClick={onClick}>
                 Create from CSV
             </Button>

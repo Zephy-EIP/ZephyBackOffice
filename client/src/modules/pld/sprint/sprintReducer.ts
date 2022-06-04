@@ -11,8 +11,8 @@ interface SprintState {
     listNames: BasicCall & {
         list?: string[]
     },
-    createSprint: BasicCall,
-    updateData: BasicCall,
+    createSprint: BasicCall & {error?: string},
+    updateData: BasicCall & {error?: string},
     updateName: BasicCall,
     deleteSprint: BasicCall,
 };
@@ -84,7 +84,7 @@ export const createSprint = createAsyncThunk(
             .then(res => {
                 return getBasicDataPayload(res.data);
             }).catch(err => {
-                return getBasicErrorPayloadAxios<BasicResponse>(err);
+                return getBasicErrorPayloadAxios<BasicResponse>(err, err.response?.data);
             });
     }
 )
@@ -99,7 +99,7 @@ export const updateSprintData = createAsyncThunk(
             .then(res => {
                 return getBasicDataPayload<BasicResponse>(res.data);
             }).catch(err => {
-                return getBasicErrorPayloadAxios<BasicResponse>(err);
+                return getBasicErrorPayloadAxios<BasicResponse>(err, err.response.data);
             });
     });
 
@@ -187,6 +187,7 @@ const SprintSlice = createSlice({
                 state.createSprint.loading = false;
                 state.createSprint.loaded = true;
                 state.createSprint.success = action.payload.success;
+                state.createSprint.error = action.payload.data?.message;
             })
             .addCase(createSprint.rejected, (state) => {
                 state.createSprint.loading = false;
@@ -199,6 +200,7 @@ const SprintSlice = createSlice({
                 state.updateData.loading = false;
                 state.updateData.loaded = true;
                 state.updateData.success = action.payload.success;
+                state.updateData.error = action.payload.data?.message;
             })
             .addCase(updateSprintData.rejected, (state) => {
                 state.updateData.loading = false;

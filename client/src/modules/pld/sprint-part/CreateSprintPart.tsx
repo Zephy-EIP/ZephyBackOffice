@@ -28,6 +28,7 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
+    const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     const sprintElements: SelectElement[] = [new SelectElement('Choose sprint...', '')].concat(
         props.sprintNames.list?.map(value => new SelectElement(value, value)) || []
@@ -49,8 +50,9 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
     useEffect(() => {
         if (!props.sprintPartCreate.loaded)
             return;
-        if (props.sprintPartCreate.success)
+        if (props.sprintPartCreate.success) {
             (async () => dispatch(await props.getSprintPartList()))();
+        }
         reset();
         dispatch(props.resetSprintPartCreate());
     }, [props.sprintPartCreate.loaded]);
