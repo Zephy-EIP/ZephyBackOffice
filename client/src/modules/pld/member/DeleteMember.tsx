@@ -16,7 +16,8 @@ const connector = connect(mapStateToProps, { deleteMember, getMemberList, resetD
 
 function DeleteMember(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
-    const [member, setMember] = useState('');
+    const [member, setMemberState] = useState('');
+    const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     const elements: SelectElement[] = [new SelectElement('Choose member...', '')].concat(
         props.list.list?.map(value => new SelectElement(value.member_name, value.member_name)) || []
@@ -30,14 +31,29 @@ function DeleteMember(props: ConnectedProps<typeof connector>) {
     useEffect(() => {
         if (!props.delete.loaded)
             return;
-        if (props.delete.success)
+        if (props.delete.success) {
+            setMsg(
+                <div className="success">
+                    Member deleted successfully.
+                </div>);            
             (async () => dispatch(await props.getMemberList()))();
+        } else {
+            setMsg(
+                <div className="error">
+                    Coudln't delete member.
+                </div>);
+        }
         dispatch(props.resetDeleteMember());
         reset();
     }, [props.delete.loaded])
 
+    function setMember(member: string) {
+        setMsg(undefined);
+        setMemberState(member);
+    }
+
     function reset() {
-        setMember('');
+        setMemberState('');
     }
 
     async function deletefct() {
@@ -55,6 +71,7 @@ function DeleteMember(props: ConnectedProps<typeof connector>) {
             <div className="input">
                 <Select elements={elements} onChange={setMember} elemKey={member} />
             </div>
+            {msg}
             <Button onClick={deletefct}>
                 Delete Member
             </Button>

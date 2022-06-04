@@ -16,13 +16,24 @@ const connector = connect(mapStateToProps, {getMemberList, createMember, resetCr
 
 function CreateMember(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
-    const [memberName, setMemberName] = useState('');
+    const [memberName, setMemberNameState] = useState('');
+    const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     useEffect(() => {
         if (!props.create.loaded)
             return;
-        if (props.create.success)
+        if (props.create.success) {
+            setMsg(
+                <div className="success">
+                    Member created successfully.
+                </div>);
             (async () => dispatch(await props.getMemberList()))();
+        } else {
+            setMsg(
+                <div className="error">
+                    Couldn't create member. Member may already exist.
+                </div>);
+        }
         dispatch(props.resetCreateMember());
         reset();
     }, [props.create.loaded])
@@ -33,8 +44,13 @@ function CreateMember(props: ConnectedProps<typeof connector>) {
         dispatch(await props.createMember({memberName}));
     }
 
+    function setMemberName(name: string) {
+        setMsg(undefined);
+        setMemberNameState(name);
+    }
+
     function reset() {
-        setMemberName('');
+        setMemberNameState('');
     }
 
     return (
@@ -44,6 +60,7 @@ function CreateMember(props: ConnectedProps<typeof connector>) {
                 Member name
             </div>
             <TextInput className="input" placeholder="Joe Froid" onChange={setMemberName} value={memberName} />
+            { msg }
             <Button onClick={createfct}>
                 Create Member
             </Button>

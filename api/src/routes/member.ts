@@ -20,7 +20,7 @@ memberRouter.post('/', authenticateWithRole(1000, (req, res) => {
     MemberService.create(memberName)
         .then(success => {
             if (!success)
-                return res.status(500).json(createBasicResponse(500));
+                return res.status(409).json(createBasicResponse(409));
             return res.json(createBasicResponse(200));
         })
 }));
@@ -33,7 +33,7 @@ memberRouter.delete('/', authenticateWithRole(1000, (req, res) => {
     MemberService.deleteMember(memberName)
         .then(success => {
             if (!success)
-                return res.status(500).json(createBasicResponse(500));
+                return res.status(404).json(createBasicResponse(404));
             return res.json(createBasicResponse(200));
         });
 }));
