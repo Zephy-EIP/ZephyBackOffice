@@ -39,7 +39,7 @@ namespace SprintService {
         const data = await extractSprintDataFormCSV(sprintName, filepath);
         if (typeof data === 'string')
             return {error: true, message: data};
-        if (await SprintDao.updateData(sprintName, data))
+        if (!await SprintDao.updateData(sprintName, data))
             return {error: true, message: 'Server error'};
         return {error: false};
     }
