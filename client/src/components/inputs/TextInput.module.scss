@@ -2,6 +2,11 @@
     position: relative;
     width: fit-content;
 
+    textarea {
+        min-width: 95%;
+        min-height: 50px;
+    }
+
     .input {
         border: 2px solid #E0E0E0;
         border-radius: 10px;

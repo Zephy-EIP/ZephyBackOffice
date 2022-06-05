@@ -79,12 +79,18 @@ namespace CSVDataHandler {
         if (entries.length === 0)
             return {error: 'No entries for sprint.'};
         for (const entry of entries) {
-            if (!validateMemberFieldTypes(entry, members) ||
-                !validateAssignTo(entry, members) ||
-                !validateCharge(entry, members) ||
-                !validateStatus(entry)) {
-                logger.err('PLD Creation: Error with entry: ' + JSON.stringify(entry));
-                return {error: 'Error with entry: ' + JSON.stringify(entry)};
+            if (!validateMemberFieldTypes(entry, members)) {
+                logger.err('PLD Creation: Invalid member field types with entry: ' + entry.Name);
+                return {error: 'Invalid member field types with entry: ' + entry.Name};
+            } else if (!validateAssignTo(entry, members)) {
+                logger.err('PLD Creation: Invalid assignments with entry: ' + entry.Name);
+                return {error: 'Invalid assignments with entry: ' + entry.Name};
+            } else if (!validateCharge(entry, members)) {
+                logger.err('PLD Creation: Invalid charge with entry: ' + entry.Name);
+                return {error: 'Invalid charge with entry: ' + entry.Name};
+            } else if (!validateStatus(entry)) {
+                logger.err('PLD Creation: Invalid statuses with entry: ' + entry.Name);
+                return {error: 'Invalid statuses with entry: ' + entry.Name};
             }
         }
         return {entries};

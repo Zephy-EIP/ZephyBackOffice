@@ -72,7 +72,7 @@ function DeleteMember(props: ConnectedProps<typeof connector>) {
                 <Select elements={elements} onChange={setMember} elemKey={member} />
             </div>
             {msg}
-            <Button onClick={deletefct}>
+            <Button disabled={member === ''} onClick={deletefct}>
                 Delete Member
             </Button>
         </form>

@@ -61,7 +61,7 @@ function CreateMember(props: ConnectedProps<typeof connector>) {
             </div>
             <TextInput className="input" placeholder="Joe Froid" onChange={setMemberName} value={memberName} />
             { msg }
-            <Button onClick={createfct}>
+            <Button disabled={memberName === ''} onClick={createfct}>
                 Create Member
             </Button>
         </form>

@@ -87,7 +87,7 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
             <input type="file" name="sprintFile" onChange={onChangeFile} />
             <br /><br />
             {msg}
-            <Button onClick={onClick}>
+            <Button disabled={sprintName === '' || file === null } onClick={onClick}>
                 Create from CSV
             </Button>
         </form>

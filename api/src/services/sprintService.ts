@@ -30,7 +30,7 @@ namespace SprintService {
         const data = await extractSprintDataFormCSV(sprintName, filepath);
         if (typeof data === 'string')
             return {error: true, message: data};
-        if (await SprintDao.add(sprintName, data))
+        if (!await SprintDao.add(sprintName, data))
             return {error: true, message: 'Sprint already exists'};
         return {error: false};
     }

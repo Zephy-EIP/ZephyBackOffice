@@ -127,3 +127,5 @@ temp/
 .dir-locals.el
 
 .DS_Store
+
+.*.~undo-tree~
