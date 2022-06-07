@@ -1,4 +1,5 @@
 import Button from '@/components/buttons/Button';
+import DeleteButton from '@/components/buttons/DeleteButton';
 import { deleteSprint, getSprintListNames, resetDeleteSprint } from '@/modules/pld/sprint/sprintReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { useEffect, useState } from 'react';
@@ -69,9 +70,9 @@ function SprintDelete(props: ConnectedProps<typeof connector> & {
                 Delete Sprint
             </div>
             {msg}
-            <Button disabled={props.sprintName === ''} className={styles.buttonDelete} onClick={deletefct}>
+            <DeleteButton itemName={props.sprintName} disabled={props.sprintName === ''} className={styles.buttonDelete} onClick={deletefct}>
                 Delete Sprint
-            </Button>
+            </DeleteButton>
         </form>
     );
 }

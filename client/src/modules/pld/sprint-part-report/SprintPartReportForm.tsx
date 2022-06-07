@@ -1,4 +1,5 @@
 import Button from '@/components/buttons/Button';
+import DeleteButton from '@/components/buttons/DeleteButton';
 import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
 import { getMemberList } from '@/modules/pld/member/memberReducer';
@@ -163,12 +164,13 @@ function SprintPartReportForm(props: ConnectedProps<typeof connector>) {
                 disabled={sprintPartId === '' || member  === ''}>
                 {mainButtonTitle}
             </Button>
-            <Button
+            <DeleteButton
+                itemName={member}
                 onClick={deleteFct}
                 className={styles.btnOrange}
                 disabled={!reportExists}>
                 Delete
-            </Button>
+            </DeleteButton>
         </form>
     );
 }

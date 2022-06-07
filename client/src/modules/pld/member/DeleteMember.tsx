@@ -1,4 +1,5 @@
 import Button from '@/components/buttons/Button';
+import DeleteButton from '@/components/buttons/DeleteButton';
 import Select, { SelectElement } from '@/components/selectors/Select';
 import {  deleteMember, getMemberList, resetDeleteMember } from '@/modules/pld/member/memberReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
@@ -35,7 +36,7 @@ function DeleteMember(props: ConnectedProps<typeof connector>) {
             setMsg(
                 <div className="success">
                     Member deleted successfully.
-                </div>);            
+                </div>);
             (async () => dispatch(await props.getMemberList()))();
         } else {
             setMsg(
@@ -72,9 +73,9 @@ function DeleteMember(props: ConnectedProps<typeof connector>) {
                 <Select elements={elements} onChange={setMember} elemKey={member} />
             </div>
             {msg}
-            <Button disabled={member === ''} onClick={deletefct}>
+            <DeleteButton itemName={member} disabled={member === ''} onClick={deletefct}>
                 Delete Member
-            </Button>
+            </DeleteButton>
         </form>
     );
 }

@@ -1,4 +1,5 @@
 import Button from '@/components/buttons/Button';
+import DeleteButton from '@/components/buttons/DeleteButton';
 import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
 import { createSprintPart, deleteSprintPart, getSprintPartList, resetSprintPartCreate, resetSprintPartDelete, resetSprintPartUpdate, updateSprintPart } from '@/modules/pld/sprint-part/sprintPartReducer';
@@ -35,7 +36,7 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
     const [sprint, setSprint] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState('');
+    const [sprintType, setType] = useState('');
     const [sprintPartId, setSprintPartId] = useState(undefined as number | undefined);
     const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
@@ -54,6 +55,8 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
     useEffect(() => {
         if (!props.sprintNames.loaded && !props.sprintNames.loading)
             (async () => dispatch(await props.getSprintListNames()))();
+        if (!props.sprintParts.loaded && !props.sprintParts.loading)
+            (async () => dispatch(await props.getSprintPartList()))();
     }, []);
 
     useEffect(() => {
@@ -78,16 +81,16 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
     }, [props.sprintPartCreate.loaded]);
 
     useEffect(() => {
-        if (type !== '' || sprint !== '' || title !== '' || description !== '')
+        if (sprintType !== '' || sprint !== '' || title !== '' || description !== '')
             setMsg(undefined)
-    }, [type, sprint, title])
+    }, [sprintType, sprint, title])
 
     useEffect(() => {
-        if (sprint === '' || type === '') {
+        if (sprint === '' || sprintType === '') {
             setSprintPartId(undefined)
             return
         }
-        const part = props.sprintParts.list?.find(part => part.sprint_name === sprint && part.type === type)
+        const part = props.sprintParts.list?.find(part => part.sprint_name === sprint && part.type === sprintType)
         if (part) {
             setSprintPartId(part.id)
             setTitle(part.title)
@@ -95,7 +98,7 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
         } else {
             setSprintPartId(undefined)
         }
-    }, [sprint, type])
+    }, [sprint, sprintType])
 
     useEffect(() => {
         if (!props.update.loaded && !props.delete.loaded)
@@ -148,7 +151,7 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
     }
 
     async function createSP() {
-        if (type !== 'KO' && type !== 'FU' && type !== 'FU2' && type !== 'D')
+        if (sprintType !== 'KO' && sprintType !== 'FU' && sprintType !== 'FU2' && sprintType !== 'D')
             return;
         if (sprint === '' || title === '')
             return;
@@ -156,7 +159,7 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
             sprintName: sprint,
             title,
             description,
-            partType: type
+            partType: sprintType
         })
     }
 
@@ -188,7 +191,7 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
             </div>
             <div className="quicksand-medium">Choose type</div>
             <div className="input">
-                <Select elements={typeElems} elemKey={type} onChange={setType} />
+                <Select elements={typeElems} elemKey={sprintType} onChange={setType} />
             </div>
             <div className="quicksand-medium">Title</div>
             <TextInput
@@ -205,19 +208,20 @@ function SprintPart(props: ConnectedProps<typeof connector>) {
                 placeholder="L'ensemble de l'équipe a..." />
             {msg}
             {sprintPartId === undefined
-            ? <Button onClick={createSP} disabled={sprint === '' || title === '' || type === ''}>
+            ? <Button onClick={createSP} disabled={sprint === '' || title === '' || sprintType === ''}>
                 Create Sprint Part
             </Button>
-            : <Button onClick={updateFct} disabled={sprint === '' || title === '' || type === ''}>
+            : <Button onClick={updateFct} disabled={sprint === '' || title === '' || sprintType === ''}>
                 Update Sprint Part
             </Button>
             }
-            <Button
+            <DeleteButton
+                itemName={sprint + " | " + sprintType}
                 onClick={deleteFct}
                 disabled={sprintPartId === undefined}
                 className={styles.btnOrange}>
                 Delete
-            </Button>
+            </DeleteButton>
         </form>
     );
 }

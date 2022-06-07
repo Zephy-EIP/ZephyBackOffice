@@ -1,6 +1,6 @@
 import styles from './Button.module.scss';
 
-interface Props {
+export interface ButtonProps {
     children: React.ReactNode,
     onClick?: () => void,
     className?: string,
@@ -9,7 +9,7 @@ interface Props {
     type?: 'button' | 'submit' | 'reset',
 }
 
-export default function Button(props: Props) {
+export default function Button(props: ButtonProps) {
     let className = `${styles.linkButton} white quicksand-medium`;
     if (props.className !== undefined)
         className += ' ' + props.className;

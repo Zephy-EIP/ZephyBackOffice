@@ -37,3 +37,52 @@
 .buttonLoading {
     cursor: wait;
 }
+
+.hide {
+    display: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, 0.6);
+    z-index: 999;
+    backdrop-filter: blur(2px);
+
+    .backButton {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .popup {
+        padding: 15px 60px;
+        background: $white;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        position: absolute;
+        border-radius: 15px;
+        border: 2px solid #E0E0E0;
+        text-align: center;
+        h2 {
+            color: $red;
+        }
+
+        .input {
+            margin: 20px auto;
+            min-width: 500px;
+        }
+
+        .buttonDelete {
+            margin-bottom: 15px;
+            background-color: $orange;
+        }
+
+    }
+}

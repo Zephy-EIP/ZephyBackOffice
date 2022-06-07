@@ -1,4 +1,5 @@
 import Button from '@/components/buttons/Button';
+import DeleteButton from '@/components/buttons/DeleteButton';
 import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
 import { deleteChangelog, getChangelogList, resetChangelogDelete, resetChangelogUpdate, updateChangelog } from '@/modules/pld/changelog/changelogReducer';
@@ -142,12 +143,13 @@ function UpdateChangelog(props: ConnectedProps<typeof connector>) {
                 onClick={update}>
                 Update Log
             </Button>
-            <Button
+            <DeleteButton
+                itemName={`${version} | ${author}`}
                 className={styles.btnOrange}
                 disabled={logId === ''}
                 onClick={deleteLog}>
                 Delete
-            </Button>
+            </DeleteButton>
         </form>
     );
 }
