@@ -1,7 +1,6 @@
 import Page from '@/components/templates/Page';
 import BasicHeader from '@/modules/BasicHeader';
-import CreateSprintPart from '@/modules/pld/sprint-part/CreateSprintPart';
-import UpdateSprintPart from '@/modules/pld/sprint-part/UpdateSprintPart';
+import SprintPart from '@/modules/pld/sprint-part/SprintPart';
 
 export default function SprintParts() {
 
@@ -10,8 +9,7 @@ export default function SprintParts() {
             <BasicHeader title="Sprint Parts - Zephy Back Office" />
             <Page>
                 <div style={{padding: 15, paddingBottom: 250}}>
-                    <CreateSprintPart />
-                    <UpdateSprintPart />
+                    <SprintPart />
                 </div>
             </Page>
         </>

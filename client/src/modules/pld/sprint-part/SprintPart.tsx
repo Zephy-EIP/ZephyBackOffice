@@ -1,17 +1,21 @@
 import Button from '@/components/buttons/Button';
 import TextInput from '@/components/inputs/TextInput';
 import Select, { SelectElement } from '@/components/selectors/Select';
-import { createSprintPart, getSprintPartList, resetSprintPartCreate } from '@/modules/pld/sprint-part/sprintPartReducer';
+import { createSprintPart, deleteSprintPart, getSprintPartList, resetSprintPartCreate, resetSprintPartDelete, resetSprintPartUpdate, updateSprintPart } from '@/modules/pld/sprint-part/sprintPartReducer';
 import { getSprintListNames } from '@/modules/pld/sprint/sprintReducer';
 import { RootState, useThunkDispatch } from '@/utils/store';
 import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import styles from './SprintPart.module.scss';
 
 const mapStateToProps = (state: RootState) => {
     return {
         sprintNames: state.sprint.listNames,
         sprintParts: state.sprintPart.list,
         sprintPartCreate: state.sprintPart.create,
+
+        update: state.sprintPart.update,
+        delete: state.sprintPart.delete,
     };
 }
 
@@ -19,15 +23,20 @@ const connector = connect(mapStateToProps, {
     getSprintListNames,
     createSprintPart,
     getSprintPartList,
-    resetSprintPartCreate
+    resetSprintPartCreate,
+    updateSprintPart,
+    deleteSprintPart,
+    resetSprintPartDelete,
+    resetSprintPartUpdate
 });
 
-function CreateSprintPart(props: ConnectedProps<typeof connector>) {
+function SprintPart(props: ConnectedProps<typeof connector>) {
     const dispatch = useThunkDispatch();
     const [sprint, setSprint] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
+    const [sprintPartId, setSprintPartId] = useState(undefined as number | undefined);
     const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     const sprintElements: SelectElement[] = [new SelectElement('Choose sprint...', '')].concat(
@@ -70,8 +79,62 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
 
     useEffect(() => {
         if (type !== '' || sprint !== '' || title !== '' || description !== '')
-            setMsg(undefined);
+            setMsg(undefined)
     }, [type, sprint, title])
+
+    useEffect(() => {
+        if (sprint === '' || type === '') {
+            setSprintPartId(undefined)
+            return
+        }
+        const part = props.sprintParts.list?.find(part => part.sprint_name === sprint && part.type === type)
+        if (part) {
+            setSprintPartId(part.id)
+            setTitle(part.title)
+            setDescription(part.description)
+        } else {
+            setSprintPartId(undefined)
+        }
+    }, [sprint, type])
+
+    useEffect(() => {
+        if (!props.update.loaded && !props.delete.loaded)
+            return;
+        if (props.delete.loaded) {
+            dispatch(props.resetSprintPartDelete())
+            if (props.delete.success) {
+                setMsg(
+                    <div className="success">
+                        Successfully delete sprint part.
+                    </div>
+                )
+            } else {
+                setMsg(
+                    <div className="error">
+                        Error while deleting sprint part.
+                    </div>
+                )
+            }
+        }
+        if (props.update.loaded) {
+            dispatch(props.resetSprintPartUpdate());
+            if (props.update.success)
+                setMsg(
+                    <div className="success">
+                        Successfully updated sprint part.
+                    </div>
+                )
+            else
+                setMsg(
+                    <div className="error">
+                        Error while updating sprint part.
+                    </div>
+                )
+        }
+        if (props.update.success || props.delete.success)
+            (async () => dispatch(await props.getSprintPartList()))();
+        reset();
+    }, [props.delete.loaded, props.update.loaded])
 
     const date = new Date();
     const titlePlaceHolder = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
@@ -97,9 +160,28 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
         })
     }
 
+    async function updateFct() {
+        if (title === '' || sprintPartId === undefined)
+            return;
+
+        dispatch(await props.updateSprintPart({
+            id: sprintPartId,
+            title,
+            description
+        }));
+    }
+
+    async function deleteFct() {
+        if (sprintPartId === undefined)
+            return;
+        dispatch(await props.deleteSprintPart({
+            id: sprintPartId
+        }));
+    }
+
     return (
         <form onSubmit={e => e.preventDefault()}>
-            <h2>Create Sprint Part</h2>
+            <h2>Sprint Parts</h2>
             <div className="quicksand-medium">Choose sprint</div>
             <div className="input">
                 <Select elements={sprintElements} elemKey={sprint} onChange={setSprint} />
@@ -122,11 +204,22 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
                 value={description}
                 placeholder="L'ensemble de l'équipe a..." />
             {msg}
-            <Button onClick={createSP} disabled={sprint === '' || title === '' || type === ''}>
+            {sprintPartId === undefined
+            ? <Button onClick={createSP} disabled={sprint === '' || title === '' || type === ''}>
                 Create Sprint Part
+            </Button>
+            : <Button onClick={updateFct} disabled={sprint === '' || title === '' || type === ''}>
+                Update Sprint Part
+            </Button>
+            }
+            <Button
+                onClick={deleteFct}
+                disabled={sprintPartId === undefined}
+                className={styles.btnOrange}>
+                Delete
             </Button>
         </form>
     );
 }
 
-export default connector(CreateSprintPart);
+export default connector(SprintPart);
