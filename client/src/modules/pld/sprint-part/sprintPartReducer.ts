@@ -45,8 +45,8 @@ export const createSprintPart = createAsyncThunk(
             description: args.description,
             part_type: args.partType,
         })
-            .then(_res => getBasicDataPayload())
-            .catch(err => getBasicErrorPayloadAxios(err))
+            .then(res => getBasicDataPayload(res.data))
+            .catch(err => getBasicErrorPayloadAxios<BasicResponse>(err))
     });
 
 export const getSprintPartList = createAsyncThunk(
@@ -101,10 +101,10 @@ const SprintPartSlice = createSlice({
             .addCase(createSprintPart.pending, state => {
                 return {...state, create: {...initialState.create, loading: true}};
             })
-            .addCase(createSprintPart.fulfilled, state => {
+            .addCase(createSprintPart.fulfilled, (state, action) => {
                 state.create.loading = false;
                 state.create.loaded = true;
-                state.create.success = true;
+                state.create.success = action.payload.success;
             })
             .addCase(createSprintPart.rejected, state => {
                 state.create.loading = false;
@@ -116,7 +116,7 @@ const SprintPartSlice = createSlice({
             .addCase(getSprintPartList.fulfilled, (state, action) => {
                 state.list.loading = false;
                 state.list.loaded = true;
-                state.list.success = true;
+                state.list.success = action.payload.success;
                 state.list.list = action.payload.data;
             })
             .addCase(getSprintPartList.rejected, state => {

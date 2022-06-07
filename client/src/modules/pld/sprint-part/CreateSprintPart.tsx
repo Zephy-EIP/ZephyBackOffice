@@ -52,14 +52,30 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
             return;
         if (props.sprintPartCreate.success) {
             (async () => dispatch(await props.getSprintPartList()))();
+            setMsg(
+                <div className="success">
+                    Created sprint part successfully.
+                </div>
+            );
+        } else {
+            setMsg(
+                <div className="error">
+                    Couldn't create sprint part. May already exist.
+                </div>
+            );
         }
         reset();
         dispatch(props.resetSprintPartCreate());
     }, [props.sprintPartCreate.loaded]);
 
+    useEffect(() => {
+        if (type !== '' || sprint !== '' || title !== '' || description !== '')
+            setMsg(undefined);
+    }, [type, sprint, title])
+
     const date = new Date();
     const titlePlaceHolder = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
-                           + ` - Rapport d'avancement pour...`;
+        + ` - Rapport d'avancement pour...`;
 
     function reset() {
         setDescription('');
@@ -105,7 +121,8 @@ function CreateSprintPart(props: ConnectedProps<typeof connector>) {
                 onChange={setDescription}
                 value={description}
                 placeholder="L'ensemble de l'équipe a..." />
-            <Button onClick={createSP}>
+            {msg}
+            <Button onClick={createSP} disabled={sprint === '' || title === '' || type === ''}>
                 Create Sprint Part
             </Button>
         </form>
