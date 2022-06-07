@@ -99,7 +99,7 @@ export const updateSprintData = createAsyncThunk(
             .then(res => {
                 return getBasicDataPayload<BasicResponse>(res.data);
             }).catch(err => {
-                return getBasicErrorPayloadAxios<BasicResponse>(err, err.response.data);
+                return getBasicErrorPayloadAxios<BasicResponse>(err, err.response?.data);
             });
     });
 

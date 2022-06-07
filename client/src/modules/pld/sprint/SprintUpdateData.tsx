@@ -14,14 +14,14 @@ const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, { getSprintListNames, resetSprintUpdateData, updateSprintData });
 
-function SprintUpdateData(props: ConnectedProps<typeof connector>) {
+function SprintUpdateData(props: ConnectedProps<typeof connector> & {
+    sprintName: string,
+    onReset: () => void,
+}) {
     const [file, setFile] = useState(null as File | null);
     const dispatch = useThunkDispatch();
-    const elements: SelectElement[] = [new SelectElement('Choose sprint...', '')].concat(
-        props.sprintNames.list?.map(value => new SelectElement(value, value)) || []
-    );
-    const [sprintName, setSprintName] = useState('');
     const [ref, setRef] = useState(null as HTMLFormElement | null);
+    const [msg, setMsg] = useState(undefined as React.ReactNode | undefined);
 
     useEffect(() => {
         if (!props.sprintNames.loaded && !props.sprintNames.loading)
@@ -33,8 +33,27 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
             // TODO: better communication with the user
             dispatch(props.resetSprintUpdateData());
             reset();
+            if (props.sprintUpdate.success) {
+                setMsg(
+                    <div className="success">
+                        Updated sprint successfully.
+                    </div>
+                );
+                (async () => dispatch(await props.getSprintListNames()))();
+            } else {
+                setMsg(
+                    <div className="error">
+                        Error: {props.sprintUpdate.error ?? "Couldn't udpate sprint"}
+                    </div>
+                )
+            }
         }
     }, [props.sprintUpdate.loaded]);
+
+    useEffect(() => {
+        if (props.sprintName !== '')
+            setMsg(undefined);
+    }, [props.sprintName]);
 
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null || e.target.files.length === 0) {
@@ -46,29 +65,23 @@ function SprintUpdateData(props: ConnectedProps<typeof connector>) {
 
     const reset = () => {
         setFile(null);
-        setSprintName('');
         ref?.reset();
+        props.onReset();
     }
 
     const onClick = async () => {
-        if (sprintName === '' || file === null)
+        if (props.sprintName === '' || file === null)
             return;
 
-        dispatch(await props.updateSprintData({sprintName, dataFile: file}));
+        dispatch(await props.updateSprintData({sprintName: props.sprintName, dataFile: file}));
     }
 
     return (
         <form ref={setRef} onSubmit={e => e.preventDefault()}>
-            <h2>Update Sprint Data</h2>
-            <div className="quicksand-medium">
-                Choose sprint
-            </div>
-            <div className="input">
-                <Select elements={elements} elemKey={sprintName} onChange={setSprintName} />
-            </div>
             <input type="file" name="sprintFile" onChange={onChangeFile} />
             <br /><br />
-            <Button onClick={onClick}>
+            {msg}
+            <Button onClick={onClick} disabled={ props.sprintName === '' || file === null }>
                 Update CSV
             </Button>
         </form>
