@@ -118,7 +118,10 @@ namespace CSVDataHandler {
         for (const member of members) {
             const firstname: string = member.member_name.split(' ')[0];
             if ((entry as any)[firstname] === undefined || (entry as any)[firstname] === '')
-                continue;
+                continue
+            let memberLoad = parseFloat((entry as any)[firstname]);
+            if (memberLoad == 0)
+                continue
             let status = getStatus(entry.Status);
             if (status !== 'done')
                 status = getStatus((entry as any)[`Status ${firstname}`]);

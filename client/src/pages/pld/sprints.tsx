@@ -11,9 +11,6 @@ export default function Sprints() {
             <Page>
                 <div style={{padding: 15, paddingBottom: 250}}>
                     <SprintCreate />
-                    {/*                     <SprintUpdateData /> */}
-                    {/*                     <SprintUpdateName /> */}
-                    {/*                     <SprintDelete /> */}
                     <SprintUpdate />
                 </div>
             </Page>
