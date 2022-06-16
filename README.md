@@ -1,6 +1,6 @@
 # BackOffice
 
-This repository contains a backoffice with and Express API and a React front-end. It uses docker and docker-compose with profiles (docker-compose version 1.28 or higher).
+This repository contains a backoffice with an ExpressJS API, a NextJS frontend, and a PostgreSQL database. It uses docker and docker-compose with profiles (docker-compose version 1.28 or higher).
 
 ## Starting for development
 

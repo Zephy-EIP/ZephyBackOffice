@@ -35,7 +35,7 @@ export default function DeleteButton(props: ButtonProps & {
                     <p>
                         Do you really want to delete this item?
                         <br />
-                        If so, please enter '{props.itemName}' in the field below.
+                        If so, please enter &apos;{props.itemName}&apos; in the field below.
                     </p>
                     <TextInput
                         placeholder={props.itemName}
